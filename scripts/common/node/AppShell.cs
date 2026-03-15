@@ -102,9 +102,18 @@ public sealed partial class AppShell : Control
         }
     }
     // *-> Event Handlers
-    private string HandleRequestScores(GamePack pack)
+    /// <summary>
+    /// Handles getting the current score-table.
+    /// </summary>
+    /// <param name="pack"></param>
+    /// <returns></returns>
+    private Godot.Collections.Dictionary<string, uint> HandleRequestScores(GamePack pack)
     {
         _gameManagers.Score.LoadScores(pack.GameName);
+        if (_gameManagers.Score.CurrentScores != null)
+            return _gameManagers.Score.CurrentScores;
+        GD.PrintErr($"App: {pack.GameName}'s score table could not be loaded?");
+        return null;
     }
     /// <summary>
     /// Handles actions to take when a game pack is loaded.

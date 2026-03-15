@@ -2,6 +2,7 @@ namespace Common;
 
 using Godot;
 using System;
+using Godot.Collections;
 /// <summary>
 /// Main menu controller.
 /// Unlike the pack minigames which have their menu logic handled by their main class,
@@ -10,7 +11,7 @@ using System;
 public sealed partial class MainMenu : Control
 {
     public event Action<GamePack> OnStartGame;
-    public event Func<GamePack, string> OnRequestScores;
+    public event Func<GamePack, Dictionary<string, uint>> OnRequestScores;
     public event Action OnQuitGame;
     [ExportGroup("References")]
     [Export] private VBoxContainer _packButtonContainer;
@@ -27,6 +28,7 @@ public sealed partial class MainMenu : Control
     [Export] private Button _settingsButton;
     [Export] private Button _quitButton;
     private GamePack _selectedGamePack;
+    private string _selectedGamePackDesc;
     // *-> Singleton References
     private AudioManager _audioManager;
     private PackRegister _packRegister;
@@ -64,46 +66,27 @@ public sealed partial class MainMenu : Control
             Button packButton = _packButtonContainer.AddNode<Button>();
             packButton.Text = packEntry.Value.GameName;
             packButton.Icon = packEntry.Value.GameIcon;
-            packButton.MouseEntered += () => HandlePackHightlighted(packEntry.Value);
-            packButton.MouseExited += () => _packDesc.Text = "";
-            packButton.Pressed += () => HandlePackSelected(packEntry.Key);
+            packButton.MouseEntered += () => _packDesc.Text = RequestGamePackScores(packEntry.Value);
+            packButton.MouseExited += () => _packDesc.Text = _selectedGamePackDesc;
+            packButton.Pressed += () => HandlePackSelected(packEntry.Value);
             packButton.Pressed += () => _playButton.Visible = true;
         }
-    }
-    /// <summary>
-    /// Handles when a pack is highlighted from the menu.
-    /// </summary>
-    /// <param name="pack"></param>
-    private void HandlePackHightlighted(GamePack pack)
-    {
-        var text = pack.GameDescription;
-        _packDesc.Text = text;
-    }
-    private void HandlePackUnhighlighted()
-    {
-        _packDesc.Text = "";
     }
     /// <summary>
     /// Handles when a pack is selected from the menu.
     /// </summary>
     /// <param name="packName"></param>
     /// <returns></returns>
-    private void HandlePackSelected(string packName)
+    private void HandlePackSelected(GamePack pack)
     {
         if (_selectedPackLabel.Visible == false)
             _selectedPackLabel.Visible = true;
-        if (_packRegister.GamePacks.TryGetValue(packName, out var pack))
-        {
-            GD.Print($"MainMenu: Pack selected: {packName}");
+            GD.Print($"MainMenu: Pack selected: {pack.GameName}");
             if (pack != null)
                 _selectedGamePack = pack;
             _selectedPackLabel.Text = pack.GameName;
-        }
-        else
-        {
-            GD.PrintErr($"MainMenu: Failed to select pack: {packName}");
-            return;
-        }
+            _selectedGamePackDesc = RequestGamePackScores(pack);
+            _packDesc.Text = _selectedGamePackDesc;
     }
     /// <summary>
     /// Handles the play button being pressed, starting the game with the selected pack.
@@ -118,5 +101,18 @@ public sealed partial class MainMenu : Control
         _audioManager.PlayAudioClip(_sfxButtonPress);
         _audioManager.StopChannel(3);
         OnStartGame?.Invoke(_selectedGamePack);
+    }
+    /// <summary>
+    /// Get selected or highlighted pack scores.
+    /// </summary>
+    /// <param name="pack"></param>
+    /// <returns></returns>
+    private string RequestGamePackScores(GamePack pack)
+    {
+        var text = pack.GameDescription;
+        var scores = OnRequestScores?.Invoke(pack);
+        foreach (var item in scores)
+            text += $"\n{item.Key} - {item.Value}";
+        return text;
     }
 }
