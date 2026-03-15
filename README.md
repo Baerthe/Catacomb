@@ -26,9 +26,10 @@ This project is under GNU Affero General Public License v3.0 [License](LICENSE.t
 
 - This is inspired by the ["20 Game Challenge"](https://20_games_challenge.gitlab.io/), but is not affiliated with it in any way.
 - CRT asset based off graphics created by [piiixl](https://piiixl.itch.io/game-ui) under License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.en).
+- Shaders included in this project are under CC0, CRT shader Optimised and packed by @c64cosmin
 
 ### Music
-Music is Composed and produced by Marllon Silva (xDeviruchi), All the files of this package are released under the Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) license.
+Music is Composed and produced by Marllon Silva (xDeviruchi), All the music of this project are released under License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.en).
 - [8-bit Fantasy Music](https://xdeviruchi.itch.io/8-bit-fantasy-adventure-music-pack)
 
 ### Kenney Assets
