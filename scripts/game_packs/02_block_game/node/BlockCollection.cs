@@ -79,8 +79,6 @@ public sealed partial class BlockCollection : Node2D
                         var hitPoints = (byte)(charValue - '0');
                         var blockInstance = this.InstanceScene(BlockScene) as Block;
                         blockInstance.Position = new Vector2(x * (BlockSize.X + Spacing.X), y * (BlockSize.Y + Spacing.Y));
-                        blockInstance.XPOS = (byte)x;
-                        blockInstance.YPOS = (byte)y;
                         blockInstance.BlockDestroyed += OnBlockDestroyed;
                         blockInstance.SetHitPoints(hitPoints);
                         BlockList.Add((blockInstance, (byte)x, (byte)y));

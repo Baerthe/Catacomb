@@ -111,6 +111,7 @@ public sealed partial class MainMenu : Control
     {
         var text = pack.GameDescription;
         var scores = OnRequestScores?.Invoke(pack);
+        text += "\n\n[font_size=24][b]-High Scores-[/b][/font_size]";
         foreach (var item in scores)
             text += $"\n{item.Key} - {item.Value}";
         return text;

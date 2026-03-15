@@ -20,8 +20,8 @@ public sealed partial class AppShell : Control
     [Export] private ShaderMaterial _pausedCrtMaterial;
     [Export] private ShaderMaterial _bootCrtMaterial;
     // *-> State Fields
-    private AppState _currentState = AppState.MainMenu;
-    private AppState _priorState = AppState.MainMenu;
+    private AppState _currentState;
+    private AppState _priorState;
     // *-> System References
     private GameManagers _gameManagers;
     private PauseWatcher _pauseWatcher;
@@ -48,6 +48,7 @@ public sealed partial class AppShell : Control
         _pauseWatcher.OnTogglePause += HandleTogglePause;
         // Run start of game functions
         _gameManagers.Settings.LoadData();
+        RequestAppState(AppState.MainMenu   );
     }
     // *-> Private Methods
     /// <summary>
