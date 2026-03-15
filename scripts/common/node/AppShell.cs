@@ -41,7 +41,8 @@ public sealed partial class AppShell : Control
     public override void _Ready()
     {
         // Hook up events
-        _mainMenu.OnStartGame += HandleLoadIntoPack;
+        _mainMenu.OnStartGame += HandleStartGame;
+        _mainMenu.OnRequestScores += HandleRequestScores;
         _mainMenu.OnQuitGame += () => GetTree().Quit();
         _gameManagers.Settings.OnSettingsUpdated += HandleSettingsUpdated;
         _pauseWatcher.OnTogglePause += HandleTogglePause;
@@ -101,11 +102,15 @@ public sealed partial class AppShell : Control
         }
     }
     // *-> Event Handlers
+    private string HandleRequestScores(GamePack pack)
+    {
+        _gameManagers.Score.LoadScores(pack.GameName);
+    }
     /// <summary>
     /// Handles actions to take when a game pack is loaded.
     /// </summary>
     /// <param name="pack">GamePack</param>
-    private void HandleLoadIntoPack(GamePack pack)
+    private void HandleStartGame(GamePack pack)
     {
         GD.Print($"App: Starting game with pack: {pack.GameName}");
         if (pack == null)
@@ -132,7 +137,7 @@ public sealed partial class AppShell : Control
         _loadedScene.OnScoreSubmission += _gameManagers.Score.SubmitScore;
         _loadedScene.OnRequestPackExit += () => RequestAppState(AppState.MainMenu);
         _loadedScene.OnRequestUnpause += HandleTogglePause;
-        _gameManagers.Score.LoadScores(_loadedScene.Name);
+        _gameManagers.Score.LoadScores(pack.GameName);
         RequestAppState(AppState.InPack);
         GD.Print("App: Pack loaded and scene instantiated.");
     }

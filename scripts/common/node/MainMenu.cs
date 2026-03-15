@@ -10,6 +10,7 @@ using System;
 public sealed partial class MainMenu : Control
 {
     public event Action<GamePack> OnStartGame;
+    public event Func<GamePack, string> OnRequestScores;
     public event Action OnQuitGame;
     [ExportGroup("References")]
     [Export] private VBoxContainer _packButtonContainer;
@@ -63,18 +64,31 @@ public sealed partial class MainMenu : Control
             Button packButton = _packButtonContainer.AddNode<Button>();
             packButton.Text = packEntry.Value.GameName;
             packButton.Icon = packEntry.Value.GameIcon;
-            packButton.MouseEntered += () => _packDesc.Text = packEntry.Value.GameDescription;
+            packButton.MouseEntered += () => HandlePackHightlighted(packEntry.Value);
             packButton.MouseExited += () => _packDesc.Text = "";
-            packButton.Pressed += () => OnPackSelected(packEntry.Key);
+            packButton.Pressed += () => HandlePackSelected(packEntry.Key);
             packButton.Pressed += () => _playButton.Visible = true;
         }
+    }
+    /// <summary>
+    /// Handles when a pack is highlighted from the menu.
+    /// </summary>
+    /// <param name="pack"></param>
+    private void HandlePackHightlighted(GamePack pack)
+    {
+        var text = pack.GameDescription;
+        _packDesc.Text = text;
+    }
+    private void HandlePackUnhighlighted()
+    {
+        _packDesc.Text = "";
     }
     /// <summary>
     /// Handles when a pack is selected from the menu.
     /// </summary>
     /// <param name="packName"></param>
     /// <returns></returns>
-    private void OnPackSelected(string packName)
+    private void HandlePackSelected(string packName)
     {
         if (_selectedPackLabel.Visible == false)
             _selectedPackLabel.Visible = true;
