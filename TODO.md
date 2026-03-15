@@ -4,9 +4,13 @@
 
 ## Phase 4
 - [X] Get the project working once more.
-- [ ] Clean up and rename stuff.
-- [ ] Move to new public repo
-- [ ] Finished Block and Tenniss
+- [X] Clean up and rename stuff.
+- [X] Move to new public repo
+- [X] Finished Block and Tennis
+- [ ] The score system already exists, need to rig it to the menus
+- [ ] Add settings menu in already lol...
+
+## Phase 5
 - [ ] Add in Frog2D
 - [ ] Add in Space2D
 - [ ] Add in Dungeon2D
