@@ -1,0 +1,187 @@
+[gd_scene format=3 uid="uid://cesm0wcr5vexa"]
+
+[ext_resource type="Theme" uid="uid://cvl1c748wxqaw" path="res://assets/resources/theme.theme" id="1_bu1yb"]
+[ext_resource type="Script" uid="uid://osvw6tfn6v45" path="res://scripts/common/node/IntroManager.cs" id="1_i2l1n"]
+[ext_resource type="PackedScene" uid="uid://c3lck2cuuntgh" path="res://scenes/main.tscn" id="2_bu1yb"]
+[ext_resource type="Shader" uid="uid://guwwspca7qgl" path="res://assets/shaders/background.gdshader" id="2_wfs7u"]
+[ext_resource type="Texture2D" uid="uid://b6sx1dgolhf5a" path="res://assets/EmblemCut.png" id="3_es01l"]
+[ext_resource type="Material" uid="uid://sx1446vh40q" path="res://assets/shaders/materials/crt_boot.material" id="4_0naf5"]
+[ext_resource type="Shader" uid="uid://dlwwp0kwgd6gp" path="res://assets/shaders/text.gdshader" id="4_es01l"]
+[ext_resource type="Texture2D" uid="uid://4gvkkivbwwx3" path="res://assets/logo_large_color_dark.svg" id="4_wfs7u"]
+[ext_resource type="FontFile" uid="uid://do5t0wamb6uet" path="res://assets/fonts/Kenney Mini Square.ttf" id="8_t1qkj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bu1yb"]
+resource_local_to_scene = true
+shader = ExtResource("2_wfs7u")
+shader_parameter/main_color = Color(0.0027881241, 0.09567299, 0.21737683, 1)
+shader_parameter/second_color = Color(0.099539034, 0.03397301, 0.09955836, 1)
+shader_parameter/back_color = Color(0, 0, 0, 1)
+shader_parameter/contrast = 3.0000003799999995
+shader_parameter/lighting = 0.10000000149012
+shader_parameter/spin_amount = 0.12000000244012
+shader_parameter/spine_ease = 0.25000000861512
+shader_parameter/screen_size = Vector2(1920, 1080)
+shader_parameter/move_speed = 12.00000057
+shader_parameter/pixel_filter = 128.00000603249998
+shader_parameter/frame_limit = 12.0000005225
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0naf5"]
+shader = ExtResource("4_es01l")
+shader_parameter/progress = 0.5
+shader_parameter/background_color = Color(0, 0, 0, 0)
+shader_parameter/mask_texture = ExtResource("3_es01l")
+shader_parameter/wave_amplitude = 0.02
+shader_parameter/wave_frequency = 3.0
+shader_parameter/wave_speed = 1.5
+shader_parameter/particle_speed = 0.05
+shader_parameter/particle_lifetime = 3.0
+shader_parameter/particle_softness = 0.01
+shader_parameter/particle_spacing = 0.1
+shader_parameter/particle_offset = Vector2(0, 0)
+shader_parameter/particle_start_scale = Vector2(0.02, 0.02)
+shader_parameter/particle_end_scale = Vector2(0.01, 0.01)
+shader_parameter/particle_scale_randomness = 0.5
+shader_parameter/particle_amount = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_bu1yb"]
+font = ExtResource("8_t1qkj")
+font_size = 128
+font_color = Color(0, 0, 0, 1)
+outline_size = 18
+
+[sub_resource type="Animation" id="Animation_bu1yb"]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_t1qkj"]
+resource_name = "fadeout"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.37892905, 2.8284268),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_272cy"]
+_data = {
+&"RESET": SubResource("Animation_bu1yb"),
+&"fadeout": SubResource("Animation_t1qkj")
+}
+
+[node name="IntroManager" type="Control" unique_id=1592161206 node_paths=PackedStringArray("_emblem", "_godot", "_loadingText", "_fade")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_bu1yb")
+script = ExtResource("1_i2l1n")
+_main = ExtResource("2_bu1yb")
+_emblem = NodePath("back/logo")
+_godot = NodePath("back/godot")
+_loadingText = NodePath("back/Label")
+_fade = NodePath("fade")
+
+[node name="back" type="ColorRect" parent="." unique_id=847196992]
+material = SubResource("ShaderMaterial_bu1yb")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="logo" type="ColorRect" parent="back" unique_id=637001389]
+material = SubResource("ShaderMaterial_0naf5")
+custom_minimum_size = Vector2(840, 840)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -420.0
+offset_top = -420.0
+offset_right = 420.0
+offset_bottom = 420.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="godot" type="TextureRect" parent="back" unique_id=1220912806]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -512.0
+offset_top = -207.0
+offset_right = 512.0
+offset_bottom = 207.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_wfs7u")
+
+[node name="Label" type="Label" parent="back" unique_id=1465129676]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -34.0
+offset_top = -11.5
+offset_right = 34.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "_baerthe"
+label_settings = SubResource("LabelSettings_bu1yb")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="crt" type="ColorRect" parent="." unique_id=817467825]
+material = ExtResource("4_0naf5")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_lock_ = true
+
+[node name="fade" type="ColorRect" parent="." unique_id=1652493033]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="fade" unique_id=1940828899]
+libraries/ = SubResource("AnimationLibrary_272cy")
+playback_auto_capture = false

@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://cxqatfsk8ccsj"]
+
+[ext_resource type="Script" uid="uid://7ee6frmw3fcr" path="res://scripts/block_game/node/Block.cs" id="1_lthtf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fh6cj"]
+size = Vector2(24, 14)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nk250"]
+lifetime_randomness = 0.2
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 16.64
+angle_min = -24.99999
+angle_max = 25.000011
+angular_velocity_min = 719.99994
+angular_velocity_max = 719.99994
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -2.2351742e-06
+linear_accel_max = 52.939995
+radial_accel_min = 44.119995
+radial_accel_max = 56.469997
+damping_max = 8.0
+scale_min = 8.0
+scale_max = 8.0
+turbulence_enabled = true
+turbulence_noise_strength = 0.0
+turbulence_initial_displacement_min = 1.490116e-06
+turbulence_initial_displacement_max = 100.0
+
+[node name="BlockGameBlock" type="StaticBody2D" unique_id=1816579035 node_paths=PackedStringArray("CollisionShape", "ColorRect", "HitParticles")]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("1_lthtf")
+CollisionShape = NodePath("CollisionShape2D")
+ColorRect = NodePath("ColorRect")
+HitParticles = NodePath("GPUParticles2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1527971398]
+shape = SubResource("RectangleShape2D_fh6cj")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=801856209]
+custom_minimum_size = Vector2(24, 14)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1709507395]
+emitting = false
+amount = 245
+amount_ratio = 0.5
+lifetime = 2.0
+interp_to_end = 0.3
+one_shot = true
+speed_scale = 8.0
+explosiveness = 0.8
+randomness = 0.6
+fixed_fps = 8
+process_material = SubResource("ParticleProcessMaterial_nk250")

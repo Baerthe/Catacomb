@@ -1,0 +1,215 @@
+namespace Common;
+
+using Godot;
+using System;
+using System.Collections.Generic;
+/// <summary>
+/// The core game manager responsible for handling game state and transitions. Global Root Node.
+/// Normally we would want some sort of state orchestratior/scene loader, but we will be handling it inline for simplicity.
+/// </summary>
+public sealed partial class AppShell : Control
+{
+    [ExportCategory("References")]
+    [ExportGroup("Nodes")]
+    [Export] private Control _gameScreen;
+    [Export] private Control _loadingScreen;
+    [Export] private MainMenu _mainMenu;
+    [Export] private Control _crtOverlay;
+    [ExportGroup("Shaders")]
+    [Export] private ShaderMaterial _defaultCrtMaterial;
+    [Export] private ShaderMaterial _pausedCrtMaterial;
+    [Export] private ShaderMaterial _bootCrtMaterial;
+    // *-> State Fields
+    private AppState _currentState = AppState.MainMenu;
+    private AppState _priorState = AppState.MainMenu;
+    // *-> System References
+    private GameManagers _gameManagers;
+    private PauseWatcher _pauseWatcher;
+    // *-> Loaded Pack References
+    private GamePack _loadedPack;
+    private PackBase _loadedScene;
+    // *-> Godot Overrides
+    public override void _EnterTree()
+    {
+        _gameManagers = this.AddNode<GameManagers>("GameManagers");
+        _pauseWatcher = this.AddNode<PauseWatcher>("PauseWatcher");
+        if (_gameManagers == null ||  _pauseWatcher == null)
+            GD.PrintErr("App: Failed to initialize GameManagers, PackRegister, or PauseWatcher. Check _EnterTree method for details.");
+        else
+            GD.Print("App: Successfully initialized AppShell Systems.");
+    }
+    public override void _Ready()
+    {
+        // Hook up events
+        _mainMenu.OnStartGame += HandleLoadIntoPack;
+        _mainMenu.OnQuitGame += () => GetTree().Quit();
+        _gameManagers.Settings.OnSettingsUpdated += HandleSettingsUpdated;
+        _pauseWatcher.OnTogglePause += HandleTogglePause;
+        // Run start of game functions
+        _gameManagers.Settings.LoadData();
+    }
+    // *-> Private Methods
+    /// <summary>
+    /// Handles transitioning between different application states (Main Menu, In-Game, Loading) by updating the visibility of UI elements, loading/unloading game scenes, and applying appropriate settings based on the new state. This function ensures that the correct game state is active and that resources are managed properly during transitions.
+    /// </summary>
+    /// <param name="newState">The new application state to transition to.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the new state is not recognized.</exception>
+    private void RequestAppState(AppState newState)
+    {
+        if (_currentState == newState)
+            {
+                GD.PrintErr($"App: Attempted to change to the same state: {newState}. No state change will occur.");
+                return;
+            }
+        _priorState = _currentState;
+        _currentState = newState;
+        GD.Print($"App: State has changed, updating... New State: {_currentState}, Prior State: {_priorState}");
+        switch (_currentState)
+        {
+            case AppState.MainMenu:
+                GD.Print("App: Switching to Main Menu.");
+                if (IsInstanceValid(_loadedScene))
+                {
+                    _loadedScene.OnScoreSubmission -= _gameManagers.Score.SubmitScore;
+                    _loadedScene.OnRequestPackExit -= () => RequestAppState(AppState.MainMenu);
+                    _loadedScene.OnRequestUnpause -= HandleTogglePause;
+                    _loadedScene.QueueFree();
+                    GD.Print("App: Previous game scene freed from memory. Proceeding to main menu.");
+                } else
+                    GD.Print("App: No existing game scene to free. Proceeding to main menu.");
+                _mainMenu.Visible = true;
+                _mainMenu.MenuLoad();
+                _loadingScreen.Visible = false;
+                SetBackgroundColor(Colors.Red);
+                break;
+            case AppState.InPack:
+                GD.Print("App: Switching to In-Pack.");
+                _loadingScreen.Visible = false;
+                _loadedScene.RequestGameState(GameState.Paused);
+                _crtOverlay.Material = _defaultCrtMaterial;
+                SetBackgroundColor(_loadedPack.GameBackgroundColor);
+                break;
+            case AppState.Loading:
+                GD.Print("App: Switching to Loading Screen.");
+                _loadingScreen.Visible = true;
+                _mainMenu.Visible = false;
+                _crtOverlay.Material = _defaultCrtMaterial;
+                SetBackgroundColor(Colors.Blue);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+        }
+    }
+    // *-> Event Handlers
+    /// <summary>
+    /// Handles actions to take when a game pack is loaded.
+    /// </summary>
+    /// <param name="pack">GamePack</param>
+    private void HandleLoadIntoPack(GamePack pack)
+    {
+        GD.Print($"App: Starting game with pack: {pack.GameName}");
+        if (pack == null)
+        {
+            GD.PrintErr("App: Attempted to load a null GamePack.");
+            return;
+        }
+        if (pack.GameScene == null)
+        {
+            GD.PrintErr($"App: GamePack '{pack.GameName}' has no scene assigned.");
+            return;
+        }
+        RequestAppState(AppState.Loading);
+        _loadedPack = pack;
+        _loadedScene = pack.GameScene.Instantiate<PackBase>();
+        if (_loadedScene == null)
+        {
+            GD.PrintErr($"PackRegister: Failed to instantiate scene for GamePack '{pack.GameName}'.");
+            return;
+        }
+        _gameScreen.AddChild(_loadedScene);
+        _loadedScene.Scale = new Vector2(2f, 2f);
+        _loadedScene.Position = _loadingScreen.Position;
+        _loadedScene.OnScoreSubmission += _gameManagers.Score.SubmitScore;
+        _loadedScene.OnRequestPackExit += () => RequestAppState(AppState.MainMenu);
+        _loadedScene.OnRequestUnpause += HandleTogglePause;
+        _gameManagers.Score.LoadScores(_loadedScene.Name);
+        RequestAppState(AppState.InPack);
+        GD.Print("App: Pack loaded and scene instantiated.");
+    }
+    /// <summary>
+    /// Handles updates to settings when the SettingsManager invokes the OnSettingsUpdated event. The dataBundle parameter contains a tuple with the section of settings.
+    /// </summary>
+    /// <param name="dataBundle"></param>
+    private void HandleSettingsUpdated((Sectional , Dictionary<string, (Variant, bool)>) dataBundle)
+    {
+        var section = dataBundle.Item1;
+        var dict = dataBundle.Item2;
+        Action<Dictionary<string, (Variant, bool)>> action = section switch
+        {
+            Sectional.Audio => UpdateAudioSettings,
+            Sectional.User => UpdateUserSettings,
+            _ => null
+        };
+        if (action == null)
+        {
+            GD.PrintErr($"App: Unrecognized settings section: {section}. No updates applied.");
+            return;
+        }
+        action(dict);
+    }
+    /// <summary>
+    /// Handles toggling the pause state of the game.
+    /// </summary>
+    private void HandleTogglePause()
+    {
+        if (_currentState == AppState.MainMenu || _currentState == AppState.Loading) 
+            return;
+        bool isPaused = _crtOverlay.Material == _pausedCrtMaterial;
+        if (IsInstanceValid(_loadedScene)
+        && _loadedScene.GameStarted == true
+        && (_loadedScene.CurrentGameState == GameState.Playing || _loadedScene.CurrentGameState == GameState.Paused))
+            _loadedScene.RequestGameState(isPaused ? GameState.Playing : GameState.Paused);
+        else
+            return;
+        _crtOverlay.Material = isPaused ? _defaultCrtMaterial : _pausedCrtMaterial;
+        GD.Print($"App: Game paused state toggled. Current State: {_currentState}");
+    }
+    // *-> Support Functions
+    /// <summary>
+    /// Sets the background color of the game screen by updating shader parameters on the CRT overlay material. This allows for dynamic background color changes based on the loaded game pack's settings.
+    /// </summary>
+    /// <param name="color">The color to set as the background.</param>
+    private void SetBackgroundColor(Color color)
+    {
+        _gameScreen.Material.Set("shader_parameter/main_color", color);
+        _gameScreen.Material.Set("shader_parameter/second_color", color * 0.4f);
+    }
+    // *-> Update Settings Functions
+    // ! Since these can be called from the SettingsMenu, we may want to move this.
+    /// <summary>
+    /// Updates audio settings based on the provided data dictionary. The dictionary contains key-value pairs where the key is the setting name and the value is a tuple of (setting value, isEnabled). This function applies the new settings to the AudioManager instance, allowing for real-time updates to audio channels and volume levels.
+    /// </summary>
+    /// <param name="data"></param>
+    private void UpdateAudioSettings(Dictionary<string, (Variant, bool)> data)
+    {
+        GD.Print("App: Updating audio settings.");
+        var audioInstance = _gameManagers.Audio;
+        audioInstance.SetAudioAllowed(1, data["Channel1"].Item2);
+        audioInstance.SetAudioAllowed(2, data["Channel2"].Item2);
+        audioInstance.SetAudioAllowed(3, data["ChannelMusic"].Item2);
+        audioInstance.SetChannelVolume(1, (float)data["Channel1"].Item1);
+        audioInstance.SetChannelVolume(2, (float)data["Channel2"].Item1);
+        audioInstance.SetChannelVolume(3, (float)data["ChannelMusic"].Item1);
+        GD.Print("App: Audio settings updated successfully.");
+    }
+    /// <summary>
+    /// Updates user settings based on the provided data dictionary. The dictionary contains key-value pairs where the key is the setting name and the value is a tuple of (setting value, isEnabled). This function can be expanded to apply various user settings such as display options, control mappings, or other preferences as needed. Currently, it serves as a placeholder for future user settings implementations.
+    /// </summary>
+    /// <param name="data"></param>
+    private void UpdateUserSettings(Dictionary<string, (Variant, bool)> data)
+    {
+        GD.Print("App: Updating user settings.");
+        var settingsInstance = _gameManagers.Settings;
+        GD.Print("App: User settings updated successfully,");
+    }
+}

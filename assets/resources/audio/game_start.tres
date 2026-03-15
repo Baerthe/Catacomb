@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="AudioEvent" format=3 uid="uid://difc464awi8gs"]
+
+[ext_resource type="AudioStream" uid="uid://bf4hksxbvs45m" path="res://assets/sounds/lowDown.ogg" id="1_r6ju7"]
+[ext_resource type="Script" uid="uid://bv235gb45xngb" path="res://scripts/common/resource/AudioEvent.cs" id="2_3q60q"]
+
+[resource]
+script = ExtResource("2_3q60q")
+Clip = ExtResource("1_r6ju7")
+metadata/_custom_type_script = "uid://bv235gb45xngb"

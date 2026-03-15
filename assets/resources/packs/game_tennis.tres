@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="GamePack" format=3 uid="uid://bteg77rpdxf1c"]
+
+[ext_resource type="Script" uid="uid://j5wi57mxmvv3" path="res://scripts/common/resource/GamePack.cs" id="1_88aok"]
+[ext_resource type="Texture2D" uid="uid://hcvexgajy5rj" path="res://assets/resources/main_atlas.tres" id="1_tia7l"]
+[ext_resource type="Resource" uid="uid://baim5jhp3p5r3" path="res://assets/resources/audio/main_music.tres" id="2_ygnbe"]
+[ext_resource type="PackedScene" uid="uid://bnvht5v51wkfj" path="res://scenes/tennis_game/tennis_game_main.tscn" id="3_b542d"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ygnbe"]
+atlas = ExtResource("1_tia7l")
+region = Rect2(578, 306, 16, 16)
+
+[resource]
+script = ExtResource("1_88aok")
+GameIcon = SubResource("AtlasTexture_ygnbe")
+GameName = "Tennis Game"
+GameScene = ExtResource("3_b542d")
+GameMusic = ExtResource("2_ygnbe")
+GameBackgroundColor = Color(0.18039216, 0.39607844, 0.30588236, 1)
+GameDescription = "It is legally not Pong."
+metadata/_custom_type_script = "uid://j5wi57mxmvv3"

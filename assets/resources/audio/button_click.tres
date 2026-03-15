@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="AudioEvent" format=3 uid="uid://82c405m6a7o5"]
+
+[ext_resource type="AudioStream" uid="uid://dhq2k4ax12kg" path="res://assets/sounds/powerUp5.ogg" id="1_24att"]
+[ext_resource type="Script" uid="uid://bv235gb45xngb" path="res://scripts/common/resource/AudioEvent.cs" id="2_l20xa"]
+
+[resource]
+script = ExtResource("2_l20xa")
+Clip = ExtResource("1_24att")

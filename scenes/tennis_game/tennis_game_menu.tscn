@@ -1,0 +1,587 @@
+[gd_scene format=3 uid="uid://buv6q6pr7ocpi"]
+
+[ext_resource type="Theme" uid="uid://cvl1c748wxqaw" path="res://assets/resources/theme.theme" id="1_fetf4"]
+[ext_resource type="Script" uid="uid://bfp7radqu12n8" path="res://scripts/game_packs/01_tennis_game/MenuTennis.cs" id="1_wut2e"]
+[ext_resource type="Resource" uid="uid://82c405m6a7o5" path="res://assets/resources/audio/button_click.tres" id="3_1weq5"]
+[ext_resource type="Texture2D" uid="uid://b3e0vvk3gtpra" path="res://assets/resources/menu/play.res" id="3_qy15e"]
+[ext_resource type="Resource" uid="uid://cdkf66qayxsd5" path="res://assets/resources/audio/menu_open.tres" id="4_gmvo0"]
+[ext_resource type="Texture2D" uid="uid://buhbgwcwemblx" path="res://assets/resources/menu/quit.res" id="4_xd7pn"]
+[ext_resource type="Texture2D" uid="uid://dphj56gdcd1a1" path="res://assets/resources/menu/esc.res" id="5_qchd3"]
+[ext_resource type="Resource" uid="uid://dmrwdkuq7lgqx" path="res://assets/resources/audio/menu_close.tres" id="5_tbemy"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_l1anq"]
+font_size = 36
+
+[node name="TenisGameMenu" type="Control" unique_id=395917054 node_paths=PackedStringArray("_buttonCancel", "_buttonPlay", "_buttonQuit", "_optionPaddle1", "_optionPaddle2", "_sliderBall", "_labelBallSpeed", "_sliderPaddle1Size", "_labelPaddle1Size", "_sliderPaddle2Size", "_labelPaddle2Size", "_sliderPaddle1Speed", "_labelPaddle1Speed", "_sliderPaddle2Speed", "_labelPaddle2Speed", "_colorPickerPaddle1", "_colorPickerPaddle2", "_colorPickerBall", "_gameTimeSlider", "_labelGameTime", "_maxScoreSlider", "_labelMaxScore")]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_fetf4")
+script = ExtResource("1_wut2e")
+_buttonCancel = NodePath("ButtonCancel")
+_buttonPlay = NodePath("ButtonPlay")
+_buttonQuit = NodePath("ButtonQuit")
+_optionPaddle1 = NodePath("OptionPaddle1")
+_optionPaddle2 = NodePath("OptionPaddle2")
+_sliderBall = NodePath("Slider 1/SliderBall")
+_labelBallSpeed = NodePath("Slider 1/LabelBall")
+_sliderPaddle1Size = NodePath("Slider 2/SliderP1Size")
+_labelPaddle1Size = NodePath("Slider 2/LabelP1Size")
+_sliderPaddle2Size = NodePath("Slider 3/SliderP2Size")
+_labelPaddle2Size = NodePath("Slider 3/LabelP2Size")
+_sliderPaddle1Speed = NodePath("Slider 4/SliderP1Speed")
+_labelPaddle1Speed = NodePath("Slider 4/LabelP1Speed")
+_sliderPaddle2Speed = NodePath("Slider 5/SliderP2Speed")
+_labelPaddle2Speed = NodePath("Slider 5/LabelP2Speed")
+_colorPickerPaddle1 = NodePath("Color 1/ColorPickerButton")
+_colorPickerPaddle2 = NodePath("Color 2/ColorPickerButton")
+_colorPickerBall = NodePath("Color 3/ColorPickerButton")
+_gameTimeSlider = NodePath("Slider 6/Slider")
+_labelGameTime = NodePath("Slider 6/Numbers")
+_maxScoreSlider = NodePath("Slider 7/Slider")
+_labelMaxScore = NodePath("Slider 7/Numbers")
+SfxButtonPress = ExtResource("3_1weq5")
+SfxMenuOpen = ExtResource("4_gmvo0")
+SfxMenuClose = ExtResource("5_tbemy")
+
+[node name="Control" type="Control" parent="." unique_id=177089384]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="Control" unique_id=195104030]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="Control" unique_id=1771498619]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 64.0
+offset_right = 272.0
+offset_bottom = 480.0
+color = Color(0.39118537, 0.39118534, 0.39118534, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="Control" unique_id=1857290743]
+layout_mode = 0
+offset_left = 288.0
+offset_top = 64.0
+offset_right = 496.0
+offset_bottom = 480.0
+color = Color(0.39118537, 0.39118534, 0.39118534, 1)
+
+[node name="ColorRect" type="ColorRect" parent="Control" unique_id=786452581]
+layout_mode = 0
+offset_top = 61.0
+offset_right = 640.0
+offset_bottom = 65.0
+
+[node name="Label" type="Label" parent="." unique_id=52768873]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 64.0
+text = "tennis_game."
+label_settings = SubResource("LabelSettings_l1anq")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="." unique_id=1210890797]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 72.0
+offset_right = 256.0
+offset_bottom = 96.0
+text = "Paddle 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="." unique_id=505330342]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 136.0
+offset_right = 256.0
+offset_bottom = 160.0
+text = "Paddle 2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonPlay" type="Button" parent="." unique_id=2094485037]
+layout_mode = 0
+offset_left = 496.0
+offset_top = 78.0
+offset_right = 640.0
+offset_bottom = 146.0
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 0.23529412)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 0.98039216)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 0.78431374)
+theme_override_font_sizes/font_size = 32
+text = "Play"
+icon = ExtResource("3_qy15e")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="ButtonQuit" type="Button" parent="." unique_id=73269656]
+layout_mode = 0
+offset_left = 496.0
+offset_top = 381.0
+offset_right = 640.0
+offset_bottom = 449.0
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 0.23529412)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 0.98039216)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 0.78431374)
+theme_override_font_sizes/font_size = 32
+text = "Quit"
+icon = ExtResource("4_xd7pn")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="ButtonCancel" type="Button" parent="." unique_id=1234027795]
+layout_mode = 0
+offset_left = 496.0
+offset_top = 256.0
+offset_right = 640.0
+offset_bottom = 324.0
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 0.23529412)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 0.98039216)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 0.78431374)
+theme_override_font_sizes/font_size = 32
+text = "ESC"
+icon = ExtResource("5_qchd3")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="OptionPaddle1" type="OptionButton" parent="." unique_id=1519645312]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 96.0
+offset_right = 264.0
+offset_bottom = 125.0
+toggle_mode = false
+alignment = 1
+selected = 0
+item_count = 3
+popup/item_0/text = "Player 1"
+popup/item_0/id = 0
+popup/item_1/text = "Player 2"
+popup/item_1/id = 1
+popup/item_2/text = "AI"
+popup/item_2/id = 2
+
+[node name="OptionPaddle2" type="OptionButton" parent="." unique_id=216933141]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 160.0
+offset_right = 264.0
+offset_bottom = 189.0
+toggle_mode = false
+alignment = 1
+selected = 2
+item_count = 3
+popup/item_0/text = "Player 1"
+popup/item_0/id = 0
+popup/item_1/text = "Player 2"
+popup/item_1/id = 1
+popup/item_2/text = "AI"
+popup/item_2/id = 2
+
+[node name="Slider 1" type="Control" parent="." unique_id=205545947]
+anchors_preset = 0
+
+[node name="Label4" type="Label" parent="Slider 1" unique_id=2143544420]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 200.0
+offset_right = 256.0
+offset_bottom = 224.0
+text = "Ball Size"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelBall" type="Label" parent="Slider 1" unique_id=743422358]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 216.0
+offset_right = 270.0
+offset_bottom = 248.0
+text = "00"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+autowrap_trim_flags = 0
+justification_flags = 128
+
+[node name="SliderBall" type="HSlider" parent="Slider 1" unique_id=286187456]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 224.0
+offset_right = 232.0
+offset_bottom = 240.0
+min_value = 8.0
+max_value = 32.0
+value = 16.0
+rounded = true
+tick_count = 24
+ticks_on_borders = true
+
+[node name="Slider 2" type="Control" parent="." unique_id=449103753]
+anchors_preset = 0
+offset_left = 224.0
+offset_top = -128.0
+offset_right = 224.0
+offset_bottom = -128.0
+
+[node name="Label4" type="Label" parent="Slider 2" unique_id=1196682313]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 200.0
+offset_right = 256.0
+offset_bottom = 224.0
+text = "Paddle 1 Size"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelP1Size" type="Label" parent="Slider 2" unique_id=90792066]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 216.0
+offset_right = 270.0
+offset_bottom = 248.0
+text = "00"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+autowrap_trim_flags = 0
+justification_flags = 128
+
+[node name="SliderP1Size" type="HSlider" parent="Slider 2" unique_id=680811777]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 224.0
+offset_right = 224.0
+offset_bottom = 240.0
+min_value = 8.0
+max_value = 200.0
+step = 8.0
+value = 128.0
+rounded = true
+tick_count = 25
+ticks_on_borders = true
+
+[node name="Slider 3" type="Control" parent="." unique_id=168353683]
+anchors_preset = 0
+offset_left = 224.0
+offset_top = -80.0
+offset_right = 224.0
+offset_bottom = -80.0
+
+[node name="Label4" type="Label" parent="Slider 3" unique_id=610033]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 200.0
+offset_right = 256.0
+offset_bottom = 224.0
+text = "Paddle 2 Size"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelP2Size" type="Label" parent="Slider 3" unique_id=1545184238]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 216.0
+offset_right = 270.0
+offset_bottom = 248.0
+text = "00"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+autowrap_trim_flags = 0
+justification_flags = 128
+
+[node name="SliderP2Size" type="HSlider" parent="Slider 3" unique_id=1593642083]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 224.0
+offset_right = 224.0
+offset_bottom = 240.0
+min_value = 8.0
+max_value = 200.0
+step = 8.0
+value = 128.0
+rounded = true
+tick_count = 25
+ticks_on_borders = true
+
+[node name="Slider 4" type="Control" parent="." unique_id=1969772275]
+anchors_preset = 0
+offset_left = 224.0
+offset_top = -32.0
+offset_right = 224.0
+offset_bottom = -32.0
+
+[node name="Label4" type="Label" parent="Slider 4" unique_id=1623722652]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 200.0
+offset_right = 256.0
+offset_bottom = 224.0
+text = "Paddle 1 Speed"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelP1Speed" type="Label" parent="Slider 4" unique_id=2028228149]
+layout_mode = 0
+offset_left = 229.0
+offset_top = 216.0
+offset_right = 259.0
+offset_bottom = 248.0
+text = "0000"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+autowrap_trim_flags = 0
+justification_flags = 128
+
+[node name="SliderP1Speed" type="HSlider" parent="Slider 4" unique_id=1371777165]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 224.0
+offset_right = 200.0
+offset_bottom = 240.0
+min_value = 1000.0
+max_value = 3000.0
+step = 100.0
+value = 1000.0
+rounded = true
+tick_count = 25
+ticks_on_borders = true
+
+[node name="Slider 5" type="Control" parent="." unique_id=1294557111]
+anchors_preset = 0
+offset_left = 224.0
+offset_top = 16.0
+offset_right = 224.0
+offset_bottom = 16.0
+
+[node name="Label4" type="Label" parent="Slider 5" unique_id=1185758086]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 200.0
+offset_right = 256.0
+offset_bottom = 224.0
+text = "Paddle 2 Speed"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelP2Speed" type="Label" parent="Slider 5" unique_id=1155020199]
+layout_mode = 0
+offset_left = 229.0
+offset_top = 216.0
+offset_right = 259.0
+offset_bottom = 248.0
+text = "0000"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+autowrap_trim_flags = 0
+justification_flags = 128
+
+[node name="SliderP2Speed" type="HSlider" parent="Slider 5" unique_id=320077242]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 224.0
+offset_right = 200.0
+offset_bottom = 240.0
+min_value = 1000.0
+max_value = 3000.0
+step = 100.0
+value = 1000.0
+rounded = true
+tick_count = 25
+ticks_on_borders = true
+
+[node name="Slider 6" type="Control" parent="." unique_id=1287469593]
+anchors_preset = 0
+offset_top = 56.0
+offset_bottom = 56.0
+
+[node name="Label" type="Label" parent="Slider 6" unique_id=401075648]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 200.0
+offset_right = 256.0
+offset_bottom = 224.0
+text = "Match Time"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Numbers" type="Label" parent="Slider 6" unique_id=650818239]
+layout_mode = 0
+offset_left = 229.0
+offset_top = 216.0
+offset_right = 259.0
+offset_bottom = 248.0
+text = "0000"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+autowrap_trim_flags = 0
+justification_flags = 128
+
+[node name="Slider" type="HSlider" parent="Slider 6" unique_id=1827157461]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 224.0
+offset_right = 200.0
+offset_bottom = 240.0
+min_value = 5.0
+max_value = 960.0
+step = 5.0
+value = 5.0
+rounded = true
+tick_count = 5
+ticks_on_borders = true
+
+[node name="Slider 7" type="Control" parent="." unique_id=215559760]
+anchors_preset = 0
+offset_top = 104.0
+offset_bottom = 104.0
+
+[node name="Label" type="Label" parent="Slider 7" unique_id=139372217]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 200.0
+offset_right = 256.0
+offset_bottom = 224.0
+text = "Max Score"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Numbers" type="Label" parent="Slider 7" unique_id=644976539]
+layout_mode = 0
+offset_left = 229.0
+offset_top = 216.0
+offset_right = 259.0
+offset_bottom = 248.0
+text = "0000"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+autowrap_trim_flags = 0
+justification_flags = 128
+
+[node name="Slider" type="HSlider" parent="Slider 7" unique_id=2049781611]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 224.0
+offset_right = 200.0
+offset_bottom = 240.0
+min_value = 1.0
+value = 6.0
+rounded = true
+tick_count = 5
+ticks_on_borders = true
+
+[node name="Color 1" type="Control" parent="." unique_id=931384161]
+anchors_preset = 0
+offset_left = 224.0
+offset_top = 64.0
+offset_right = 224.0
+offset_bottom = 64.0
+
+[node name="Label4" type="Label" parent="Color 1" unique_id=1250360726]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 200.0
+offset_right = 256.0
+offset_bottom = 224.0
+text = "Paddle 1 Color"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="Color 1" unique_id=1511716489]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 226.0
+offset_right = 155.0
+offset_bottom = 255.0
+text = "Color Paddle 1"
+flat = true
+color = Color(1, 1, 1, 1)
+edit_alpha = false
+edit_intensity = false
+
+[node name="Color 2" type="Control" parent="." unique_id=1519618711]
+anchors_preset = 0
+offset_left = 224.0
+offset_top = 120.0
+offset_right = 224.0
+offset_bottom = 120.0
+
+[node name="Label4" type="Label" parent="Color 2" unique_id=1818942807]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 200.0
+offset_right = 256.0
+offset_bottom = 224.0
+text = "Paddle 2 Color"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="Color 2" unique_id=454002575]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 226.0
+offset_right = 268.0
+offset_bottom = 255.0
+text = "Color Paddle 2"
+flat = true
+color = Color(1, 1, 1, 1)
+edit_alpha = false
+edit_intensity = false
+
+[node name="Color 3" type="Control" parent="." unique_id=143184680]
+anchors_preset = 0
+offset_left = 224.0
+offset_top = 181.0
+offset_right = 224.0
+offset_bottom = 181.0
+
+[node name="Label4" type="Label" parent="Color 3" unique_id=325827408]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 200.0
+offset_right = 256.0
+offset_bottom = 224.0
+text = "Ball Color"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="Color 3" unique_id=1051337535]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 226.0
+offset_right = 268.0
+offset_bottom = 255.0
+text = "Color Paddle 2"
+flat = true
+color = Color(1, 1, 1, 1)
+edit_alpha = false
+edit_intensity = false

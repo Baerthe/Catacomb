@@ -1,0 +1,165 @@
+[gd_scene format=3 uid="uid://bnvht5v51wkfj"]
+
+[ext_resource type="Script" uid="uid://ldf13dgujunn" path="res://scripts/game_packs/01_tennis_game/MainTennis.cs" id="1_242ye"]
+[ext_resource type="Resource" uid="uid://c3nr4r13vmhoc" path="res://assets/resources/audio/game_over.tres" id="2_2jqwb"]
+[ext_resource type="PackedScene" uid="uid://d0744oosad0d3" path="res://scenes/tennis_game/tennis_game_paddle.tscn" id="2_242ye"]
+[ext_resource type="Resource" uid="uid://difc464awi8gs" path="res://assets/resources/audio/game_start.tres" id="3_r4bjv"]
+[ext_resource type="PackedScene" uid="uid://rd5g3vdir2e2" path="res://scenes/tennis_game/tennis_game_ball.tscn" id="3_wwidt"]
+[ext_resource type="Theme" uid="uid://cvl1c748wxqaw" path="res://assets/resources/theme.theme" id="4_nbo4k"]
+[ext_resource type="Resource" uid="uid://bloddjtu1pbhp" path="res://assets/resources/audio/music_gamepack.tres" id="4_y1al8"]
+[ext_resource type="PackedScene" uid="uid://buv6q6pr7ocpi" path="res://scenes/tennis_game/tennis_game_menu.tscn" id="5_pja5u"]
+[ext_resource type="FontFile" uid="uid://bpyvhrqs3tbf8" path="res://assets/fonts/Kenney Future Narrow.ttf" id="6_4l81j"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_242ye"]
+a = Vector2(-20, 0)
+b = Vector2(660, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_1jw10"]
+font = ExtResource("6_4l81j")
+font_size = 48
+
+[node name="TennisGameMain" type="Node2D" unique_id=2139349789 node_paths=PackedStringArray("_menu", "_gameTimer", "_paddleP1", "_paddleP2", "_ball", "_crossRect", "_dividerRect", "_scoreP1Label", "_scoreP2Label", "_timerLabel", "_middleScreenLabel")]
+script = ExtResource("1_242ye")
+_menu = NodePath("TenisGameMenu")
+_gameTimer = NodePath("Timer")
+_paddleP1 = NodePath("Paddle1")
+_paddleP2 = NodePath("Paddle2")
+_ball = NodePath("PrefabBall")
+_crossRect = NodePath("HUD/ColorRect")
+_dividerRect = NodePath("HUD/Divider")
+_scoreP1Label = NodePath("HUD/P1Score")
+_scoreP2Label = NodePath("HUD/P2Score")
+_timerLabel = NodePath("HUD/LabelTime")
+_middleScreenLabel = NodePath("MiddleText")
+SfxGameOver = ExtResource("2_2jqwb")
+SfxGameStart = ExtResource("3_r4bjv")
+MusicGameMain = ExtResource("4_y1al8")
+
+[node name="Timer" type="Timer" parent="." unique_id=226780669]
+
+[node name="World" type="Node2D" parent="." unique_id=927197552]
+
+[node name="Background" type="ColorRect" parent="World" unique_id=1131645788]
+z_index = -20
+offset_right = 640.0
+offset_bottom = 480.0
+color = Color(0, 0, 0, 1)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="World" unique_id=2016781215]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=2062978971]
+position = Vector2(0, 24)
+shape = SubResource("SegmentShape2D_242ye")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="World" unique_id=1968691054]
+collision_layer = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/StaticBody2D2" unique_id=1525954208]
+position = Vector2(0, 483)
+shape = SubResource("SegmentShape2D_242ye")
+
+[node name="Paddle1" parent="." unique_id=110279588 instance=ExtResource("2_242ye")]
+position = Vector2(0, 240)
+
+[node name="Paddle2" parent="." unique_id=1581139224 instance=ExtResource("2_242ye")]
+position = Vector2(640, 240)
+
+[node name="PrefabBall" parent="." unique_id=2067390600 instance=ExtResource("3_wwidt")]
+position = Vector2(320, 240)
+
+[node name="HUD" type="Control" parent="." unique_id=126361286]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_nbo4k")
+
+[node name="LabelScore" type="Label" parent="HUD" unique_id=550303782]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 24.0
+theme_override_colors/font_color = Color(0.62763536, 0.62763536, 0.62763536, 1)
+text = "P1 Score"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="LabelTime" type="Label" parent="HUD" unique_id=20955529]
+layout_mode = 0
+offset_left = 256.0
+offset_right = 384.0
+offset_bottom = 24.0
+theme_override_colors/font_color = Color(0.62763536, 0.62763536, 0.62763536, 1)
+text = "0000"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="P1Score" type="Label" parent="HUD" unique_id=918811065]
+layout_mode = 0
+offset_left = 128.0
+offset_right = 256.0
+offset_bottom = 24.0
+text = "00000000"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="LabelScore2" type="Label" parent="HUD" unique_id=1304492015]
+layout_mode = 0
+offset_left = 384.0
+offset_right = 512.0
+offset_bottom = 24.0
+theme_override_colors/font_color = Color(0.62763536, 0.62763536, 0.62763536, 1)
+text = "P2 Score"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="P2Score" type="Label" parent="HUD" unique_id=590440063]
+layout_mode = 0
+offset_left = 512.0
+offset_right = 640.0
+offset_bottom = 24.0
+text = "00000000"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="ColorRect" type="ColorRect" parent="HUD" unique_id=1078728422]
+layout_mode = 0
+offset_top = 21.0
+offset_right = 640.0
+offset_bottom = 25.0
+
+[node name="Divider" type="ColorRect" parent="HUD" unique_id=1300169316]
+layout_mode = 0
+offset_left = 318.0
+offset_top = 21.0
+offset_right = 322.0
+offset_bottom = 480.0
+
+[node name="MiddleText" type="Label" parent="." unique_id=88679050]
+offset_top = 208.0
+offset_right = 640.0
+offset_bottom = 262.0
+text = "Player 1 Wins!"
+label_settings = SubResource("LabelSettings_1jw10")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="TenisGameMenu" parent="." unique_id=2001338140 instance=ExtResource("5_pja5u")]
+visible = false
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
+MusicGameMenu = null
+metadata/_edit_horizontal_guides_ = [78.0]

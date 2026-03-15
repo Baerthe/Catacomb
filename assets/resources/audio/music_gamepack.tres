@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="AudioEvent" format=3 uid="uid://bloddjtu1pbhp"]
+
+[ext_resource type="AudioStream" uid="uid://ehoro2hqhwfp" path="res://assets/music/xDeviruchi - Minigame .wav" id="1_r42ab"]
+[ext_resource type="Script" uid="uid://bv235gb45xngb" path="res://scripts/common/resource/AudioEvent.cs" id="2_jdpjn"]
+
+[resource]
+script = ExtResource("2_jdpjn")
+Clip = ExtResource("1_r42ab")
+IsMusic = true
+metadata/_custom_type_script = "uid://bv235gb45xngb"

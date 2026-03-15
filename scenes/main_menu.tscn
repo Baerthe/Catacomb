@@ -1,0 +1,214 @@
+[gd_scene format=3 uid="uid://cu0i6qu07l5x2"]
+
+[ext_resource type="Theme" uid="uid://cvl1c748wxqaw" path="res://assets/resources/theme.theme" id="1_wu84c"]
+[ext_resource type="Script" uid="uid://c7rm2e5hpvrow" path="res://scripts/common/node/MainMenu.cs" id="2_8ln24"]
+[ext_resource type="Resource" uid="uid://82c405m6a7o5" path="res://assets/resources/audio/button_click.tres" id="3_ohymb"]
+[ext_resource type="Resource" uid="uid://baim5jhp3p5r3" path="res://assets/resources/audio/main_music.tres" id="4_oa1go"]
+[ext_resource type="Texture2D" uid="uid://ccce834d2pe1k" path="res://assets/CRTTilemap.png" id="5_8ln24"]
+[ext_resource type="AudioStream" uid="uid://dgpnw4c5bxwvm" path="res://assets/sounds/phaseJump4.ogg" id="5_oa1go"]
+[ext_resource type="Script" uid="uid://bv235gb45xngb" path="res://scripts/common/resource/AudioEvent.cs" id="6_tbmy8"]
+[ext_resource type="Texture2D" uid="uid://hcvexgajy5rj" path="res://assets/resources/main_atlas.tres" id="8_tbmy8"]
+
+[sub_resource type="Resource" id="Resource_jk1qb"]
+script = ExtResource("6_tbmy8")
+Clip = ExtResource("5_oa1go")
+metadata/_custom_type_script = "uid://bv235gb45xngb"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jk1qb"]
+atlas = ExtResource("5_8ln24")
+region = Rect2(0, 240, 380, 52)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ls7bi"]
+line_spacing = 0.0
+font_size = 18
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5dd4i"]
+atlas = ExtResource("8_tbmy8")
+region = Rect2(493, 357, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lgwnu"]
+atlas = ExtResource("8_tbmy8")
+region = Rect2(612, 357, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_flqon"]
+atlas = ExtResource("8_tbmy8")
+region = Rect2(629, 221, 16, 16)
+
+[node name="MainMenu" type="Control" unique_id=571779155 node_paths=PackedStringArray("_packButtonContainer", "_packDesc", "_selectedPackLabel", "_playButton", "_settingsButton", "_quitButton")]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1920.0
+offset_bottom = -1080.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_wu84c")
+script = ExtResource("2_8ln24")
+_packButtonContainer = NodePath("VBoxContainer")
+_packDesc = NodePath("RichTextLabel")
+_selectedPackLabel = NodePath("Label4")
+_menuBootUpSound = ExtResource("3_ohymb")
+_menuTheme = ExtResource("4_oa1go")
+_sfxButtonPress = ExtResource("3_ohymb")
+_sfxMenuOpen = SubResource("Resource_jk1qb")
+_playButton = NodePath("ButtonPlay")
+_settingsButton = NodePath("ButtonSettings")
+_quitButton = NodePath("ButtonQuit")
+
+[node name="Control" type="Control" parent="." unique_id=1387742698]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Background" type="ColorRect" parent="Control" unique_id=991319134]
+z_index = -20
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 480.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="Control" unique_id=1103122086]
+layout_mode = 0
+offset_left = 288.0
+offset_top = 64.0
+offset_right = 496.0
+offset_bottom = 480.0
+color = Color(0.39118537, 0.39118534, 0.39118534, 1)
+
+[node name="ColorRect" type="ColorRect" parent="Control" unique_id=725651765]
+layout_mode = 0
+offset_top = 61.0
+offset_right = 640.0
+offset_bottom = 65.0
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1765269462]
+layout_mode = 1
+offset_left = 128.0
+offset_top = 5.0
+offset_right = 508.0
+offset_bottom = 57.0
+texture = SubResource("AtlasTexture_jk1qb")
+
+[node name="Label" type="Label" parent="." unique_id=1637504747]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 20.0
+offset_right = 632.0
+offset_bottom = 84.0
+text = "Main Menu"
+label_settings = SubResource("LabelSettings_ls7bi")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ButtonPlay" type="Button" parent="." unique_id=1960407308]
+layout_mode = 0
+offset_left = 496.0
+offset_top = 78.0
+offset_right = 640.0
+offset_bottom = 146.0
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 0.23529412)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 0.98039216)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 0.78431374)
+theme_override_font_sizes/font_size = 32
+text = "Play"
+icon = SubResource("AtlasTexture_5dd4i")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="ButtonQuit" type="Button" parent="." unique_id=1582837661]
+layout_mode = 0
+offset_left = 496.0
+offset_top = 381.0
+offset_right = 640.0
+offset_bottom = 449.0
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 0.23529412)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 0.98039216)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 0.78431374)
+theme_override_font_sizes/font_size = 32
+text = "Quit"
+icon = SubResource("AtlasTexture_lgwnu")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="ButtonSettings" type="Button" parent="." unique_id=1942919123]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 408.0
+offset_right = 277.0
+offset_bottom = 476.0
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 0.23529412)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 0.98039216)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 0.78431374)
+theme_override_font_sizes/font_size = 32
+text = "Settings"
+icon = SubResource("AtlasTexture_flqon")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1587703368]
+layout_mode = 0
+offset_left = 296.0
+offset_top = 72.0
+offset_right = 488.0
+offset_bottom = 472.0
+
+[node name="Label3" type="Label" parent="." unique_id=492523850]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 332.0
+offset_right = 264.0
+offset_bottom = 381.0
+text = "Select a pack and press play."
+label_settings = SubResource("LabelSettings_ls7bi")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Label4" type="Label" parent="." unique_id=405292956]
+layout_mode = 0
+offset_left = 520.0
+offset_top = 128.0
+offset_right = 616.0
+offset_bottom = 188.0
+text = "Selected Pack"
+label_settings = SubResource("LabelSettings_ls7bi")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Label2" type="Label" parent="." unique_id=1687267203]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 67.0
+offset_right = 264.0
+offset_bottom = 97.0
+text = "Pack Info"
+label_settings = SubResource("LabelSettings_ls7bi")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=698806259]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 100.0
+offset_right = 264.0
+offset_bottom = 332.0
+bbcode_enabled = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect2" type="ColorRect" parent="RichTextLabel" unique_id=352164974]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.39118537, 0.39118534, 0.39118534, 1)
+metadata/_edit_lock_ = true

@@ -1,0 +1,77 @@
+[gd_scene load_steps=8 format=3 uid="uid://biin4ot03tbmh"]
+
+[ext_resource type="Script" uid="uid://n1dle2s53omk" path="res://scripts/block_game/node/BallBlock.cs" id="1_t28qq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_68cmp"]
+radius = 20.024984
+
+[sub_resource type="Curve" id="Curve_35srh"]
+_data = [Vector2(0, 0.5473888), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_q74i4"]
+width = 1024
+curve = SubResource("Curve_35srh")
+
+[sub_resource type="Curve" id="Curve_68cmp"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_35srh"]
+width = 36
+curve = SubResource("Curve_68cmp")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_35srh"]
+particle_flag_align_y = true
+particle_flag_rotate_y = true
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+scale_min = 0.0
+scale_max = 0.0
+scale_curve = SubResource("CurveTexture_35srh")
+color = Color(0.6255971, 0.6255971, 0.6255971, 1)
+alpha_curve = SubResource("CurveTexture_q74i4")
+
+[node name="PrefabBall" type="CharacterBody2D" node_paths=PackedStringArray("CollisionShape", "ColorRect", "TrailParticles", "VisibleNotifier")]
+collision_layer = 7
+collision_mask = 7
+script = ExtResource("1_t28qq")
+Acceleration = 12
+Size = 6
+CollisionShape = NodePath("CollisionShape2D")
+ColorRect = NodePath("ColorRect")
+TrailParticles = NodePath("GPUParticles2D")
+VisibleNotifier = NodePath("VisibleOnScreenNotifier2D")
+metadata/_custom_type_script = "uid://dgbhun6vlrb4i"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+volume_db = -4.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+clip_contents = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_68cmp")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+z_index = -1
+amount = 4056
+lifetime = 4.0
+speed_scale = 0.8
+fixed_fps = 60
+draw_order = 0
+trail_lifetime = 1.8
+process_material = SubResource("ParticleProcessMaterial_35srh")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]

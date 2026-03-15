@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="AudioEvent" format=3 uid="uid://baim5jhp3p5r3"]
+
+[ext_resource type="Script" uid="uid://bv235gb45xngb" path="res://scripts/common/resource/AudioEvent.cs" id="1_rumcq"]
+[ext_resource type="AudioStream" uid="uid://bp1dq5ql6bwf0" path="res://assets/music/xDeviruchi - The Final of The Fantasy.wav" id="1_umd5b"]
+
+[resource]
+script = ExtResource("1_rumcq")
+Clip = ExtResource("1_umd5b")
+IsMusic = true
+metadata/_custom_type_script = "uid://bv235gb45xngb"
