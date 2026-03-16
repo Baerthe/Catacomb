@@ -1,6 +1,19 @@
-[gd_scene load_steps=8 format=3 uid="uid://biin4ot03tbmh"]
+[gd_scene format=3 uid="uid://biin4ot03tbmh"]
 
-[ext_resource type="Script" uid="uid://n1dle2s53omk" path="res://scripts/block_game/node/BallBlock.cs" id="1_t28qq"]
+[ext_resource type="Script" uid="uid://n1dle2s53omk" path="res://scripts/game_packs/02_block_game/node/BallBlock.cs" id="1_t28qq"]
+[ext_resource type="AudioStream" uid="uid://711ejw2ny4u6" path="res://assets/sounds/phaseJump5.ogg" id="2_xlk54"]
+[ext_resource type="Script" uid="uid://bv235gb45xngb" path="res://scripts/common/resource/AudioEvent.cs" id="3_r7cju"]
+[ext_resource type="AudioStream" uid="uid://el6jnkcpjywc" path="res://assets/sounds/phaseJump1.ogg" id="4_eb37u"]
+
+[sub_resource type="Resource" id="Resource_wl23f"]
+script = ExtResource("3_r7cju")
+Clip = ExtResource("2_xlk54")
+metadata/_custom_type_script = "uid://bv235gb45xngb"
+
+[sub_resource type="Resource" id="Resource_sdill"]
+script = ExtResource("3_r7cju")
+Clip = ExtResource("4_eb37u")
+metadata/_custom_type_script = "uid://bv235gb45xngb"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_68cmp"]
 radius = 20.024984
@@ -32,10 +45,12 @@ scale_curve = SubResource("CurveTexture_35srh")
 color = Color(0.6255971, 0.6255971, 0.6255971, 1)
 alpha_curve = SubResource("CurveTexture_q74i4")
 
-[node name="PrefabBall" type="CharacterBody2D" node_paths=PackedStringArray("CollisionShape", "ColorRect", "TrailParticles", "VisibleNotifier")]
+[node name="PrefabBall" type="CharacterBody2D" unique_id=1203545994 node_paths=PackedStringArray("CollisionShape", "ColorRect", "TrailParticles", "VisibleNotifier")]
 collision_layer = 7
 collision_mask = 7
 script = ExtResource("1_t28qq")
+HitSound = SubResource("Resource_wl23f")
+ScoreSound = SubResource("Resource_sdill")
 Acceleration = 12
 Size = 6
 CollisionShape = NodePath("CollisionShape2D")
@@ -44,10 +59,7 @@ TrailParticles = NodePath("GPUParticles2D")
 VisibleNotifier = NodePath("VisibleOnScreenNotifier2D")
 metadata/_custom_type_script = "uid://dgbhun6vlrb4i"
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-volume_db = -4.0
-
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2088414336]
 clip_contents = true
 anchors_preset = 8
 anchor_left = 0.5
@@ -61,11 +73,12 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1082383472]
 shape = SubResource("CircleShape2D_68cmp")
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
-z_index = -1
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=880995608]
+show_behind_parent = true
+top_level = true
 amount = 4056
 lifetime = 4.0
 speed_scale = 0.8
@@ -74,4 +87,4 @@ draw_order = 0
 trail_lifetime = 1.8
 process_material = SubResource("ParticleProcessMaterial_35srh")
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1922379564]

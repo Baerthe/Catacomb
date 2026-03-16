@@ -3,6 +3,8 @@ namespace Common;
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+
 /// <summary>
 /// The core game manager responsible for handling game state and transitions. Global Root Node.
 /// Normally we would want some sort of state orchestratior/scene loader, but we will be handling it inline for simplicity.
@@ -11,6 +13,7 @@ public sealed partial class AppShell : Control
 {
     [ExportCategory("References")]
     [ExportGroup("Nodes")]
+    [Export] private Control _debugMenu;
     [Export] private Control _gameScreen;
     [Export] private Control _loadingScreen;
     [Export] private MainMenu _mainMenu;
@@ -23,6 +26,7 @@ public sealed partial class AppShell : Control
     private AppState _currentState;
     private AppState _priorState;
     // *-> System References
+    private DebugWatcher _debugWatcher;
     private GameManagers _gameManagers;
     private PauseWatcher _pauseWatcher;
     // *-> Loaded Pack References
@@ -31,10 +35,11 @@ public sealed partial class AppShell : Control
     // *-> Godot Overrides
     public override void _EnterTree()
     {
-        _gameManagers = this.AddNode<GameManagers>("GameManagers");
-        _pauseWatcher = this.AddNode<PauseWatcher>("PauseWatcher");
-        if (_gameManagers == null ||  _pauseWatcher == null)
-            GD.PrintErr("App: Failed to initialize GameManagers, PackRegister, or PauseWatcher. Check _EnterTree method for details.");
+        _debugWatcher = this.AddNode<DebugWatcher>("debug_watcher");
+        _gameManagers = this.AddNode<GameManagers>("game_managers");
+        _pauseWatcher = this.AddNode<PauseWatcher>("pause_watcher");
+        if (_debugWatcher == null || _gameManagers == null ||  _pauseWatcher == null)
+            GD.PrintErr("App: Failed to initialize System Refs Check _EnterTree method for details.");
         else
             GD.Print("App: Successfully initialized AppShell Systems.");
     }
@@ -44,6 +49,7 @@ public sealed partial class AppShell : Control
         _mainMenu.OnStartGame += HandleStartGame;
         _mainMenu.OnRequestScores += HandleRequestScores;
         _mainMenu.OnQuitGame += () => GetTree().Quit();
+        _debugWatcher.OnToggleDebug += HandleDebugMenu;
         _gameManagers.Settings.OnSettingsUpdated += HandleSettingsUpdated;
         _pauseWatcher.OnTogglePause += HandleTogglePause;
         // Run start of game functions
@@ -103,6 +109,10 @@ public sealed partial class AppShell : Control
         }
     }
     // *-> Event Handlers
+    private void HandleDebugMenu()
+    {
+        _debugMenu.Visible = !_debugMenu.Visible;
+    }
     /// <summary>
     /// Handles getting the current score-table.
     /// </summary>
