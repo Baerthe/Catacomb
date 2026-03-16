@@ -52,6 +52,14 @@ public abstract partial class PackBase : Node2D
         if (!EnableStepTicking)
             Tick();
     }
+    // *-> Virtual Debug
+    public virtual void DebugPoints(uint points, byte player = 1)
+    {
+        if (player == 1)
+            Score1.AddPoints(points);
+        else
+            Score2.AddPoints(points);
+    }
     // *-> Virtual Methods
     /// <summary>
     /// Submits the current score to the score manager.

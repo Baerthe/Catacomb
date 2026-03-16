@@ -8,9 +8,9 @@ using Godot.Collections;
 public sealed class ScoreManager
 {
     public Dictionary<string, uint> CurrentScores { get; set; }
-    public string CurrentP1 { get; private set;}
-    public string CurrentP2 { get; private set;}
-    private readonly string _savePath = "user://saves/";
+    public string CurrentP1 { get; private set;} = "test";
+    public string CurrentP2 { get; private set;} = "test";
+    private readonly string _savePath = "user://saves";
     private readonly string _saveFileName = "high.scores";
     private readonly string _section = "High Scores";
     private readonly Dictionary<string, uint> _defaultScores = new()
@@ -27,7 +27,7 @@ public sealed class ScoreManager
     /// <returns>Dictionary of scores keyed by scorer name</returns>
     public void LoadScores(string pack)
     {
-        string fullPath = $"{_savePath}{pack}";
+        string fullPath = $"{_savePath}/{pack}/";
         Dictionary<string, uint> save = [];
         ConfigFile config = new();
         if (config.Load(fullPath + _saveFileName) == Error.Ok)
@@ -50,15 +50,12 @@ public sealed class ScoreManager
     /// </summary>
     public void SaveScores(string pack)
     {
-        string fullPath = $"{_savePath}{pack}";
+        string fullPath = $"{_savePath}/{pack}";
         ConfigFile config = new();
         if (config.Load(fullPath + _saveFileName) == Error.Ok)
             SaveData(CurrentScores, config, fullPath);
         else
-        {
-            GD.Print($"ScoreManager: Score table for {pack} could not be saved! Creating...");
-            SaveData(_defaultScores, config, fullPath);
-        }
+            GD.PrintErr("ScoreManager: Could not save?");
     }
     /// <summary>
     /// Submits a new score for a given player. If the player already has a score, it is only updated if the new score is higher. Player parameter is a byte that should be 1 or 2, representing player 1 or player 2 respectively. The score manager uses the CurrentP1 and CurrentP2 properties as keys for the score dictionary, so make sure to update those with UpdateUserName before submitting scores.
@@ -104,13 +101,18 @@ public sealed class ScoreManager
     /// </summary>
     private void SaveData(Dictionary<string, uint> scores, ConfigFile config, string fullPath)
     {
+        var dir = DirAccess.Open(fullPath.GetBaseDir());
+        if (dir == null)
+            DirAccess.MakeDirAbsolute(fullPath);
         System.Collections.Generic.List<(string, uint)> sortedScores = [];
         foreach (var score in scores)
             sortedScores.Add((score.Key, score.Value));
         sortedScores.Sort((a, b) => b.Item2.CompareTo(a.Item2));
-        sortedScores.RemoveRange(5, sortedScores.Count - 5);
+        if (sortedScores.Count > 5)
+            sortedScores.RemoveRange(5, sortedScores.Count - 5);
         foreach (var (player, score) in sortedScores)
             config.SetValue(_section, player, score);
         config.Save(fullPath + _saveFileName);
+        GD.Print($"ScoreManager: Saved {sortedScores.Count} scores to {fullPath}{_saveFileName}");
     }
 }

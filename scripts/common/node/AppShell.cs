@@ -13,7 +13,7 @@ public sealed partial class AppShell : Control
 {
     [ExportCategory("References")]
     [ExportGroup("Nodes")]
-    [Export] private Control _debugMenu;
+    [Export] private DebugMenu _debugMenu;
     [Export] private Control _gameScreen;
     [Export] private Control _loadingScreen;
     [Export] private MainMenu _mainMenu;
@@ -35,8 +35,8 @@ public sealed partial class AppShell : Control
     // *-> Godot Overrides
     public override void _EnterTree()
     {
-        _debugWatcher = this.AddNode<DebugWatcher>("debug_watcher");
         _gameManagers = this.AddNode<GameManagers>("game_managers");
+        _debugWatcher = this.AddNode<DebugWatcher>("debug_watcher");
         _pauseWatcher = this.AddNode<PauseWatcher>("pause_watcher");
         if (_debugWatcher == null || _gameManagers == null ||  _pauseWatcher == null)
             GD.PrintErr("App: Failed to initialize System Refs Check _EnterTree method for details.");
@@ -49,6 +49,7 @@ public sealed partial class AppShell : Control
         _mainMenu.OnStartGame += HandleStartGame;
         _mainMenu.OnRequestScores += HandleRequestScores;
         _mainMenu.OnQuitGame += () => GetTree().Quit();
+        _debugMenu.OnDebugPoints += HandleDebugMenuPoints;
         _debugWatcher.OnToggleDebug += HandleDebugMenu;
         _gameManagers.Settings.OnSettingsUpdated += HandleSettingsUpdated;
         _pauseWatcher.OnTogglePause += HandleTogglePause;
@@ -78,6 +79,7 @@ public sealed partial class AppShell : Control
                 GD.Print("App: Switching to Main Menu.");
                 if (IsInstanceValid(_loadedScene))
                 {
+                    _gameManagers.Score.SaveScores(_loadedPack.GameName);
                     _loadedScene.OnScoreSubmission -= _gameManagers.Score.SubmitScore;
                     _loadedScene.OnRequestPackExit -= () => RequestAppState(AppState.MainMenu);
                     _loadedScene.OnRequestUnpause -= HandleTogglePause;
@@ -112,6 +114,11 @@ public sealed partial class AppShell : Control
     private void HandleDebugMenu()
     {
         _debugMenu.Visible = !_debugMenu.Visible;
+    }
+    private void HandleDebugMenuPoints()
+    {
+        if(_loadedScene != null)
+            _loadedScene.DebugPoints(1000);
     }
     /// <summary>
     /// Handles getting the current score-table.
