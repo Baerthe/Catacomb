@@ -1,6 +1,9 @@
 namespace Common;
 
 using Godot;
+/// <summary>
+/// The base class for Control node Menus. Adds access to the managers and sounds.
+/// </summary>
 public abstract partial class MenuBase : Control
 {
     // *-> Exported Properties
@@ -44,6 +47,8 @@ public abstract partial class MenuBase : Control
         picker.SamplerVisible = false;
         picker.ColorModesVisible = false;
         picker.HexVisible = false;
+        picker.ZAsRelative = true;
+        picker.ZIndex = 1;
     }
     /// <summary>
     /// Clicked a button? Play a sound!
