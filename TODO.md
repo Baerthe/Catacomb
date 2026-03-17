@@ -7,7 +7,7 @@
 - [X] Clean up and rename stuff.
 - [X] Move to new public repo
 - [X] Finished Block and Tennis
-- [ ] The score system already exists, need to rig it to the menus
+- [X] The score system already exists, need to rig it to the menus
 - [ ] Add settings menu in already lol...
 
 ## Phase 5

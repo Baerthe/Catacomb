@@ -17,6 +17,7 @@ public sealed partial class AppShell : Control
     [Export] private Control _gameScreen;
     [Export] private Control _loadingScreen;
     [Export] private MainMenu _mainMenu;
+    [Export] private SettingsMenu _settingsMenu;
     [Export] private Control _crtOverlay;
     [ExportGroup("Shaders")]
     [Export] private ShaderMaterial _defaultCrtMaterial;
@@ -45,8 +46,10 @@ public sealed partial class AppShell : Control
     }
     public override void _Ready()
     {
+        _settingsMenu.Visible = false;
         // Hook up events
         _mainMenu.OnStartGame += HandleStartGame;
+        _mainMenu.OnSettingsToggle += () => _settingsMenu.Visible = !_settingsMenu.Visible;
         _mainMenu.OnRequestScores += HandleRequestScores;
         _mainMenu.OnQuitGame += () => GetTree().Quit();
         _debugMenu.OnDebugPoints += HandleDebugMenuPoints;

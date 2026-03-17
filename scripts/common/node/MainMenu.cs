@@ -12,12 +12,12 @@ public sealed partial class MainMenu : Control
 {
     public event Action<GamePack> OnStartGame;
     public event Func<GamePack, Dictionary<string, uint>> OnRequestScores;
+    public event Action OnSettingsToggle;
     public event Action OnQuitGame;
     [ExportGroup("References")]
     [Export] private VBoxContainer _packButtonContainer;
     [Export] private RichTextLabel _packDesc;
     [Export] private Label _selectedPackLabel;
-    [Export] private Control _settingsMenu;
     [ExportGroup("Sounds")]
     [Export] private AudioEvent _menuBootUpSound;
     [Export] private AudioEvent _menuTheme;
@@ -41,7 +41,7 @@ public sealed partial class MainMenu : Control
             GD.PrintErr("MainMenu: Failed to initialize PackRegister. Check _Ready method for details.");
         _playButton.Pressed += HandlePlayButtonPressed;
         _quitButton.Pressed += () => OnQuitGame?.Invoke();
-        _settingsButton.Pressed += () => _settingsMenu.Visible = !_settingsMenu.Visible;
+        _settingsButton.Pressed += () => OnSettingsToggle?.Invoke();
         _playButton.Visible = false;
         _selectedPackLabel.Visible = false;
         MenuLoad();
