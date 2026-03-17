@@ -108,20 +108,24 @@ public sealed class ScoreManager
     /// </summary>
     private void SaveData(Dictionary<string, uint> scores, ConfigFile config, string fullPath, bool silent = false)
     {
-        var dir = DirAccess.Open(fullPath.GetBaseDir());
-        if (dir == null)
-            DirAccess.MakeDirRecursiveAbsolute(fullPath);
-        System.Collections.Generic.List<(string, uint)> sortedScores = [];
-        foreach (var score in scores)
-            sortedScores.Add((score.Key, score.Value));
-        sortedScores.Sort((a, b) => b.Item2.CompareTo(a.Item2));
-        if (sortedScores.Count > 5)
-            sortedScores.RemoveRange(5, sortedScores.Count - 5);
-        foreach (var (player, score) in sortedScores)
+        if (!DirAccess.DirExistsAbsolute(fullPath))
+        {
+            Error dirErr = DirAccess.MakeDirRecursiveAbsolute(fullPath);
+            if (dirErr != Error.Ok)
+            {
+                GD.PrintErr($"ScoreManager: Failed to create directory '{fullPath}'. Error: {dirErr}");
+            }
+        }
+        scores = SortScores(scores);
+        foreach (var (player, score) in scores)
             config.SetValue(_section, player, score);
-        config.Save(fullPath + _saveFileName);
+        var err = config.Save(fullPath + _saveFileName);
+        if (err != Error.Ok)
+        {
+            GD.PrintErr($"ScoreManager: Failed to save config. Error code: {err}");
+        }
         if (!silent)
-            GD.Print($"ScoreManager: Saved {sortedScores.Count} scores to {fullPath}{_saveFileName}");
+            GD.Print($"ScoreManager: Saved {scores.Count} scores to {fullPath}{_saveFileName}");
     }
     /// <summary>
     /// Sorts the dict of scores.

@@ -7,6 +7,9 @@ The project is structured around a single-window "AppShell" that handles global 
 ### Core Systems Flow
 - **AppShell (`AppShell.cs`)**: The global root node that orchestrates scenes, CRT shader overlays, transitioning, and system hooking.
 - **Game Managers (`GameManagers.cs`)**: A globally accessible registry that manages `AudioManager`, `ScoreManager`, and `SettingsManager` instances.
+    - *Audio Manager*: Functions as a three channel static global audio system; handles loading and indexing the AudioEvent resources which is used to build a lookup table for relevant audio in the game.
+    - *Score Manager*: Keeps track of saving and loading specific pack scores, creates a default table if no high scores present. Scores are saved when the pack is exited.
+    - *Settings Manager*: Handles game settings. **Not Fully Implemented**
 - **Pack Register (`PackRegister.cs`)**: Scans the designated resource directory (`res://assets/resources/packs`) at runtime for `.tres` files to automatically populate the valid game list in the main menu.
 - **Pack Base (`PackBase.cs`)**: The abstract Node2D base class that every GamePack must implement. It provides baseline logic for game states (`GameState.Playing`, `GameState.Paused`), controller inputs (`Player1Controller`, `Player2Controller`), scores (`Score1`), and base event hooks (`OnRequestPackExit`, `OnScoreSubmission`).
 

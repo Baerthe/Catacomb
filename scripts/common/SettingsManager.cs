@@ -22,18 +22,12 @@ public sealed class SettingsManager
         { "Username", ("Player", true)},
     });
     private readonly ConfigFile _configFile;
-    private readonly string _configPath = "user://config/user.save";
+    private readonly string _configPath = "user://settings/";
+    private readonly string _configSave = "user.save";
     public SettingsManager()
     {
-        _configFile = new();
         GD.Print("SettingsManager instantiated");
-        if (_configFile.Load(_configPath) != Error.Ok)
-            {
-                GD.Print("SettingsManager: Unable to load config file, using defaults, creating new file. Error: " + _configFile.Load(_configPath));
-                _configFile.Save(_configPath);
-                SaveData(Sectional.Audio, AudioSettings.Item2);
-                SaveData(Sectional.User, UserSettings.Item2);
-            }
+        _configFile = new();
     }
     // *-> Public Methods
     /// <summary>
@@ -41,25 +35,34 @@ public sealed class SettingsManager
     /// </summary>
     public void LoadData()
     {
-        var sections = Enum.GetValues<Sectional>();
-        foreach (var section in sections)
+        if (_configFile.Load(_configPath + _configSave) == Error.Ok)
         {
-            var sectionDict = new Dictionary<string, (Variant, bool)>();
-            var keys = _configFile.GetSectionKeys(section.ToString());
-            foreach (var key in keys)
+            var sections = Enum.GetValues<Sectional>();
+            foreach (var section in sections)
             {
-                var value = _configFile.GetValue(section.ToString(), key, 0f);
-                var allowed = _configFile.GetValue(section.ToString(), $"{key}_allowed?", true);
-                sectionDict[key] = ((float)value, (bool)allowed);
+                var sectionDict = new Dictionary<string, (Variant, bool)>();
+                var keys = _configFile.GetSectionKeys(section.ToString());
+                foreach (var key in keys)
+                {
+                    if (key.EndsWith("_allowed?")) continue;
+                    var value = _configFile.GetValue(section.ToString(), key, 0f);
+                    var allowed = _configFile.GetValue(section.ToString(), $"{key}_allowed?", true);
+                    sectionDict[key] = (value, (bool)allowed);
+                }
+                switch (section)
+                {
+                    case Sectional.Audio: AudioSettings = (section, sectionDict); break;
+                    case Sectional.User: UserSettings = (section, sectionDict); break;
+                }
             }
-            switch (section)
-            {
-                case Sectional.Audio: AudioSettings = (section, sectionDict); break;
-                case Sectional.User: UserSettings = (section, sectionDict); break;
-            }
+            OnSettingsUpdated?.Invoke(AudioSettings);
+            OnSettingsUpdated?.Invoke(UserSettings);
+        } else
+        {
+            GD.Print("Settings Manager: No settings file found, creating...");
+            SaveData(AudioSettings.Item1, AudioSettings.Item2);
+            SaveData(UserSettings.Item1, UserSettings.Item2);
         }
-        OnSettingsUpdated?.Invoke(AudioSettings);
-        OnSettingsUpdated?.Invoke(UserSettings);
     }
     /// <summary>
     /// Saves settings to the config file and updates the relevant properties.
@@ -76,12 +79,32 @@ public sealed class SettingsManager
             case Sectional.Audio: AudioSettings = (section, data); break;
             case Sectional.User: UserSettings = (section, data); break;
         }
-        _configFile.Save(_configPath);
+        CommitData();
         var dict = section switch
         {
             Sectional.Audio => AudioSettings,
             Sectional.User => UserSettings,
         };
         OnSettingsUpdated?.Invoke(dict);
+    }
+    /// <summary>
+    /// Helper method to save settings data to file.
+    /// </summary>
+    private void CommitData()
+    {
+        GD.Print($"Settings Manager: Commiting data to path: {_configPath + _configSave}");
+        if (!DirAccess.DirExistsAbsolute(_configPath))
+        {
+            Error dirErr = DirAccess.MakeDirRecursiveAbsolute(_configPath);
+            if (dirErr != Error.Ok)
+            {
+                GD.PrintErr($"Settings Manager: Failed to create directory '{_configPath}'. Error: {dirErr}");
+            }
+        }
+        var err = _configFile.Save(_configPath + _configSave);
+        if (err != Error.Ok)
+        {
+            GD.PrintErr($"Settings Manager: Failed to save config. Error code: {err}");
+        }
     }
 }
