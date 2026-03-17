@@ -216,7 +216,8 @@ public sealed partial class AppShell : Control
     private void SetBackgroundColor(Color color)
     {
         _gameScreen.Material.Set("shader_parameter/main_color", color);
-        _gameScreen.Material.Set("shader_parameter/second_color", color * 0.4f);
+        _gameScreen.Material.Set("shader_parameter/second_color", color * 0.6f);
+        _gameScreen.Material.Set("shader_paremeter/back_color", color * 0.3f);
     }
     // *-> Update Settings Functions
     /// <summary>
