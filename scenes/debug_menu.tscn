@@ -38,8 +38,17 @@ _buttonPoints = NodePath("ButtonPoints")
 
 [node name="Control" type="Control" parent="." unique_id=1387742698]
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 640.0
+offset_bottom = 480.0
+
+[node name="ColorRect2" type="ColorRect" parent="Control" unique_id=1565502876]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.27450982)
 
 [node name="ColorRect3" type="ColorRect" parent="Control" unique_id=1103122086]
 layout_mode = 0

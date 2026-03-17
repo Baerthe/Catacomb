@@ -16,6 +16,8 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 config/name="Catacomb"
 run/main_scene="uid://cesm0wcr5vexa"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="data"
 config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/image="uid://b6sx1dgolhf5a"
