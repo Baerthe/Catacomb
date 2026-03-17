@@ -91,7 +91,6 @@ public sealed partial class AppShell : Control
                 } else
                     GD.Print("App: No existing game scene to free. Proceeding to main menu.");
                 _mainMenu.Visible = true;
-                _mainMenu.MenuLoad();
                 _loadingScreen.Visible = false;
                 SetBackgroundColor(Colors.Red);
                 break;
