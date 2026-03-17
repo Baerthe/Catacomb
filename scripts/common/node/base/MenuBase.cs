@@ -22,9 +22,7 @@ public abstract partial class MenuBase : Control
             else
                 AudioManager.PlayAudioClip(SfxMenuClose);
         };
-        foreach (Node button in GetChildren(true))
-            if (button is Button)
-                ((Button)button).Pressed += () => OnAnyButtonPressed(button as Button);
+        ConnectButtonsRecursive(this);
         ConnectControlEvents();
     }
     // *-> Abstract Methods
@@ -47,9 +45,25 @@ public abstract partial class MenuBase : Control
         picker.ColorModesVisible = false;
         picker.HexVisible = false;
     }
+    /// <summary>
+    /// Clicked a button? Play a sound!
+    /// </summary>
+    /// <param name="button"></param>
     private void OnAnyButtonPressed(Button button)
     {
         GD.Print($"{Name}: Button {button.Name} pressed.");
         AudioManager.PlayAudioClip(SfxButtonPress);
+    }
+    /// <summary>
+    /// Go through the tree and find every button to wire with OnAnyButtonPressed to.
+    /// </summary>
+    /// <param name="node"></param>
+    private void ConnectButtonsRecursive(Node node)
+    {
+        foreach (Node button in node.GetChildren(true))
+            if (button is Button)
+                ((Button)button).Pressed += () => OnAnyButtonPressed(button as Button);
+            else if (button is Control)
+                ConnectButtonsRecursive(button);
     }
 }
