@@ -6,7 +6,7 @@ using System;
 /// <summary>
 /// Menu UI for BlockGame. Handles game settings configuration and start/cancel/quit actions.
 /// </summary>
-public sealed partial class MenuBlock : MenuBase
+public sealed partial class MenuBlock : PackMenuBase
 {
     public event Action<PlayerType, int, int, int, Color, Color, int, uint> OnGameStart;
     public override event Action OnGameCancel;

@@ -3,7 +3,7 @@ namespace TemplateGame;
 using Godot;
 using Common;
 using System;
-public sealed partial class TemplateMenu : MenuBase
+public sealed partial class TemplateMenu : PackMenuBase
 {
     public event Action<PlayerType, int, int> OnGameStart;
     public override event Action OnGameCancel;

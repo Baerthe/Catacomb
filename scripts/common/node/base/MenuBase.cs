@@ -1,11 +1,8 @@
 namespace Common;
 
 using Godot;
-using System;
 public abstract partial class MenuBase : Control
 {
-    public abstract event Action OnGameCancel;
-    public abstract event Action OnGameQuit;
     // *-> Exported Properties
     [ExportGroup("Sounds")]
     [Export] protected AudioEvent SfxButtonPress { get; private set;}

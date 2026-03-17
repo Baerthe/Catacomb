@@ -7,7 +7,7 @@ using Godot;
 /// Represents the menu in the tennis_game.
 /// Handles user input for game settings and starts/cancels games.
 /// </summary>
-public sealed partial class MenuTennis : MenuBase
+public sealed partial class MenuTennis : PackMenuBase
 {
     public event Action<PlayerType, PlayerType, int, int, int, int, int, Color, Color, Color,int, int> OnGameStart;
     public override event Action OnGameCancel;

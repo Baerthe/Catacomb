@@ -197,7 +197,7 @@ public sealed partial class AppShell : Control
     /// </summary>
     private void HandleTogglePause()
     {
-        if (_currentState == AppState.MainMenu || _currentState == AppState.Loading) 
+        if (_currentState == AppState.MainMenu || _currentState == AppState.Loading)
             return;
         bool isPaused = _crtOverlay.Material == _pausedCrtMaterial;
         if (IsInstanceValid(_loadedScene)
@@ -220,7 +220,6 @@ public sealed partial class AppShell : Control
         _gameScreen.Material.Set("shader_parameter/second_color", color * 0.4f);
     }
     // *-> Update Settings Functions
-    // ! Since these can be called from the SettingsMenu, we may want to move this.
     /// <summary>
     /// Updates audio settings based on the provided data dictionary. The dictionary contains key-value pairs where the key is the setting name and the value is a tuple of (setting value, isEnabled). This function applies the new settings to the AudioManager instance, allowing for real-time updates to audio channels and volume levels.
     /// </summary>
@@ -238,7 +237,7 @@ public sealed partial class AppShell : Control
         GD.Print("App: Audio settings updated successfully.");
     }
     /// <summary>
-    /// Updates user settings based on the provided data dictionary. The dictionary contains key-value pairs where the key is the setting name and the value is a tuple of (setting value, isEnabled). This function can be expanded to apply various user settings such as display options, control mappings, or other preferences as needed. Currently, it serves as a placeholder for future user settings implementations.
+    /// Updates user settings based on the provided data dictionary. The dictionary contains key-value pairs where the key is the setting name and the value is a tuple of (setting value, isEnabled). This function can be expanded to apply various user settings such as display options, control mappings, or other preferences as needed.
     /// </summary>
     /// <param name="data"></param>
     private void UpdateUserSettings(Dictionary<string, (Variant, bool)> data)
