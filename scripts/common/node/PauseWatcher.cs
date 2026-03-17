@@ -11,6 +11,8 @@ public sealed partial class PauseWatcher : Node
     public static PauseWatcher Instance { get; private set; }
     public PauseWatcher()
     {
+        if(Instance != null)
+            return;
         GD.Print("PauseWatcher: Initialized");
         Instance = this;
     }

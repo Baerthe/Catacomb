@@ -6,7 +6,6 @@ using Godot;
 /// Represents a block in the BlockGame that can be hit by the ball.
 /// Handles hit points, color changes, and destruction effects. Blocks must be 24 x 18 px.
 /// </summary>
-[GlobalClass]
 public sealed partial class Block : StaticBody2D
 {
 	public event Action<Block> BlockDestroyed;
@@ -14,8 +13,6 @@ public sealed partial class Block : StaticBody2D
 	[Export] public ColorRect ColorRect { get; private set; }
 	[Export] public GpuParticles2D HitParticles { get; private set; }
 	public byte HitPoints { get; private set; } = 1;
-	public byte XPOS { get; set; } //!!! This is an unsafe way of doing this; Debugging purposes only
-	public byte YPOS { get; set; } //!!! This is an unsafe way of doing this; Debugging purposes only
 	private bool _isDestroyed = false;
 	private float _delta;
 	private static readonly BlockColorMap _blockColorMap = BlockColorMap.Instance;
@@ -63,7 +60,6 @@ public sealed partial class Block : StaticBody2D
 	{
 		HitPoints = hitPoints;
 		byte color = HitPoints > 0 ? HitPoints : (byte)1;
-		GD.Print($"Setting block ({XPOS},{YPOS}) hit points to {HitPoints}, color {color}");
 		ColorRect.Color = _blockColorMap.ColorMap[color];
 		if (!_blockColorMap.ParticleColorMap.ContainsKey(color))
 			_blockColorMap.AddParticleMaterial(color, HitParticles.ProcessMaterial as ParticleProcessMaterial);

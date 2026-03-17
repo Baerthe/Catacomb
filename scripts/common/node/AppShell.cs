@@ -3,6 +3,8 @@ namespace Common;
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+
 /// <summary>
 /// The core game manager responsible for handling game state and transitions. Global Root Node.
 /// Normally we would want some sort of state orchestratior/scene loader, but we will be handling it inline for simplicity.
@@ -11,6 +13,7 @@ public sealed partial class AppShell : Control
 {
     [ExportCategory("References")]
     [ExportGroup("Nodes")]
+    [Export] private DebugMenu _debugMenu;
     [Export] private Control _gameScreen;
     [Export] private Control _loadingScreen;
     [Export] private MainMenu _mainMenu;
@@ -20,9 +23,10 @@ public sealed partial class AppShell : Control
     [Export] private ShaderMaterial _pausedCrtMaterial;
     [Export] private ShaderMaterial _bootCrtMaterial;
     // *-> State Fields
-    private AppState _currentState = AppState.MainMenu;
-    private AppState _priorState = AppState.MainMenu;
+    private AppState _currentState;
+    private AppState _priorState;
     // *-> System References
+    private DebugWatcher _debugWatcher;
     private GameManagers _gameManagers;
     private PauseWatcher _pauseWatcher;
     // *-> Loaded Pack References
@@ -31,22 +35,27 @@ public sealed partial class AppShell : Control
     // *-> Godot Overrides
     public override void _EnterTree()
     {
-        _gameManagers = this.AddNode<GameManagers>("GameManagers");
-        _pauseWatcher = this.AddNode<PauseWatcher>("PauseWatcher");
-        if (_gameManagers == null ||  _pauseWatcher == null)
-            GD.PrintErr("App: Failed to initialize GameManagers, PackRegister, or PauseWatcher. Check _EnterTree method for details.");
+        _gameManagers = this.AddNode<GameManagers>("game_managers");
+        _debugWatcher = this.AddNode<DebugWatcher>("debug_watcher");
+        _pauseWatcher = this.AddNode<PauseWatcher>("pause_watcher");
+        if (_debugWatcher == null || _gameManagers == null ||  _pauseWatcher == null)
+            GD.PrintErr("App: Failed to initialize System Refs Check _EnterTree method for details.");
         else
             GD.Print("App: Successfully initialized AppShell Systems.");
     }
     public override void _Ready()
     {
         // Hook up events
-        _mainMenu.OnStartGame += HandleLoadIntoPack;
+        _mainMenu.OnStartGame += HandleStartGame;
+        _mainMenu.OnRequestScores += HandleRequestScores;
         _mainMenu.OnQuitGame += () => GetTree().Quit();
+        _debugMenu.OnDebugPoints += HandleDebugMenuPoints;
+        _debugWatcher.OnToggleDebug += HandleDebugMenu;
         _gameManagers.Settings.OnSettingsUpdated += HandleSettingsUpdated;
         _pauseWatcher.OnTogglePause += HandleTogglePause;
         // Run start of game functions
         _gameManagers.Settings.LoadData();
+        RequestAppState(AppState.MainMenu   );
     }
     // *-> Private Methods
     /// <summary>
@@ -70,6 +79,7 @@ public sealed partial class AppShell : Control
                 GD.Print("App: Switching to Main Menu.");
                 if (IsInstanceValid(_loadedScene))
                 {
+                    _gameManagers.Score.SaveScores(_loadedPack.GameName);
                     _loadedScene.OnScoreSubmission -= _gameManagers.Score.SubmitScore;
                     _loadedScene.OnRequestPackExit -= () => RequestAppState(AppState.MainMenu);
                     _loadedScene.OnRequestUnpause -= HandleTogglePause;
@@ -101,11 +111,33 @@ public sealed partial class AppShell : Control
         }
     }
     // *-> Event Handlers
+    private void HandleDebugMenu()
+    {
+        _debugMenu.Visible = !_debugMenu.Visible;
+    }
+    private void HandleDebugMenuPoints()
+    {
+        if(_loadedScene != null)
+            _loadedScene.DebugPoints(1000);
+    }
+    /// <summary>
+    /// Handles getting the current score-table.
+    /// </summary>
+    /// <param name="pack"></param>
+    /// <returns></returns>
+    private Godot.Collections.Dictionary<string, uint> HandleRequestScores(GamePack pack)
+    {
+        _gameManagers.Score.LoadScores(pack.GameName);
+        if (_gameManagers.Score.CurrentScores != null)
+            return _gameManagers.Score.CurrentScores;
+        GD.PrintErr($"App: {pack.GameName}'s score table could not be loaded?");
+        return null;
+    }
     /// <summary>
     /// Handles actions to take when a game pack is loaded.
     /// </summary>
     /// <param name="pack">GamePack</param>
-    private void HandleLoadIntoPack(GamePack pack)
+    private void HandleStartGame(GamePack pack)
     {
         GD.Print($"App: Starting game with pack: {pack.GameName}");
         if (pack == null)
@@ -132,7 +164,7 @@ public sealed partial class AppShell : Control
         _loadedScene.OnScoreSubmission += _gameManagers.Score.SubmitScore;
         _loadedScene.OnRequestPackExit += () => RequestAppState(AppState.MainMenu);
         _loadedScene.OnRequestUnpause += HandleTogglePause;
-        _gameManagers.Score.LoadScores(_loadedScene.Name);
+        _gameManagers.Score.LoadScores(pack.GameName);
         RequestAppState(AppState.InPack);
         GD.Print("App: Pack loaded and scene instantiated.");
     }

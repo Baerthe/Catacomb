@@ -160,9 +160,9 @@ offset_bottom = 472.0
 [node name="Label3" type="Label" parent="." unique_id=492523850]
 layout_mode = 0
 offset_left = 72.0
-offset_top = 332.0
+offset_top = 380.0
 offset_right = 264.0
-offset_bottom = 381.0
+offset_bottom = 429.0
 text = "Select a pack and press play."
 label_settings = SubResource("LabelSettings_ls7bi")
 horizontal_alignment = 1
@@ -197,10 +197,9 @@ layout_mode = 0
 offset_left = 72.0
 offset_top = 100.0
 offset_right = 264.0
-offset_bottom = 332.0
+offset_bottom = 380.0
 bbcode_enabled = true
 horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="ColorRect2" type="ColorRect" parent="RichTextLabel" unique_id=352164974]
 show_behind_parent = true

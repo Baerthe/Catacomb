@@ -6,13 +6,12 @@ using Godot;
 /// </summary>
 public sealed class Score
 {
-    public byte CurrentScore { get { return _points; }}
+    public uint CurrentScore { get; private set; }
     private readonly Label _scoreLabel;
-    private byte _points;
     public Score(Label scoreLabel)
     {
         _scoreLabel = scoreLabel;
-        _points = 0;
+        CurrentScore = 0;
         UpdateLabel();
     }
     /// <summary>
@@ -20,7 +19,12 @@ public sealed class Score
     /// </summary>
     public void AddPoint()
     {
-        _points++;
+        CurrentScore++;
+        UpdateLabel();
+    }
+    public void AddPoints(uint points)
+    {
+        CurrentScore += points;
         UpdateLabel();
     }
     /// <summary>
@@ -28,11 +32,11 @@ public sealed class Score
     /// </summary>
     public void Reset()
     {
-        _points = 0;
+        CurrentScore = 0;
         UpdateLabel();
     }
     /// <summary>
     /// Updates the score label with the current points.
     /// </summary>
-    private void UpdateLabel() =>_scoreLabel.Text = _points.ToString("D8");
+    private void UpdateLabel() =>_scoreLabel.Text = CurrentScore.ToString("D8");
 }

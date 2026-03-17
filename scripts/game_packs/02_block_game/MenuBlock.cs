@@ -8,7 +8,7 @@ using System;
 /// </summary>
 public sealed partial class MenuBlock : MenuBase
 {
-    public event Action<PlayerType, int, int, int, Color, Color, int, int> OnGameStart;
+    public event Action<PlayerType, int, int, int, Color, Color, int, uint> OnGameStart;
     public override event Action OnGameCancel;
     public override event Action OnGameQuit;
     [ExportGroup("UI References")]
@@ -72,7 +72,7 @@ public sealed partial class MenuBlock : MenuBase
             _colorPickerPaddle.Color,
             _colorPickerBall.Color,
             (int)_gameTimeSlider.Value,
-            (int)_maxScoreSlider.Value
+            (uint)_maxScoreSlider.Value
         );
     }
 }

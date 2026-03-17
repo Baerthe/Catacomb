@@ -32,7 +32,7 @@ public sealed partial class MainBlock : PackBase
     // *-> Fields
     private int _timeInSeconds = 0;
     private int _maxTimeInSeconds = 9999;
-    private byte _maxScore = 255;
+    private uint _maxScore = 1000000;
     private byte _lives = 3;
     private const byte DefaultLives = 3;
     // *-> Godot Overrides
@@ -75,7 +75,7 @@ public sealed partial class MainBlock : PackBase
     /// <summary>
     /// Starts a new game with the given settings from the menu.
     /// </summary>
-    private void GameStart(PlayerType paddleType, int ballSize, int paddleSize, int paddleSpeed, Color paddleColor, Color ballColor, int gameTime, int maxScore)
+    private void GameStart(PlayerType paddleType, int ballSize, int paddleSize, int paddleSpeed, Color paddleColor, Color ballColor, int gameTime, uint maxScore)
     {
         if (PreviousGameState == GameState.GameOver)
             GameReset();
@@ -90,7 +90,7 @@ public sealed partial class MainBlock : PackBase
         _paddle.ChangeSpeed((uint)paddleSpeed);
         _paddle.AdjustColor(paddleColor);
         _maxTimeInSeconds = gameTime;
-        _maxScore = (byte)maxScore;
+        _maxScore = maxScore;
         _lives = DefaultLives;
         _timeInSeconds = 0;
         Score1.Reset();

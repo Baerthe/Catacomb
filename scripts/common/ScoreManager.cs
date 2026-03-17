@@ -1,5 +1,6 @@
 namespace Common;
 
+using System.Linq;
 using Godot;
 using Godot.Collections;
 /// <summary>
@@ -8,9 +9,9 @@ using Godot.Collections;
 public sealed class ScoreManager
 {
     public Dictionary<string, uint> CurrentScores { get; set; }
-    public string CurrentP1 { get; private set;}
-    public string CurrentP2 { get; private set;}
-    private readonly string _savePath = "user://saves/";
+    public string CurrentP1 { get; private set;} = "test";
+    public string CurrentP2 { get; private set;} = "test";
+    private readonly string _savePath = "user://saves";
     private readonly string _saveFileName = "high.scores";
     private readonly string _section = "High Scores";
     private readonly Dictionary<string, uint> _defaultScores = new()
@@ -27,7 +28,7 @@ public sealed class ScoreManager
     /// <returns>Dictionary of scores keyed by scorer name</returns>
     public void LoadScores(string pack)
     {
-        string fullPath = $"{_savePath}{pack}";
+        string fullPath = $"{_savePath}/{pack}/";
         Dictionary<string, uint> save = [];
         ConfigFile config = new();
         if (config.Load(fullPath + _saveFileName) == Error.Ok)
@@ -36,29 +37,32 @@ public sealed class ScoreManager
             {
                 var playerScore = (uint)config.GetValue(_section, player);
                 save.Add(player, playerScore);
+                if (save != CurrentScores)
+                    {
+                        SaveData(save, config, fullPath, true);
+                        CurrentScores = save;
+                    }
             }
-            CurrentScores = save;
         } else
         {
             GD.Print($"ScoreManager: Score table for {pack} could not be loaded. Creating...");
             SaveData(_defaultScores, config, fullPath);
-            CurrentScores = _defaultScores;
         }
+        save = SortScores(save);
+        CurrentScores = save;
     }
     /// <summary>
     /// Saves scores for the given game pack to a SCORES file. If no file exists, creates a new one. If a file exists, it is overwritten with the new scores.
     /// </summary>
     public void SaveScores(string pack)
     {
-        string fullPath = $"{_savePath}{pack}";
+        string fullPath = $"{_savePath}/{pack}/";
         ConfigFile config = new();
         if (config.Load(fullPath + _saveFileName) == Error.Ok)
             SaveData(CurrentScores, config, fullPath);
         else
-        {
-            GD.Print($"ScoreManager: Score table for {pack} could not be saved! Creating...");
+            GD.PrintErr("ScoreManager: Could not save, creating.");
             SaveData(_defaultScores, config, fullPath);
-        }
     }
     /// <summary>
     /// Submits a new score for a given player. If the player already has a score, it is only updated if the new score is higher. Player parameter is a byte that should be 1 or 2, representing player 1 or player 2 respectively. The score manager uses the CurrentP1 and CurrentP2 properties as keys for the score dictionary, so make sure to update those with UpdateUserName before submitting scores.
@@ -102,15 +106,33 @@ public sealed class ScoreManager
     /// Helper method to save score data to a file.
     /// Casts the score dict to a list to perform easy sorting because godot dict do not support LINQ.
     /// </summary>
-    private void SaveData(Dictionary<string, uint> scores, ConfigFile config, string fullPath)
+    private void SaveData(Dictionary<string, uint> scores, ConfigFile config, string fullPath, bool silent = false)
     {
+        var dir = DirAccess.Open(fullPath.GetBaseDir());
+        if (dir == null)
+            DirAccess.MakeDirRecursiveAbsolute(fullPath);
         System.Collections.Generic.List<(string, uint)> sortedScores = [];
         foreach (var score in scores)
             sortedScores.Add((score.Key, score.Value));
         sortedScores.Sort((a, b) => b.Item2.CompareTo(a.Item2));
-        sortedScores.RemoveRange(5, sortedScores.Count - 5);
+        if (sortedScores.Count > 5)
+            sortedScores.RemoveRange(5, sortedScores.Count - 5);
         foreach (var (player, score) in sortedScores)
             config.SetValue(_section, player, score);
         config.Save(fullPath + _saveFileName);
+        if (!silent)
+            GD.Print($"ScoreManager: Saved {sortedScores.Count} scores to {fullPath}{_saveFileName}");
+    }
+    /// <summary>
+    /// Sorts the dict of scores.
+    /// </summary>
+    private Dictionary<string, uint> SortScores(Dictionary<string, uint> scores)
+    {
+        var listedScores = scores.ToList();
+        listedScores.Sort((pair1, pair2) => pair2.Value.CompareTo(pair1.Value));
+        var result = new Dictionary<string, uint>();
+        foreach (var (key, value) in listedScores)
+            result[key] = value;
+        return result;
     }
 }

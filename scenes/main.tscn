@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://ccce834d2pe1k" path="res://assets/CRTTilemap.png" id="6_tipki"]
 [ext_resource type="Shader" uid="uid://guwwspca7qgl" path="res://assets/shaders/background.gdshader" id="6_ya4ey"]
 [ext_resource type="Material" uid="uid://dl7asqj8k5uhf" path="res://assets/shaders/materials/background_ink.material" id="8_choun"]
+[ext_resource type="PackedScene" uid="uid://dr0qjbwkaaxfd" path="res://scenes/debug_menu.tscn" id="9_85g3d"]
 [ext_resource type="PackedScene" uid="uid://cu0i6qu07l5x2" path="res://scenes/main_menu.tscn" id="10_choun"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_eb6dy"]
@@ -28,7 +29,7 @@ shader_parameter/frame_limit = 40.0000018525
 atlas = ExtResource("6_tipki")
 region = Rect2(128, 0, 224, 152)
 
-[node name="AppShell" type="Control" unique_id=1154646228 node_paths=PackedStringArray("_gameScreen", "_loadingScreen", "_mainMenu", "_crtOverlay")]
+[node name="AppShell" type="Control" unique_id=1154646228 node_paths=PackedStringArray("_debugMenu", "_gameScreen", "_loadingScreen", "_mainMenu", "_crtOverlay")]
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
@@ -38,6 +39,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("2_o6xl0")
+_debugMenu = NodePath("crt/game_screen/debug_menu")
 _gameScreen = NodePath("crt/game_screen")
 _loadingScreen = NodePath("crt/game_screen/loading_screen")
 _mainMenu = NodePath("crt/game_screen/main_menu")
@@ -112,13 +114,32 @@ offset_bottom = -480.0
 scale = Vector2(2, 2)
 metadata/_edit_lock_ = true
 
+[node name="debug_menu" parent="crt/game_screen" unique_id=723254092 instance=ExtResource("9_85g3d")]
+visible = false
+top_level = true
+z_index = 1000
+z_as_relative = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -639.0
+offset_top = -480.0
+offset_right = -639.0
+offset_bottom = -480.0
+scale = Vector2(2, 2)
+
 [node name="loading_screen" type="Control" parent="crt/game_screen" unique_id=70546353]
 visible = false
+z_index = 10
 anchors_preset = 0
 offset_right = 160.0
 offset_bottom = 192.0
 
 [node name="crt_overlay" type="ColorRect" parent="crt" unique_id=1995530114]
+z_index = 15
 material = ExtResource("3_tbgi4")
 layout_mode = 1
 anchors_preset = -1
