@@ -12,14 +12,17 @@ public sealed class SettingsManager
     public (Sectional , Dictionary<string, (Variant, bool)>) AudioSettings { get; private set;}
     = (Sectional.Audio ,new()
     {
-        { "Channel1", (0.9f, true)},
-        { "Channel2", (0.7f, true)},
-        { "ChannelMusic", (0.6f, true)},
+        { "Channel1", (0.9f, true) },
+        { "Channel2", (0.7f, true) },
+        { "ChannelMusic", (0.6f, true) },
     });
     public (Sectional , Dictionary<string, (Variant, bool)>) UserSettings { get; private set;}
     = (Sectional.User ,new()
     {
-        { "Username", ("Player", true)},
+        { "Username", ("Player", true) },
+        { "ResolutionX", (1920, true) },
+        { "ResolutionY", (1080, true) },
+        { "ScreenSet", (0, true)}
     });
     private readonly ConfigFile _configFile;
     private readonly string _configPath = "user://settings/";
