@@ -1,7 +1,7 @@
 namespace Common;
 
-using System;
 using Godot;
+using System.Collections.Generic;
 /// <summary>
 /// The menu which handles settings.
 /// </summary>
@@ -32,7 +32,6 @@ public sealed partial class SettingsMenu : MenuBase
     [Export] private OptionButton _baseSizeOptionButton;
     [Export] private OptionButton _stretchAspectOptionButton;
     [Export] private OptionButton _stretchModeOptionButton;
-    [Export] private OptionButton _guiAspectRatioOptionButton;
     [Export] private HSlider _scaleFactorSlider;
     [Export] private Label _scaleFactorValueLabel;
     private float _guiAspectRatio = -1.0f;
@@ -41,7 +40,6 @@ public sealed partial class SettingsMenu : MenuBase
         _channel1Vol.ValueChanged += (double value) => _channel1Label.Text = value.ToString();
         _channel2Vol.ValueChanged += (double value) => _channel2Label.Text = value.ToString();
         _channel3Vol.ValueChanged += (double value) => _channel3Label.Text = value.ToString();
-        _guiAspectRatioOptionButton.ItemSelected += HandleGuiAspectRatioItemSelected;
         _baseSizeOptionButton.ItemSelected += HandleWindowBaseSizeItemSelected;
         _stretchModeOptionButton.ItemSelected += HandleWindowStretchModeItemSelected;
         _stretchAspectOptionButton.ItemSelected += HandleWindowStretchAspectItemSelected;
@@ -101,7 +99,7 @@ public sealed partial class SettingsMenu : MenuBase
                 _stretchModeOptionButton.Select(modeData.Item1.AsInt32());
             if (userDict.TryGetValue("StretchAspect", out var aspectData))
                 _stretchAspectOptionButton.Select(aspectData.Item1.AsInt32());
-            GameManagers.Instance.Settings.ApplyWindowSettings(GetWindow());
+            GameManagers.Instance.Window.ApplyWindowSettings(userDict);
         } else
             {
                 GD.PrintErr("Settings Menu: Failed to map user settings.");
@@ -109,30 +107,20 @@ public sealed partial class SettingsMenu : MenuBase
             }
         return Error.Ok;
     }
-    private void UpdateSetting(string key, Variant value)
+    private void UpdateSetting(Sectional section, string key, Variant value, bool enabled = true)
     {
-        var settingsDict = GameManagers.Instance.Settings.UserSettings.Item2;
-        settingsDict[key] = (value, settingsDict.ContainsKey(key) ? settingsDict[key].Item2 : true);
-        GameManagers.Instance.Settings.SaveData(Sectional.User, settingsDict);
-    }
-    private void HandleGuiAspectRatioItemSelected(long index)
-    {
-        switch (index)
+        Dictionary<string, (Variant, bool)> settingsDict = null;
+        switch (section)
         {
-            case 0: _guiAspectRatio = -1.0f; break;
-            case 1: _guiAspectRatio = 5.0f / 4.0f; break;
-            case 2: _guiAspectRatio = 4.0f / 3.0f; break;
-            case 3: _guiAspectRatio = 3.0f / 2.0f; break;
-            case 4: _guiAspectRatio = 16.0f / 10.0f; break;
-            case 5: _guiAspectRatio = 16.0f / 9.0f; break;
-            case 6: _guiAspectRatio = 21.0f / 9.0f; break;
+            case Sectional.Audio: settingsDict = GameManagers.Instance.Settings.UserSettings.Item2; break;
         }
-        UpdateSetting("GuiAspectRatio", _guiAspectRatio);
-        Callable.From(GameManagers.Instance.Window.UpdateContainer).CallDeferred();
-    }
-    private void HandleResized()
-    {
-        Callable.From(GameManagers.Instance.Window.UpdateContainer).CallDeferred();
+        if (settingsDict == null)
+        {
+            GD.PrintErr($"Settings Menu: Cannot update settings,{section} dict not found.");
+            return;
+        }
+        settingsDict[key] = (value, settingsDict.ContainsKey(key) ? settingsDict[key].Item2 : enabled);
+        GameManagers.Instance.Settings.SaveData(section, settingsDict);
     }
     private void HandleWindowBaseSizeItemSelected(long index)
     {

@@ -20,9 +20,9 @@ public sealed class SettingsManager
     = (Sectional.User ,new()
     {
         { "Username", ("Player", true) },
-        { "Resolution", (new Vector2(1152,648), true) },
-        { "StretchMode", ((byte)Window.ContentScaleModeEnum.CanvasItems, true) },
-        { "StretchAspect", ((byte)Window.ContentScaleAspectEnum.Expand, true) },
+        { "Resolution", (new Vector2(1920,1080), true) },
+        { "StretchMode", ((long)Window.ContentScaleModeEnum.CanvasItems, true) },
+        { "StretchAspect", ((long)Window.ContentScaleAspectEnum.Expand, true) },
         { "ScaleFactor", (1.0f, true) },
         { "GuiAspectRatio", (-1.0f, true) },
     });
@@ -68,22 +68,6 @@ public sealed class SettingsManager
             SaveData(AudioSettings.Item1, AudioSettings.Item2);
             SaveData(UserSettings.Item1, UserSettings.Item2);
         }
-    }
-    /// <summary>
-    /// Applies the loaded window and display settings to the specified Window.
-    /// </summary>
-    public void ApplyWindowSettings(Window window)
-    {
-        if (UserSettings.Item2.TryGetValue("Resolution", out var resolutionData))
-            window.ContentScaleSize = (Vector2I)resolutionData.Item1.AsVector2();
-        if (UserSettings.Item2.TryGetValue("StretchMode", out var stretchModeData))
-            window.ContentScaleMode = (Window.ContentScaleModeEnum)stretchModeData.Item1.AsByte();
-        if (UserSettings.Item2.TryGetValue("StretchAspect", out var stretchAspectData))
-            window.ContentScaleAspect = (Window.ContentScaleAspectEnum)stretchAspectData.Item1.AsSingle();
-        if (UserSettings.Item2.TryGetValue("ScaleFactor", out var scaleFactorData))
-            window.ContentScaleFactor = scaleFactorData.Item1.AsSingle();
-        if (UserSettings.Item2.TryGetValue("ScreenSet", out var screenSetData))
-            window.ContentScaleStretch = (Window.ContentScaleStretchEnum)screenSetData.Item1.AsByte();
     }
     /// <summary>
     /// Saves settings to the config file and updates the relevant properties.
