@@ -20,9 +20,11 @@ public sealed class SettingsManager
     = (Sectional.User ,new()
     {
         { "Username", ("Player", true) },
-        { "ResolutionX", (1920, true) },
-        { "ResolutionY", (1080, true) },
-        { "ScreenSet", (0, true)}
+        { "Resolution", (new Vector2(1152,648), true) },
+        { "StretchMode", ((byte)Window.ContentScaleModeEnum.CanvasItems, true) },
+        { "StretchAspect", ((byte)Window.ContentScaleAspectEnum.Expand, true) },
+        { "ScaleFactor", (1.0f, true) },
+        { "GuiAspectRatio", (-1.0f, true) },
     });
     private readonly ConfigFile _configFile;
     private readonly string _configPath = "user://settings/";
@@ -66,6 +68,22 @@ public sealed class SettingsManager
             SaveData(AudioSettings.Item1, AudioSettings.Item2);
             SaveData(UserSettings.Item1, UserSettings.Item2);
         }
+    }
+    /// <summary>
+    /// Applies the loaded window and display settings to the specified Window.
+    /// </summary>
+    public void ApplyWindowSettings(Window window)
+    {
+        if (UserSettings.Item2.TryGetValue("Resolution", out var resolutionData))
+            window.ContentScaleSize = (Vector2I)resolutionData.Item1.AsVector2();
+        if (UserSettings.Item2.TryGetValue("StretchMode", out var stretchModeData))
+            window.ContentScaleMode = (Window.ContentScaleModeEnum)stretchModeData.Item1.AsByte();
+        if (UserSettings.Item2.TryGetValue("StretchAspect", out var stretchAspectData))
+            window.ContentScaleAspect = (Window.ContentScaleAspectEnum)stretchAspectData.Item1.AsSingle();
+        if (UserSettings.Item2.TryGetValue("ScaleFactor", out var scaleFactorData))
+            window.ContentScaleFactor = scaleFactorData.Item1.AsSingle();
+        if (UserSettings.Item2.TryGetValue("ScreenSet", out var screenSetData))
+            window.ContentScaleStretch = (Window.ContentScaleStretchEnum)screenSetData.Item1.AsByte();
     }
     /// <summary>
     /// Saves settings to the config file and updates the relevant properties.

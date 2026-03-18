@@ -7,7 +7,7 @@ using System.Collections.Generic;
 /// The core game manager responsible for handling game state and transitions. Global Root Node.
 /// Normally we would want some sort of state orchestratior/scene loader, but we will be handling it inline for simplicity.
 /// </summary>
-public sealed partial class AppShell : Control
+public sealed partial class AppShell : AspectRatioContainer
 {
     [ExportCategory("References")]
     [ExportGroup("Scenes")]
@@ -170,7 +170,7 @@ public sealed partial class AppShell : Control
         }
         _gameScreen.AddChild(_loadedScene);
         _loadedScene.Scale = new Vector2(2f, 2f);
-        _loadedScene.Position = _gameScreen.Position;
+        _loadedScene.Position = _gameScreen.Position + new Vector2(-64f, -64f);
         _loadedScene.OnScoreSubmission += _gameManagers.Score.SubmitScore;
         _loadedScene.OnRequestPackExit += () => RequestAppState(AppState.MainMenu);
         _loadedScene.OnRequestUnpause += HandleTogglePause;
