@@ -25,6 +25,19 @@ public sealed partial class SettingsMenu : MenuBase
     [Export] private OptionButton _stretchModeOptionButton;
     [Export] private HSlider _scaleFactorSlider;
     [Export] private Label _scaleFactorValueLabel;
+    private Vector2[] _baseWindowSizes = {
+            new Vector2(640, 480),      // 4:3
+            new Vector2(800, 600),      // 4:3
+            new Vector2(1024, 768),     // 4:3
+            new Vector2(1280, 960),     // 4:3
+            new Vector2(1280, 720),     // 16:9
+            new Vector2(1366, 768),     // 16:9
+            new Vector2(1600, 900),     // 16:9
+            new Vector2(1920, 1080),    // 16:9
+            new Vector2(2560, 1440),    // 16:9
+            new Vector2(2560, 1080),    // 21:9
+            new Vector2(3440, 1440),    // 21:9
+    };
     protected override void ConnectControlEvents()
     {
         _channel1Vol.ValueChanged += (double value) => _channel1Label.Text = value.ToString();
@@ -71,23 +84,21 @@ public sealed partial class SettingsMenu : MenuBase
                 _nameEnrty.Text = userName.Item1.AsString();
             if (userDict.TryGetValue("Resolution", out var resolutionData))
             {
-                var r = resolutionData.Item1.AsVector2();
-                byte idx = 0;
-                if (r == new Vector2(648, 648)) idx = 0;
-                else if (r == new Vector2(640, 480)) idx = 1;
-                else if (r == new Vector2(720, 480)) idx = 2;
-                else if (r == new Vector2(800, 600)) idx = 3;
-                else if (r == new Vector2(1152, 648)) idx = 4;
-                else if (r == new Vector2(1280, 720)) idx = 5;
-                else if (r == new Vector2(1280, 800)) idx = 6;
-                else if (r == new Vector2(1680, 720)) idx = 7;
-                _baseSizeOptionButton.Select(idx);
+                foreach (var size in _baseWindowSizes)
+                    _baseSizeOptionButton.AddItem($"{(int)size.X}x{(int)size.Y}");
+                var index = resolutionData.Item1.AsVector2();
+                int selectedIndex = 0;
+                for (int i = 0; i < _baseWindowSizes.Length; i++)
+                {
+                    if (_baseWindowSizes[i] == index)
+                        {selectedIndex = i; break; }
+                }
+                _baseSizeOptionButton.Select(selectedIndex);
             }
             if (userDict.TryGetValue("StretchMode", out var modeData))
                 _stretchModeOptionButton.Select(modeData.Item1.AsInt32());
             if (userDict.TryGetValue("StretchAspect", out var aspectData))
                 _stretchAspectOptionButton.Select(aspectData.Item1.AsInt32());
-            GameManagers.Instance.Window.ApplyWindowSettings(userDict);
         } else
             {
                 GD.PrintErr("Settings Menu: Failed to map user settings.");
@@ -124,23 +135,7 @@ public sealed partial class SettingsMenu : MenuBase
     /// <param name="index"></param>
     private void HandleWindowBaseSizeItemSelected(long index)
     {
-        Vector2 baseWindowSize = new Vector2(1920, 1080);
-        baseWindowSize = index switch
-        {
-            0 => new Vector2(640, 480),      // 4:3
-            1 => new Vector2(800, 600),      // 4:3
-            2 => new Vector2(1024, 768),     // 4:3
-            3 => new Vector2(1280, 960),     // 4:3
-            4 => new Vector2(1280, 720),     // 16:9
-            5 => new Vector2(1366, 768),     // 16:9
-            6 => new Vector2(1600, 900),     // 16:9
-            7 => new Vector2(1920, 1080),    // 16:9
-            8 => new Vector2(2560, 1440),    // 16:9
-            9 => new Vector2(2560, 1080),    // 21:9
-            10 => new Vector2(3440, 1440),   // 21:9
-            _ => baseWindowSize
-        };
-        GetWindow().ContentScaleSize = (Vector2I)baseWindowSize;
+        Vector2 baseWindowSize = _baseWindowSizes[index];
         UpdateSetting(Sectional.User, "Resolution", baseWindowSize);
     }
     /// <summary>
@@ -150,7 +145,6 @@ public sealed partial class SettingsMenu : MenuBase
     private void HandleWindowStretchModeItemSelected(long index)
     {
         var stretchMode = (Window.ContentScaleModeEnum)index;
-        GetWindow().ContentScaleMode = stretchMode;
         if (_baseSizeOptionButton != null) _baseSizeOptionButton.Disabled = stretchMode == Window.ContentScaleModeEnum.Disabled;
         if (_stretchAspectOptionButton != null) _stretchAspectOptionButton.Disabled = stretchMode == Window.ContentScaleModeEnum.Disabled;
         UpdateSetting(Sectional.User, "StretchMode", (int)stretchMode);
@@ -162,7 +156,6 @@ public sealed partial class SettingsMenu : MenuBase
     private void HandleWindowStretchAspectItemSelected(long index)
     {
         var stretchAspect = (Window.ContentScaleAspectEnum)index;
-        GetWindow().ContentScaleAspect = stretchAspect;
         UpdateSetting(Sectional.User, "StretchAspect", (int)stretchAspect);
     }
     /// <summary>
@@ -174,7 +167,6 @@ public sealed partial class SettingsMenu : MenuBase
         var scaleFactor = (float)_scaleFactorSlider.Value;
         if (_scaleFactorValueLabel != null)
             _scaleFactorValueLabel.Text = $"{(int)(scaleFactor * 100)}%";
-        GetWindow().ContentScaleFactor = scaleFactor;
         UpdateSetting(Sectional.User, "ScaleFactor", scaleFactor);
     }
 }

@@ -236,12 +236,24 @@ public sealed partial class AppShell : AspectRatioContainer
     {
         GD.Print("App: Updating audio settings.");
         var audioInstance = _gameManagers.Audio;
-        audioInstance.SetAudioAllowed(1, data["Channel1"].Item2);
-        audioInstance.SetAudioAllowed(2, data["Channel2"].Item2);
-        audioInstance.SetAudioAllowed(3, data["ChannelMusic"].Item2);
-        audioInstance.SetChannelVolume(1, (float)data["Channel1"].Item1);
-        audioInstance.SetChannelVolume(2, (float)data["Channel2"].Item1);
-        audioInstance.SetChannelVolume(3, (float)data["ChannelMusic"].Item1);
+        if (data.TryGetValue("Channel1", out var channel1Data))
+        {
+            audioInstance.SetAudioAllowed(1, channel1Data.Item2);
+            audioInstance.SetChannelVolume(1, (float)channel1Data.Item1);
+            GD.Print($"App: Audio settings updated - Channel 1 volume set to {(float)channel1Data.Item1}, Allowed: {channel1Data.Item2}");
+        }
+        if (data.TryGetValue("Channel2", out var channel2Data))
+        {
+            audioInstance.SetAudioAllowed(2, channel2Data.Item2);
+            audioInstance.SetChannelVolume(2, (float)channel2Data.Item1);
+            GD.Print($"App: Audio settings updated - Channel 2 volume set to {(float)channel2Data.Item1}, Allowed: {channel2Data.Item2}");
+        }
+        if (data.TryGetValue("ChannelMusic", out var channelMusicData))
+        {
+            audioInstance.SetAudioAllowed(3, channelMusicData.Item2);
+            audioInstance.SetChannelVolume(3, (float)channelMusicData.Item1);
+            GD.Print($"App: Audio settings updated - Channel Music volume set to {(float)channelMusicData.Item1}, Allowed: {channelMusicData.Item2}");
+        }
         GD.Print("App: Audio settings updated successfully.");
     }
     /// <summary>
@@ -251,7 +263,35 @@ public sealed partial class AppShell : AspectRatioContainer
     private void UpdateUserSettings(Dictionary<string, (Variant, bool)> data)
     {
         GD.Print("App: Updating user settings.");
-        var settingsInstance = _gameManagers.Settings;
+        if (data.TryGetValue("Username", out var userName))
+        {
+            GameManagers.Instance.Score.CurrentP1 = userName.Item1.AsString();
+            GD.Print($"App: User settings updated - Username set to {userName.Item1.AsString()}");
+        }
+        if (data.TryGetValue("Resolution", out var resolutionData))
+        {
+            var resolution = resolutionData.Item1.AsVector2();
+            GameManagers.Instance.Window.ApplyWindowSettings(data);
+            GD.Print($"App: User settings updated - Resolution set to {resolution.X}x{resolution.Y}");
+        }
+        if (data.TryGetValue("StretchMode", out var stretchModeData))
+        {
+            var stretchMode = (Window.ContentScaleModeEnum)stretchModeData.Item1.AsByte();
+            GameManagers.Instance.Window.ApplyWindowSettings(data);
+            GD.Print($"App: User settings updated - Stretch Mode set to {stretchMode}");
+        }
+        if (data.TryGetValue("StretchAspect", out var stretchAspectData))
+        {
+            var stretchAspect = (Window.ContentScaleAspectEnum)stretchAspectData.Item1.AsByte();
+            GameManagers.Instance.Window.ApplyWindowSettings(data);
+            GD.Print($"App: User settings updated - Stretch Aspect set to {stretchAspect}");
+        }
+        if (data.TryGetValue("ScaleFactor", out var scaleFactorData))
+        {
+            var scaleFactor = scaleFactorData.Item1.AsSingle();
+            GameManagers.Instance.Window.ApplyWindowSettings(data);
+            GD.Print($"App: User settings updated - Scale Factor set to {scaleFactor}");
+        }
         GD.Print("App: User settings updated successfully,");
     }
 }
