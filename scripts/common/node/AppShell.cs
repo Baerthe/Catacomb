@@ -3,8 +3,6 @@ namespace Common;
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-
 /// <summary>
 /// The core game manager responsible for handling game state and transitions. Global Root Node.
 /// Normally we would want some sort of state orchestratior/scene loader, but we will be handling it inline for simplicity.
@@ -12,12 +10,13 @@ using System.Diagnostics;
 public sealed partial class AppShell : Control
 {
     [ExportCategory("References")]
+    [ExportGroup("Scenes")]
+    [Export] private PackedScene _mainMenuScene;
+    [Export] private PackedScene _settingsMenuScene;
     [ExportGroup("Nodes")]
     [Export] private DebugMenu _debugMenu;
     [Export] private Control _gameScreen;
     [Export] private Control _loadingScreen;
-    [Export] private MainMenu _mainMenu;
-    [Export] private SettingsMenu _settingsMenu;
     [Export] private Control _crtOverlay;
     [ExportGroup("Shaders")]
     [Export] private ShaderMaterial _defaultCrtMaterial;
@@ -30,9 +29,11 @@ public sealed partial class AppShell : Control
     private DebugWatcher _debugWatcher;
     private GameManagers _gameManagers;
     private PauseWatcher _pauseWatcher;
-    // *-> Loaded Pack References
+    // *-> Loaded References
     private GamePack _loadedPack;
     private PackBase _loadedScene;
+    private MainMenu _mainMenu;
+    private SettingsMenu _settingsMenu;
     // *-> Godot Overrides
     public override void _EnterTree()
     {
@@ -46,7 +47,14 @@ public sealed partial class AppShell : Control
     }
     public override void _Ready()
     {
+        _mainMenu = _gameScreen.InstanceScene(_mainMenuScene) as MainMenu;
+        _settingsMenu = _gameScreen.InstanceScene(_settingsMenuScene) as SettingsMenu;
         _settingsMenu.Visible = false;
+        Vector2 placement = _gameScreen.Position + new Vector2(-64f, -64f);
+        _mainMenu.Scale = new Vector2(2f, 2f);
+        _mainMenu.Position = placement;
+        _settingsMenu.Scale = new Vector2(2f, 2f);
+        _settingsMenu.Position = placement;
         // Hook up events
         _mainMenu.OnStartGame += HandleStartGame;
         _mainMenu.OnSettingsToggle += () => _settingsMenu.Visible = !_settingsMenu.Visible;
@@ -58,7 +66,7 @@ public sealed partial class AppShell : Control
         _pauseWatcher.OnTogglePause += HandleTogglePause;
         // Run start of game functions
         _gameManagers.Settings.LoadData();
-        RequestAppState(AppState.MainMenu   );
+        RequestAppState(AppState.MainMenu);
     }
     // *-> Private Methods
     /// <summary>
@@ -162,7 +170,7 @@ public sealed partial class AppShell : Control
         }
         _gameScreen.AddChild(_loadedScene);
         _loadedScene.Scale = new Vector2(2f, 2f);
-        _loadedScene.Position = _loadingScreen.Position;
+        _loadedScene.Position = _gameScreen.Position;
         _loadedScene.OnScoreSubmission += _gameManagers.Score.SubmitScore;
         _loadedScene.OnRequestPackExit += () => RequestAppState(AppState.MainMenu);
         _loadedScene.OnRequestUnpause += HandleTogglePause;

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c3lck2cuuntgh"]
 
 [ext_resource type="Script" uid="uid://b2rpfmxa0l35n" path="res://scripts/common/node/AppShell.cs" id="2_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://cblhhvjnkxakm" path="res://scenes/settings_menu.tscn" id="3_choun"]
 [ext_resource type="Material" uid="uid://dwde0rpeqm4to" path="res://assets/shaders/materials/crt_paused.material" id="3_tbgi4"]
 [ext_resource type="Material" uid="uid://sx1446vh40q" path="res://assets/shaders/materials/crt_boot.material" id="5_o6xl0"]
 [ext_resource type="Material" uid="uid://jeo74wvqtm8q" path="res://assets/shaders/materials/crt_default.material" id="6_tefeu"]
@@ -29,7 +30,7 @@ shader_parameter/frame_limit = 40.0000018525
 atlas = ExtResource("6_tipki")
 region = Rect2(128, 0, 224, 152)
 
-[node name="AppShell" type="Control" unique_id=1154646228 node_paths=PackedStringArray("_debugMenu", "_gameScreen", "_loadingScreen", "_mainMenu", "_crtOverlay")]
+[node name="AppShell" type="Control" unique_id=1154646228 node_paths=PackedStringArray("_debugMenu", "_gameScreen", "_loadingScreen", "_crtOverlay")]
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
@@ -39,10 +40,11 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("2_o6xl0")
+_mainMenuScene = ExtResource("10_choun")
+_settingsMenuScene = ExtResource("3_choun")
 _debugMenu = NodePath("crt/game_screen/debug_menu")
 _gameScreen = NodePath("crt/game_screen")
 _loadingScreen = NodePath("crt/game_screen/loading_screen")
-_mainMenu = NodePath("crt/game_screen/main_menu")
 _crtOverlay = NodePath("crt/crt_overlay")
 _defaultCrtMaterial = ExtResource("6_tefeu")
 _pausedCrtMaterial = ExtResource("3_tbgi4")
@@ -99,20 +101,6 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 color = Color(0, 0.096179135, 0.07974955, 1)
-
-[node name="main_menu" parent="crt/game_screen" unique_id=571779155 instance=ExtResource("10_choun")]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -640.0
-offset_top = -480.0
-offset_right = -640.0
-offset_bottom = -480.0
-scale = Vector2(2, 2)
-metadata/_edit_lock_ = true
 
 [node name="debug_menu" parent="crt/game_screen" unique_id=723254092 instance=ExtResource("9_85g3d")]
 visible = false

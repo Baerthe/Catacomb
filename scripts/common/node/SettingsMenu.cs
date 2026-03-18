@@ -10,10 +10,13 @@ public sealed partial class SettingsMenu : MenuBase
     // TODO: SettingsMenu will send data into SettingsManager which raises an update settings event. This is because the settings being changed are spread throughout.
     //?
     [Export] private HSlider _channel1Vol;
+    [Export] private CheckBox _channel1Enabled;
     [Export] private Label _channel1Label;
     [Export] private HSlider _channel2Vol;
+    [Export] private CheckBox _channel2Enabled;
     [Export] private Label _channel2Label;
     [Export] private HSlider _channel3Vol;
+    [Export] private CheckBox _channel3Enabled;
     [Export] private Label _channel3Label;
     [Export] private TextEdit _nameEnrty;
     [Export] private PopupMenu _resolutionDrop;
@@ -40,8 +43,11 @@ public sealed partial class SettingsMenu : MenuBase
         if (audioDict != null)
         {
             _channel1Vol.Value = (double)audioDict["Channel1"].Item1;
+            _channel1Enabled.ToggleMode = (bool)audioDict["Channel1"].Item2;
             _channel2Vol.Value = (double)audioDict["Channel2"].Item1;
+            _channel2Enabled.ToggleMode = (bool)audioDict["Channel2"].Item2;
             _channel3Vol.Value = (double)audioDict["ChannelMusic"].Item1;
+            _channel3Enabled.ToggleMode = (bool)audioDict["ChannelMusic"].Item2;
         } else
             {
                 GD.PrintErr("Settings Menu: Failed to map audio settings.");
@@ -49,6 +55,7 @@ public sealed partial class SettingsMenu : MenuBase
             }
         if (userDict != null)
         {
+            _nameEnrty.Text = (string)userDict["Username"].Item1;
             
         } else
             {

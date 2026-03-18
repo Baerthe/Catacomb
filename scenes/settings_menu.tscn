@@ -1,0 +1,92 @@
+[gd_scene format=3 uid="uid://cblhhvjnkxakm"]
+
+[ext_resource type="Theme" uid="uid://cvl1c748wxqaw" path="res://assets/resources/theme.theme" id="1_n35ux"]
+[ext_resource type="Script" uid="uid://buhs4ex76dafu" path="res://scripts/common/node/SettingsMenu.cs" id="2_labj1"]
+[ext_resource type="Texture2D" uid="uid://ccce834d2pe1k" path="res://assets/CRTTilemap.png" id="7_puhno"]
+[ext_resource type="Texture2D" uid="uid://hcvexgajy5rj" path="res://assets/resources/main_atlas.tres" id="8_75x6d"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jk1qb"]
+atlas = ExtResource("7_puhno")
+region = Rect2(0, 240, 380, 52)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ls7bi"]
+line_spacing = 0.0
+font_size = 18
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5dd4i"]
+atlas = ExtResource("8_75x6d")
+region = Rect2(493, 357, 16, 16)
+
+[node name="SettingsMenu" type="Control" unique_id=571779155]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1920.0
+offset_bottom = -1080.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_n35ux")
+script = ExtResource("2_labj1")
+
+[node name="Control" type="Control" parent="." unique_id=1387742698]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Background" type="ColorRect" parent="Control" unique_id=991319134]
+z_index = -20
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 480.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="Control" unique_id=1103122086]
+layout_mode = 0
+offset_left = 288.0
+offset_top = 64.0
+offset_right = 496.0
+offset_bottom = 480.0
+color = Color(0.39118537, 0.39118534, 0.39118534, 1)
+
+[node name="ColorRect" type="ColorRect" parent="Control" unique_id=725651765]
+layout_mode = 0
+offset_top = 61.0
+offset_right = 640.0
+offset_bottom = 65.0
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1765269462]
+layout_mode = 1
+offset_left = 128.0
+offset_top = 5.0
+offset_right = 508.0
+offset_bottom = 57.0
+texture = SubResource("AtlasTexture_jk1qb")
+
+[node name="Label" type="Label" parent="." unique_id=1637504747]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 20.0
+offset_right = 632.0
+offset_bottom = 84.0
+text = "Main Menu"
+label_settings = SubResource("LabelSettings_ls7bi")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ButtonPlay" type="Button" parent="." unique_id=1960407308]
+layout_mode = 0
+offset_left = 496.0
+offset_top = 78.0
+offset_right = 640.0
+offset_bottom = 146.0
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 0.23529412)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 0.98039216)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 0.78431374)
+theme_override_font_sizes/font_size = 32
+text = "Play"
+icon = SubResource("AtlasTexture_5dd4i")
+flat = true
+icon_alignment = 1
+expand_icon = true
