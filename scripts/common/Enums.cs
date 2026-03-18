@@ -22,7 +22,7 @@ public enum GameOverReason : byte {Player1Lost, Player1Won, TimeUp, ScoreLimitRe
 /// <summary>
 /// Game Settings section enum
 /// </summary>
-public enum Sectional : byte {Audio, User}
+public enum Sectional : byte {None, Audio, User}
 /// <summary>
 /// Screen settings.
 /// </summary>

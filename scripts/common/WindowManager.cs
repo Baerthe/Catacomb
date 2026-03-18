@@ -25,5 +25,6 @@ public sealed class WindowManager
             _window.ContentScaleFactor = scaleFactorData.Item1.AsSingle();
         if (dict.TryGetValue("ScreenSet", out var screenSetData))
             _window.ContentScaleStretch = (Window.ContentScaleStretchEnum)screenSetData.Item1.AsByte();
+        GD.Print($"Window Manager: Updated to {resolutionData}, {stretchModeData}, {stretchAspectData}, {scaleFactorData}, {screenSetData}");
     }
 }

@@ -24,7 +24,6 @@ public sealed class SettingsManager
         { "StretchMode", ((long)Window.ContentScaleModeEnum.CanvasItems, true) },
         { "StretchAspect", ((long)Window.ContentScaleAspectEnum.Expand, true) },
         { "ScaleFactor", (1.0f, true) },
-        { "GuiAspectRatio", (-1.0f, true) },
     });
     private readonly ConfigFile _configFile;
     private readonly string _configPath = "user://settings/";
@@ -58,6 +57,7 @@ public sealed class SettingsManager
                 {
                     case Sectional.Audio: AudioSettings = (section, sectionDict); break;
                     case Sectional.User: UserSettings = (section, sectionDict); break;
+                    default: GD.PrintErr($"Settings Manager: Unknown section '{section}'"); break;
                 }
             }
             OnSettingsUpdated?.Invoke(AudioSettings);
@@ -83,12 +83,14 @@ public sealed class SettingsManager
         {
             case Sectional.Audio: AudioSettings = (section, data); break;
             case Sectional.User: UserSettings = (section, data); break;
+            default: GD.PrintErr($"Settings Manager: Unknown section '{section}'"); break;
         }
         CommitData();
         var dict = section switch
         {
             Sectional.Audio => AudioSettings,
             Sectional.User => UserSettings,
+            _ => (Sectional.None, new Dictionary<string, (Variant, bool)>())
         };
         OnSettingsUpdated?.Invoke(dict);
     }
