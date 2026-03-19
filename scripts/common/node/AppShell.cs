@@ -53,11 +53,10 @@ public sealed partial class AppShell : Control
         _mainMenu = _gameScreen.InstanceScene(_mainMenuScene) as MainMenu;
         //_settingsMenu = _gameScreen.InstanceScene(_settingsMenuScene) as SettingsMenu;
         //_settingsMenu.Visible = false;
-        Vector2 placement = _gameScreen.Position + new Vector2(-64f, -64f);
         _mainMenu.Scale = new Vector2(2f, 2f);
-        _mainMenu.Position = placement;
+        _mainMenu.Position = _gameScreen.Position;
         //_settingsMenu.Scale = new Vector2(2f, 2f);
-        //_settingsMenu.Position = placement;
+        //_settingsMenu.Position = _gameScreen.Position;
         _mainMenu.OnStartGame += HandleStartGame;
        // _mainMenu.OnSettingsToggle += () => _settingsMenu.Visible = !_settingsMenu.Visible;
         _mainMenu.OnRequestScores += HandleRequestScores;
@@ -171,7 +170,7 @@ public sealed partial class AppShell : Control
         }
         _gameScreen.AddChild(_loadedScene);
         _loadedScene.Scale = new Vector2(2f, 2f);
-        _loadedScene.Position = _gameScreen.Position + new Vector2(-64f, -64f);
+        _loadedScene.Position = _gameScreen.Position;
         _loadedScene.OnScoreSubmission += _gameManagers.Score.SubmitScore;
         _loadedScene.OnRequestPackExit += () => RequestAppState(AppState.MainMenu);
         _loadedScene.OnRequestUnpause += HandleTogglePause;

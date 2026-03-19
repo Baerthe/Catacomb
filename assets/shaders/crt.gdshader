@@ -15,7 +15,7 @@ uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 uniform sampler2D reflection_texture : hint_default_black;
 uniform sampler2D smudge_texture : hint_default_black, filter_linear_mipmap;
 
-uniform vec2 resolution = vec2(1240.0, 960.0);
+uniform vec2 resolution = vec2(1280.0, 960.0);
 
 uniform float warp_amount :hint_range(0.0, 5.0) = 0.1;
 uniform float noise_amount :hint_range(0.0, 0.3) = 0.03;
@@ -24,7 +24,7 @@ uniform float interference_amount :hint_range(0.0, 1.0) = 0.2;
 uniform float grille_amount :hint_range(0.0, 1.0) = 0.1;
 uniform float grille_size :hint_range(1.0, 5.0) = 1.0;
 
-uniform float vignette_amount :hint_range(0.0, 2.0) = 0.6;
+uniform float vignette_amount :hint_range(0.0, 2.0) = 0.9;
 uniform float vignette_intensity : hint_range(0.0, 1.0) = 0.4;
 uniform float aberation_amount :hint_range(0.0, 1.0) = 0.25;
 
@@ -34,21 +34,22 @@ uniform float roll_speed :hint_range(-8.0, 8.0) = 1.0;
 uniform float scan_line_amount :hint_range(0.0, 0.5) = 0.05;
 uniform float scan_line_strength :hint_range(-12.0, -1.0) = -8.0;
 
-uniform float pixel_strength :hint_range(-4.0, 0.0) = -2.0;
+uniform float pixel_size :hint_range(1.0, 8.0) = 2.0;
+uniform float pixel_strength :hint_range(-4.0, -0.1) = -0.5;
+uniform float color_bleeding :hint_range(0.0, 1.0) = 0.8;
 uniform float bloom_threshold :hint_range(0.0, 1.0) = 0.124;
 uniform float bloom_multiplier :hint_range(0.0, 5.0) = 0.45;
 uniform float bloom_radius :hint_range(0, 5.0) = 1.2;
 
 uniform float border_grille_amount :hint_range(0.0, 0.2) = 0.03;
-uniform float border_feather :hint_range(0.001, 0.04) = 0.004;
+uniform float border_feather :hint_range(0.001, 0.08) = 0.01;
 uniform float border_black_level :hint_range(0.0, 0.8) = 0.0;
-uniform float border_width :hint_range(0.0, 0.08) = 0.02;
+uniform float border_width :hint_range(-0.08, 0.08) = -0.015;
 uniform float border_corner_radius :hint_range(0.0, 0.2) = 0.035;
 
 uniform float reflection_strength :hint_range(0.0, 1.0) = 0.12;
 uniform float reflection_curve_boost :hint_range(0.0, 2.0) = 0.9;
 uniform vec2 reflection_scale = vec2(1.1, 1.1);
-uniform vec2 reflection_drift = vec2(0.0, 0.0);
 uniform float smudge_amount :hint_range(0.0, 1.0) = 0.5;
 
 float random(vec2 uv){
@@ -81,16 +82,21 @@ vec2 Dist(vec2 pos){
 
 float Gaus(float pos, float scale){ return exp2(scale * pos * pos); }
 
-vec3 Horz3(vec2 pos, float off, vec2 screen_uv_origin, vec2 ratio){
-	vec3 b = fetch_pixel(pos, vec2(-1.0, off), screen_uv_origin, ratio);
-	vec3 c = fetch_pixel(pos, vec2( 0.0, off), screen_uv_origin, ratio);
-	vec3 d = fetch_pixel(pos, vec2( 1.0, off), screen_uv_origin, ratio);
+vec3 Horz5(vec2 pos, float off, vec2 screen_uv_origin, vec2 ratio){
+	vec3 a = fetch_pixel(pos, vec2(-2.0 * pixel_size, off), screen_uv_origin, ratio);
+	vec3 b = fetch_pixel(pos, vec2(-1.0 * pixel_size, off), screen_uv_origin, ratio);
+	vec3 c = fetch_pixel(pos, vec2( 0.0 * pixel_size, off), screen_uv_origin, ratio);
+	vec3 d = fetch_pixel(pos, vec2( 1.0 * pixel_size, off), screen_uv_origin, ratio);
+	vec3 e = fetch_pixel(pos, vec2( 2.0 * pixel_size, off), screen_uv_origin, ratio);
 	float dst = Dist(pos).x;
 	float scale = pixel_strength;
-	float wb = Gaus(dst - 1.0, scale);
-	float wc = Gaus(dst + 0.0, scale);
-	float wd = Gaus(dst + 1.0, scale);
-	return (b * wb + c * wc + d * wd) / (wb + wc + wd);
+	float bleed = color_bleeding * 1.5 * (-2.0 / pixel_strength);
+	float wa = Gaus(dst - 2.0 + bleed, scale);
+	float wb = Gaus(dst - 1.0 + bleed, scale);
+	float wc = Gaus(dst + 0.0 + bleed, scale);
+	float wd = Gaus(dst + 1.0 + bleed, scale);
+	float we = Gaus(dst + 2.0 + bleed, scale);
+	return (a * wa + b * wb + c * wc + d * wd + e * we) / (wa + wb + wc + wd + we);
 }
 
 float Scan(vec2 pos, float off){
@@ -99,8 +105,7 @@ float Scan(vec2 pos, float off){
 }
 
 vec3 Tri(vec2 pos, vec2 screen_uv_origin, vec2 ratio){
-	vec3 clr = fetch_pixel(pos, vec2(0.0), screen_uv_origin, ratio);
-	return clr;
+	return Horz5(pos, 0.0, screen_uv_origin, ratio);
 }
 
 vec2 warp(vec2 uv){

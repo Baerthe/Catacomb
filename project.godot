@@ -24,6 +24,7 @@ boot_splash/image="uid://b6sx1dgolhf5a"
 config/icon="uid://b6sx1dgolhf5a"
 
 [display]
+window/subwindows/embed_subwindows=true
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080

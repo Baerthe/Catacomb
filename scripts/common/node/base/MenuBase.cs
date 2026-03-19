@@ -1,6 +1,7 @@
 namespace Common;
 
 using Godot;
+using System.Collections.Generic;
 /// <summary>
 /// The base class for Control node Menus. Adds access to the managers and sounds.
 /// </summary>
@@ -15,7 +16,32 @@ public abstract partial class MenuBase : Control
     protected AudioManager AudioManager { get; private set;} = GameManagers.Instance.Audio;
     protected ScoreManager ScoreManager { get; private set;} = GameManagers.Instance.Score;
     protected SettingsManager SettingsManager { get; private set;} = GameManagers.Instance.Settings;
+
+    // *-> State Tracking
+    private readonly List<ColorPickerButton> _colorPickers = new();
+    private readonly List<OptionButton> _optionButtons = new();
+
     // *-> Godot Overrides
+    public override void _Input(InputEvent @event)
+    {
+        if (!Visible) return;
+        if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
+        {
+            Vector2 globalPos = mouseEvent.GlobalPosition;
+            foreach (var picker in _colorPickers)
+            {
+                if (picker.GetGlobalRect().HasPoint(globalPos)) continue;
+                var popup = picker.GetPopup();
+                if (popup.Visible) popup.Hide();
+            }
+            foreach (var option in _optionButtons)
+            {
+                if (option.GetGlobalRect().HasPoint(globalPos)) continue;
+                PopupMenu popup = option.GetPopup();
+                if (popup.Visible) popup.Hide();
+            }
+        }
+    }
     public override void _EnterTree()
     {
         VisibilityChanged += () =>
@@ -65,10 +91,16 @@ public abstract partial class MenuBase : Control
     /// <param name="node"></param>
     private void ConnectButtonsRecursive(Node node)
     {
-        foreach (Node button in node.GetChildren(true))
-            if (button is Button)
-                ((Button)button).Pressed += () => OnAnyButtonPressed(button as Button);
-            else if (button is Control)
-                ConnectButtonsRecursive(button);
+        foreach (Node child in node.GetChildren(true))
+        {
+            if (child is Button button)
+                button.Pressed += () => OnAnyButtonPressed(button);
+            if (child is ColorPickerButton colorPicker)
+                _colorPickers.Add(colorPicker);
+            else if (child is OptionButton optionButton)
+                _optionButtons.Add(optionButton);
+            if (child is Control)
+                ConnectButtonsRecursive(child);
+        }
     }
 }

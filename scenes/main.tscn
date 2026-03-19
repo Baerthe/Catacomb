@@ -45,9 +45,9 @@ grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("2_o6xl0")
 _mainMenuScene = ExtResource("10_choun")
-_debugMenu = NodePath("crt/game_screen/debug_menu")
-_gameScreen = NodePath("crt/game_screen")
-_loadingScreen = NodePath("crt/game_screen/loading_screen")
+_debugMenu = NodePath("crt/SubViewportContainer/SubViewport/debug_menu")
+_gameScreen = NodePath("crt/SubViewportContainer/SubViewport/game_screen")
+_loadingScreen = NodePath("crt/SubViewportContainer/SubViewport/loading_screen")
 _crtOverlay = NodePath("crt/crt_overlay")
 _defaultCrtMaterial = ExtResource("6_tefeu")
 _pausedCrtMaterial = ExtResource("3_tbgi4")
@@ -72,10 +72,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -703.0303
-offset_top = -543.75
-offset_right = 703.0303
-offset_bottom = 543.75
+offset_left = -704.51514
+offset_top = -544.375
+offset_right = 704.51514
+offset_bottom = 543.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
@@ -88,61 +88,73 @@ patch_margin_bottom = 68
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
 
-[node name="game_screen" type="ColorRect" parent="crt" unique_id=1650678906]
-z_index = -10
-material = ExtResource("8_choun")
-clip_contents = true
+[node name="SubViewportContainer" type="SubViewportContainer" parent="crt" unique_id=1296617]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -639.0303
-offset_top = -479.75
-offset_right = 640.9697
-offset_bottom = 480.25
+offset_left = -640.0
+offset_top = -480.0
+offset_right = 640.0
+offset_bottom = 480.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="crt/SubViewportContainer" unique_id=212737128]
+disable_3d = true
+handle_input_locally = false
+use_hdr_2d = true
+canvas_item_default_texture_filter = 0
+gui_embed_subwindows = true
+size = Vector2i(1280, 960)
+render_target_update_mode = 4
+
+[node name="game_screen" type="ColorRect" parent="crt/SubViewportContainer/SubViewport" unique_id=1650678906]
+z_index = -10
+material = ExtResource("8_choun")
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 color = Color(0, 0.096179135, 0.07974955, 1)
 
-[node name="debug_menu" parent="crt/game_screen" unique_id=723254092 instance=ExtResource("9_85g3d")]
+[node name="debug_menu" parent="crt/SubViewportContainer/SubViewport" unique_id=723254092 instance=ExtResource("9_85g3d")]
 visible = false
 top_level = true
 z_index = 1000
 z_as_relative = false
+offset_right = 0.0
+offset_bottom = 0.0
+scale = Vector2(2, 2)
+
+[node name="loading_screen" type="Control" parent="crt/SubViewportContainer/SubViewport" unique_id=70546353]
+visible = false
+z_index = 10
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="crt_overlay" type="ColorRect" parent="crt" unique_id=1995530114]
+z_index = 16
+material = ExtResource("3_tbgi4")
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -639.0
+offset_left = -640.0
 offset_top = -480.0
-offset_right = -639.0
-offset_bottom = -480.0
-scale = Vector2(2, 2)
-
-[node name="loading_screen" type="Control" parent="crt/game_screen" unique_id=70546353]
-visible = false
-z_index = 10
-anchors_preset = 0
-offset_right = 160.0
-offset_bottom = 192.0
-
-[node name="crt_overlay" type="ColorRect" parent="crt" unique_id=1995530114]
-z_index = 16
-material = ExtResource("3_tbgi4")
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 64.0
-offset_top = 64.0
-offset_right = -64.00586
-offset_bottom = -63.9375
+offset_right = 640.0
+offset_bottom = 480.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-metadata/_edit_lock_ = true
