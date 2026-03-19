@@ -1,11 +1,11 @@
-namespace TemplateGame;
+namespace FrogGame;
 
 using Godot;
 using Common;
-public sealed partial class TemplateMain : PackBase
+public sealed partial class FrogMain : PackBase
 {
     [ExportGroup("References")]
-    [Export] private TemplateMenu _menu;
+    [Export] private FrogMenu _menu;
     // *-> Godot Overrides
     public override void _Ready()
     {

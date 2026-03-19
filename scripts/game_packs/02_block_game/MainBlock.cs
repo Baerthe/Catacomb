@@ -53,10 +53,6 @@ public sealed partial class MainBlock : PackBase
             _ball.ToggleEnable();
     }
     // *-> Game Methods
-    protected override void Tick()
-    {
-        // block is pretty simple and does not use per-frame logic.
-    }
     protected override void GameReset()
     {
         _gameTimer.Stop();
