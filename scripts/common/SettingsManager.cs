@@ -44,6 +44,7 @@ public sealed class SettingsManager
             var sections = Enum.GetValues<Sectional>();
             foreach (var section in sections)
             {
+                if (!_configFile.HasSection(section.ToString())) continue;
                 var sectionDict = new Dictionary<string, (Variant, bool)>();
                 var keys = _configFile.GetSectionKeys(section.ToString());
                 foreach (var key in keys)

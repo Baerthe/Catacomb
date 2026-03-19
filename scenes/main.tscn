@@ -1,15 +1,19 @@
 [gd_scene format=3 uid="uid://c3lck2cuuntgh"]
 
 [ext_resource type="Script" uid="uid://b2rpfmxa0l35n" path="res://scripts/common/node/AppShell.cs" id="2_o6xl0"]
-[ext_resource type="PackedScene" uid="uid://cblhhvjnkxakm" path="res://scenes/settings_menu.tscn" id="3_choun"]
 [ext_resource type="Material" uid="uid://dwde0rpeqm4to" path="res://assets/shaders/materials/crt_paused.material" id="3_tbgi4"]
 [ext_resource type="Material" uid="uid://sx1446vh40q" path="res://assets/shaders/materials/crt_boot.material" id="5_o6xl0"]
+[ext_resource type="Texture2D" uid="uid://6inbdykg2lhy" path="res://assets/cursor_tilemap.png" id="6_choun"]
 [ext_resource type="Material" uid="uid://jeo74wvqtm8q" path="res://assets/shaders/materials/crt_default.material" id="6_tefeu"]
 [ext_resource type="Texture2D" uid="uid://ccce834d2pe1k" path="res://assets/CRTTilemap.png" id="6_tipki"]
 [ext_resource type="Shader" uid="uid://guwwspca7qgl" path="res://assets/shaders/background.gdshader" id="6_ya4ey"]
 [ext_resource type="Material" uid="uid://dl7asqj8k5uhf" path="res://assets/shaders/materials/background_ink.material" id="8_choun"]
 [ext_resource type="PackedScene" uid="uid://dr0qjbwkaaxfd" path="res://scenes/debug_menu.tscn" id="9_85g3d"]
 [ext_resource type="PackedScene" uid="uid://cu0i6qu07l5x2" path="res://scenes/main_menu.tscn" id="10_choun"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_choun"]
+atlas = ExtResource("6_choun")
+region = Rect2(224, 128, 32, 32)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_eb6dy"]
 resource_local_to_scene = true
@@ -41,7 +45,6 @@ grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("2_o6xl0")
 _mainMenuScene = ExtResource("10_choun")
-_settingsMenuScene = ExtResource("3_choun")
 _debugMenu = NodePath("crt/game_screen/debug_menu")
 _gameScreen = NodePath("crt/game_screen")
 _loadingScreen = NodePath("crt/game_screen/loading_screen")
@@ -49,6 +52,7 @@ _crtOverlay = NodePath("crt/crt_overlay")
 _defaultCrtMaterial = ExtResource("6_tefeu")
 _pausedCrtMaterial = ExtResource("3_tbgi4")
 _bootCrtMaterial = ExtResource("5_o6xl0")
+_cursorTexture = SubResource("AtlasTexture_choun")
 
 [node name="backdrop" type="ColorRect" parent="." unique_id=2068144816]
 z_index = -10
@@ -61,6 +65,7 @@ color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
 
 [node name="crt" type="NinePatchRect" parent="." unique_id=544969234]
+z_index = 15
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -127,7 +132,7 @@ offset_right = 160.0
 offset_bottom = 192.0
 
 [node name="crt_overlay" type="ColorRect" parent="crt" unique_id=1995530114]
-z_index = 15
+z_index = 16
 material = ExtResource("3_tbgi4")
 layout_mode = 1
 anchors_preset = -1

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 /// The core game manager responsible for handling game state and transitions. Global Root Node.
 /// Normally we would want some sort of state orchestratior/scene loader, but we will be handling it inline for simplicity.
 /// </summary>
-public sealed partial class AppShell : AspectRatioContainer
+public sealed partial class AppShell : Control
 {
     [ExportCategory("References")]
     [ExportGroup("Scenes")]
@@ -22,6 +22,8 @@ public sealed partial class AppShell : AspectRatioContainer
     [Export] private ShaderMaterial _defaultCrtMaterial;
     [Export] private ShaderMaterial _pausedCrtMaterial;
     [Export] private ShaderMaterial _bootCrtMaterial;
+    [ExportGroup("Cursor")]
+    [Export] private AtlasTexture _cursorTexture;
     // *-> State Fields
     private AppState _currentState;
     private AppState _priorState;
@@ -47,25 +49,24 @@ public sealed partial class AppShell : AspectRatioContainer
     }
     public override void _Ready()
     {
+        _gameManagers.Settings.LoadData();
         _mainMenu = _gameScreen.InstanceScene(_mainMenuScene) as MainMenu;
-        _settingsMenu = _gameScreen.InstanceScene(_settingsMenuScene) as SettingsMenu;
-        _settingsMenu.Visible = false;
+        //_settingsMenu = _gameScreen.InstanceScene(_settingsMenuScene) as SettingsMenu;
+        //_settingsMenu.Visible = false;
         Vector2 placement = _gameScreen.Position + new Vector2(-64f, -64f);
         _mainMenu.Scale = new Vector2(2f, 2f);
         _mainMenu.Position = placement;
-        _settingsMenu.Scale = new Vector2(2f, 2f);
-        _settingsMenu.Position = placement;
-        // Hook up events
+        //_settingsMenu.Scale = new Vector2(2f, 2f);
+        //_settingsMenu.Position = placement;
         _mainMenu.OnStartGame += HandleStartGame;
-        _mainMenu.OnSettingsToggle += () => _settingsMenu.Visible = !_settingsMenu.Visible;
+       // _mainMenu.OnSettingsToggle += () => _settingsMenu.Visible = !_settingsMenu.Visible;
         _mainMenu.OnRequestScores += HandleRequestScores;
         _mainMenu.OnQuitGame += () => GetTree().Quit();
         _debugMenu.OnDebugPoints += HandleDebugMenuPoints;
         _debugWatcher.OnToggleDebug += HandleDebugMenu;
         _gameManagers.Settings.OnSettingsUpdated += HandleSettingsUpdated;
         _pauseWatcher.OnTogglePause += HandleTogglePause;
-        // Run start of game functions
-        _gameManagers.Settings.LoadData();
+        _gameManagers.Window.SetCustomCursor(_cursorTexture, _gameScreen);
         RequestAppState(AppState.MainMenu);
     }
     // *-> Private Methods

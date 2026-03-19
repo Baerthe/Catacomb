@@ -39,3 +39,4 @@ Music is Composed and produced by Marllon Silva (xDeviruchi), All the music of t
 - [Digital Audio](https://www.kenney.nl/assets/digital-audio)
 - [Fonts](https://www.kenney.nl/assets/kenney-fonts)
 - [1-bit Pack](https://www.kenney.nl/assets/1-bit-pack), colors edited.
+- [Pixel Curosr Pack](https://www.kenney.nl/assets/cursor-pixel-pack)
