@@ -1,0 +1,250 @@
+[gd_scene format=3 uid="uid://cblhhvjnkxakm"]
+
+[ext_resource type="Theme" uid="uid://cvl1c748wxqaw" path="res://assets/resources/theme.theme" id="1_n35ux"]
+[ext_resource type="Script" uid="uid://buhs4ex76dafu" path="res://scripts/common/node/SettingsMenu.cs" id="2_labj1"]
+[ext_resource type="Resource" uid="uid://82c405m6a7o5" path="res://assets/resources/audio/button_click.tres" id="3_bgjg7"]
+[ext_resource type="Resource" uid="uid://cdkf66qayxsd5" path="res://assets/resources/audio/menu_open.tres" id="4_48ojb"]
+[ext_resource type="Texture2D" uid="uid://ccce834d2pe1k" path="res://assets/CRTTilemap.png" id="7_puhno"]
+[ext_resource type="Texture2D" uid="uid://hcvexgajy5rj" path="res://assets/resources/main_atlas.tres" id="8_75x6d"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jk1qb"]
+atlas = ExtResource("7_puhno")
+region = Rect2(0, 240, 380, 52)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ls7bi"]
+line_spacing = 0.0
+font_size = 18
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5dd4i"]
+atlas = ExtResource("8_75x6d")
+region = Rect2(663, 357, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_labj1"]
+atlas = ExtResource("8_75x6d")
+region = Rect2(493, 357, 16, 16)
+
+[node name="SettingsMenu" type="Control" unique_id=571779155 node_paths=PackedStringArray("_channel1Vol", "_channel1Enabled", "_channel1Label", "_channel2Vol", "_channel2Enabled", "_channel2Label", "_channel3Vol", "_channel3Enabled", "_channel3Label", "_nameEnrty", "_applyButton", "_cancelButton", "_baseSizeOptionButton", "_stretchAspectOptionButton", "_stretchModeOptionButton", "_scaleFactorSlider", "_scaleFactorValueLabel")]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1920.0
+offset_bottom = -1080.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_n35ux")
+script = ExtResource("2_labj1")
+_channel1Vol = NodePath("VBoxContainer/Audio/C1/Vol")
+_channel1Enabled = NodePath("VBoxContainer/Audio/C1/Enabled")
+_channel1Label = NodePath("VBoxContainer/Audio/C1/Label")
+_channel2Vol = NodePath("VBoxContainer/Audio/C2/Vol")
+_channel2Enabled = NodePath("VBoxContainer/Audio/C2/Enabled")
+_channel2Label = NodePath("VBoxContainer/Audio/C2/Label")
+_channel3Vol = NodePath("VBoxContainer/Audio/C3/Vol")
+_channel3Enabled = NodePath("VBoxContainer/Audio/C3/Enabled")
+_channel3Label = NodePath("VBoxContainer/Audio/C3/Label")
+_nameEnrty = NodePath("VBoxContainer/User/NameEntry")
+_applyButton = NodePath("ButtonApply")
+_cancelButton = NodePath("ButtonCancel")
+_baseSizeOptionButton = NodePath("VBoxContainer/Window/BaseSize")
+_stretchAspectOptionButton = NodePath("VBoxContainer/Window/StretchAspect")
+_stretchModeOptionButton = NodePath("VBoxContainer/Window/StretchMode")
+_scaleFactorSlider = NodePath("VBoxContainer/Window/ScaleFactor/Slider")
+_scaleFactorValueLabel = NodePath("VBoxContainer/Window/ScaleFactor/Label")
+SfxButtonPress = ExtResource("3_bgjg7")
+SfxMenuOpen = ExtResource("4_48ojb")
+
+[node name="Control" type="Control" parent="." unique_id=1387742698]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Background" type="ColorRect" parent="Control" unique_id=991319134]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 480.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="Control" unique_id=1103122086]
+layout_mode = 0
+offset_left = 288.0
+offset_top = 64.0
+offset_right = 496.0
+offset_bottom = 480.0
+color = Color(0.39118537, 0.39118534, 0.39118534, 1)
+
+[node name="ColorRect" type="ColorRect" parent="Control" unique_id=725651765]
+layout_mode = 0
+offset_top = 61.0
+offset_right = 640.0
+offset_bottom = 65.0
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1765269462]
+layout_mode = 1
+offset_left = 128.0
+offset_top = 5.0
+offset_right = 508.0
+offset_bottom = 57.0
+texture = SubResource("AtlasTexture_jk1qb")
+
+[node name="Label" type="Label" parent="." unique_id=1637504747]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 20.0
+offset_right = 632.0
+offset_bottom = 84.0
+text = "Settings"
+label_settings = SubResource("LabelSettings_ls7bi")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ButtonCancel" type="Button" parent="." unique_id=1960407308]
+layout_mode = 0
+offset_left = 496.0
+offset_top = 412.0
+offset_right = 640.0
+offset_bottom = 480.0
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 0.23529412)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 0.98039216)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 0.78431374)
+theme_override_font_sizes/font_size = 32
+text = "Close"
+icon = SubResource("AtlasTexture_5dd4i")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="ButtonApply" type="Button" parent="." unique_id=275023922]
+layout_mode = 0
+offset_left = 496.0
+offset_top = 340.0
+offset_right = 640.0
+offset_bottom = 408.0
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 0.23529412)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 0.98039216)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 0.78431374)
+theme_override_font_sizes/font_size = 32
+text = "Apply"
+icon = SubResource("AtlasTexture_labj1")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1358687774]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 76.0
+offset_right = 576.0
+offset_bottom = 396.0
+theme_override_constants/separation = 10
+
+[node name="Audio" type="VBoxContainer" parent="VBoxContainer" unique_id=713487652]
+layout_mode = 2
+
+[node name="Header" type="Label" parent="VBoxContainer/Audio" unique_id=1176555577]
+layout_mode = 2
+text = "Audio Settings"
+
+[node name="C1" type="HBoxContainer" parent="VBoxContainer/Audio" unique_id=501891787]
+layout_mode = 2
+
+[node name="Enabled" type="CheckBox" parent="VBoxContainer/Audio/C1" unique_id=1177335136]
+layout_mode = 2
+text = "CH1"
+
+[node name="Vol" type="HSlider" parent="VBoxContainer/Audio/C1" unique_id=1548204127]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.01
+
+[node name="Label" type="Label" parent="VBoxContainer/Audio/C1" unique_id=2009878113]
+layout_mode = 2
+text = "1.0"
+
+[node name="C2" type="HBoxContainer" parent="VBoxContainer/Audio" unique_id=1033862624]
+layout_mode = 2
+
+[node name="Enabled" type="CheckBox" parent="VBoxContainer/Audio/C2" unique_id=1194513879]
+layout_mode = 2
+text = "CH2"
+
+[node name="Vol" type="HSlider" parent="VBoxContainer/Audio/C2" unique_id=1621358849]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.01
+
+[node name="Label" type="Label" parent="VBoxContainer/Audio/C2" unique_id=9997313]
+layout_mode = 2
+text = "1.0"
+
+[node name="C3" type="HBoxContainer" parent="VBoxContainer/Audio" unique_id=1649444692]
+layout_mode = 2
+
+[node name="Enabled" type="CheckBox" parent="VBoxContainer/Audio/C3" unique_id=804318498]
+layout_mode = 2
+text = "Music"
+
+[node name="Vol" type="HSlider" parent="VBoxContainer/Audio/C3" unique_id=601328400]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.01
+
+[node name="Label" type="Label" parent="VBoxContainer/Audio/C3" unique_id=563203443]
+layout_mode = 2
+text = "1.0"
+
+[node name="User" type="VBoxContainer" parent="VBoxContainer" unique_id=367097141]
+layout_mode = 2
+
+[node name="Header" type="Label" parent="VBoxContainer/User" unique_id=303809343]
+layout_mode = 2
+text = "User Settings"
+
+[node name="NameEntry" type="TextEdit" parent="VBoxContainer/User" unique_id=145073934]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+text = "Player"
+
+[node name="Window" type="HBoxContainer" parent="VBoxContainer" unique_id=1775102460]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="BaseSize" type="OptionButton" parent="VBoxContainer/Window" unique_id=565110939]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StretchAspect" type="OptionButton" parent="VBoxContainer/Window" unique_id=632851959]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StretchMode" type="OptionButton" parent="VBoxContainer/Window" unique_id=1705661331]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ScaleFactor" type="HBoxContainer" parent="VBoxContainer/Window" unique_id=129226745]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelHeader" type="Label" parent="VBoxContainer/Window/ScaleFactor" unique_id=24319518]
+layout_mode = 2
+text = "Scale"
+
+[node name="Slider" type="HSlider" parent="VBoxContainer/Window/ScaleFactor" unique_id=288444859]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = 0.5
+max_value = 3.0
+step = 0.1
+value = 1.0
+
+[node name="Label" type="Label" parent="VBoxContainer/Window/ScaleFactor" unique_id=1805763323]
+layout_mode = 2
+text = "100%"

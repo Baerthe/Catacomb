@@ -3,8 +3,6 @@ namespace Common;
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-
 /// <summary>
 /// The core game manager responsible for handling game state and transitions. Global Root Node.
 /// Normally we would want some sort of state orchestratior/scene loader, but we will be handling it inline for simplicity.
@@ -12,16 +10,20 @@ using System.Diagnostics;
 public sealed partial class AppShell : Control
 {
     [ExportCategory("References")]
+    [ExportGroup("Scenes")]
+    [Export] private PackedScene _mainMenuScene;
+    [Export] private PackedScene _settingsMenuScene;
     [ExportGroup("Nodes")]
     [Export] private DebugMenu _debugMenu;
     [Export] private Control _gameScreen;
     [Export] private Control _loadingScreen;
-    [Export] private MainMenu _mainMenu;
     [Export] private Control _crtOverlay;
     [ExportGroup("Shaders")]
     [Export] private ShaderMaterial _defaultCrtMaterial;
     [Export] private ShaderMaterial _pausedCrtMaterial;
     [Export] private ShaderMaterial _bootCrtMaterial;
+    [ExportGroup("Cursor")]
+    [Export] private AtlasTexture _cursorTexture;
     // *-> State Fields
     private AppState _currentState;
     private AppState _priorState;
@@ -29,11 +31,13 @@ public sealed partial class AppShell : Control
     private DebugWatcher _debugWatcher;
     private GameManagers _gameManagers;
     private PauseWatcher _pauseWatcher;
-    // *-> Loaded Pack References
+    // *-> Loaded References
     private GamePack _loadedPack;
     private PackBase _loadedScene;
+    private MainMenu _mainMenu;
+    private SettingsMenu _settingsMenu;
     // *-> Godot Overrides
-    public override void _EnterTree()
+    public override void _Ready()
     {
         _gameManagers = this.AddNode<GameManagers>("game_managers");
         _debugWatcher = this.AddNode<DebugWatcher>("debug_watcher");
@@ -42,20 +46,24 @@ public sealed partial class AppShell : Control
             GD.PrintErr("App: Failed to initialize System Refs Check _EnterTree method for details.");
         else
             GD.Print("App: Successfully initialized AppShell Systems.");
-    }
-    public override void _Ready()
-    {
-        // Hook up events
+        _gameManagers.Settings.LoadData();
+        _mainMenu = _gameScreen.InstanceScene(_mainMenuScene) as MainMenu;
+        _settingsMenu = _gameScreen.InstanceScene(_settingsMenuScene) as SettingsMenu;
+        _settingsMenu.Visible = false;
+        _mainMenu.Scale = new Vector2(2f, 2f);
+        _mainMenu.Position = _gameScreen.Position;
+        _settingsMenu.Scale = new Vector2(2f, 2f);
+        _settingsMenu.Position = _gameScreen.Position;
         _mainMenu.OnStartGame += HandleStartGame;
+        _mainMenu.OnSettingsToggle += () => _settingsMenu.Visible = !_settingsMenu.Visible;
         _mainMenu.OnRequestScores += HandleRequestScores;
         _mainMenu.OnQuitGame += () => GetTree().Quit();
         _debugMenu.OnDebugPoints += HandleDebugMenuPoints;
         _debugWatcher.OnToggleDebug += HandleDebugMenu;
         _gameManagers.Settings.OnSettingsUpdated += HandleSettingsUpdated;
         _pauseWatcher.OnTogglePause += HandleTogglePause;
-        // Run start of game functions
-        _gameManagers.Settings.LoadData();
-        RequestAppState(AppState.MainMenu   );
+        _gameManagers.Window.SetCustomCursor(_cursorTexture, _gameScreen);
+        RequestAppState(AppState.MainMenu);
     }
     // *-> Private Methods
     /// <summary>
@@ -88,7 +96,6 @@ public sealed partial class AppShell : Control
                 } else
                     GD.Print("App: No existing game scene to free. Proceeding to main menu.");
                 _mainMenu.Visible = true;
-                _mainMenu.MenuLoad();
                 _loadingScreen.Visible = false;
                 SetBackgroundColor(Colors.Red);
                 break;
@@ -160,7 +167,7 @@ public sealed partial class AppShell : Control
         }
         _gameScreen.AddChild(_loadedScene);
         _loadedScene.Scale = new Vector2(2f, 2f);
-        _loadedScene.Position = _loadingScreen.Position;
+        _loadedScene.Position = _gameScreen.Position;
         _loadedScene.OnScoreSubmission += _gameManagers.Score.SubmitScore;
         _loadedScene.OnRequestPackExit += () => RequestAppState(AppState.MainMenu);
         _loadedScene.OnRequestUnpause += HandleTogglePause;
@@ -194,7 +201,7 @@ public sealed partial class AppShell : Control
     /// </summary>
     private void HandleTogglePause()
     {
-        if (_currentState == AppState.MainMenu || _currentState == AppState.Loading) 
+        if (_currentState == AppState.MainMenu || _currentState == AppState.Loading)
             return;
         bool isPaused = _crtOverlay.Material == _pausedCrtMaterial;
         if (IsInstanceValid(_loadedScene)
@@ -214,10 +221,10 @@ public sealed partial class AppShell : Control
     private void SetBackgroundColor(Color color)
     {
         _gameScreen.Material.Set("shader_parameter/main_color", color);
-        _gameScreen.Material.Set("shader_parameter/second_color", color * 0.4f);
+        _gameScreen.Material.Set("shader_parameter/second_color", color * 0.6f);
+        _gameScreen.Material.Set("shader_paremeter/back_color", color * 0.3f);
     }
     // *-> Update Settings Functions
-    // ! Since these can be called from the SettingsMenu, we may want to move this.
     /// <summary>
     /// Updates audio settings based on the provided data dictionary. The dictionary contains key-value pairs where the key is the setting name and the value is a tuple of (setting value, isEnabled). This function applies the new settings to the AudioManager instance, allowing for real-time updates to audio channels and volume levels.
     /// </summary>
@@ -226,22 +233,62 @@ public sealed partial class AppShell : Control
     {
         GD.Print("App: Updating audio settings.");
         var audioInstance = _gameManagers.Audio;
-        audioInstance.SetAudioAllowed(1, data["Channel1"].Item2);
-        audioInstance.SetAudioAllowed(2, data["Channel2"].Item2);
-        audioInstance.SetAudioAllowed(3, data["ChannelMusic"].Item2);
-        audioInstance.SetChannelVolume(1, (float)data["Channel1"].Item1);
-        audioInstance.SetChannelVolume(2, (float)data["Channel2"].Item1);
-        audioInstance.SetChannelVolume(3, (float)data["ChannelMusic"].Item1);
+        if (data.TryGetValue("Channel1", out var channel1Data))
+        {
+            audioInstance.SetAudioAllowed(1, channel1Data.Item2);
+            audioInstance.SetChannelVolume(1, (float)channel1Data.Item1);
+            GD.Print($"App: Audio settings updated - Channel 1 volume set to {(float)channel1Data.Item1}, Allowed: {channel1Data.Item2}");
+        }
+        if (data.TryGetValue("Channel2", out var channel2Data))
+        {
+            audioInstance.SetAudioAllowed(2, channel2Data.Item2);
+            audioInstance.SetChannelVolume(2, (float)channel2Data.Item1);
+            GD.Print($"App: Audio settings updated - Channel 2 volume set to {(float)channel2Data.Item1}, Allowed: {channel2Data.Item2}");
+        }
+        if (data.TryGetValue("ChannelMusic", out var channelMusicData))
+        {
+            audioInstance.SetAudioAllowed(3, channelMusicData.Item2);
+            audioInstance.SetChannelVolume(3, (float)channelMusicData.Item1);
+            GD.Print($"App: Audio settings updated - Channel Music volume set to {(float)channelMusicData.Item1}, Allowed: {channelMusicData.Item2}");
+        }
         GD.Print("App: Audio settings updated successfully.");
     }
     /// <summary>
-    /// Updates user settings based on the provided data dictionary. The dictionary contains key-value pairs where the key is the setting name and the value is a tuple of (setting value, isEnabled). This function can be expanded to apply various user settings such as display options, control mappings, or other preferences as needed. Currently, it serves as a placeholder for future user settings implementations.
+    /// Updates user settings based on the provided data dictionary. The dictionary contains key-value pairs where the key is the setting name and the value is a tuple of (setting value, isEnabled). This function can be expanded to apply various user settings such as display options, control mappings, or other preferences as needed.
     /// </summary>
     /// <param name="data"></param>
     private void UpdateUserSettings(Dictionary<string, (Variant, bool)> data)
     {
         GD.Print("App: Updating user settings.");
-        var settingsInstance = _gameManagers.Settings;
+        if (data.TryGetValue("Username", out var userName))
+        {
+            GameManagers.Instance.Score.CurrentP1 = userName.Item1.AsString();
+            GD.Print($"App: User settings updated - Username set to {userName.Item1.AsString()}");
+        }
+        if (data.TryGetValue("Resolution", out var resolutionData))
+        {
+            var resolution = resolutionData.Item1.AsVector2();
+            GameManagers.Instance.Window.ApplyWindowSettings(data);
+            GD.Print($"App: User settings updated - Resolution set to {resolution.X}x{resolution.Y}");
+        }
+        if (data.TryGetValue("StretchMode", out var stretchModeData))
+        {
+            var stretchMode = (Window.ContentScaleModeEnum)stretchModeData.Item1.AsByte();
+            GameManagers.Instance.Window.ApplyWindowSettings(data);
+            GD.Print($"App: User settings updated - Stretch Mode set to {stretchMode}");
+        }
+        if (data.TryGetValue("StretchAspect", out var stretchAspectData))
+        {
+            var stretchAspect = (Window.ContentScaleAspectEnum)stretchAspectData.Item1.AsByte();
+            GameManagers.Instance.Window.ApplyWindowSettings(data);
+            GD.Print($"App: User settings updated - Stretch Aspect set to {stretchAspect}");
+        }
+        if (data.TryGetValue("ScaleFactor", out var scaleFactorData))
+        {
+            var scaleFactor = scaleFactorData.Item1.AsSingle();
+            GameManagers.Instance.Window.ApplyWindowSettings(data);
+            GD.Print($"App: User settings updated - Scale Factor set to {scaleFactor}");
+        }
         GD.Print("App: User settings updated successfully,");
     }
 }

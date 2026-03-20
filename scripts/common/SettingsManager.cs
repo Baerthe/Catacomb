@@ -12,14 +12,18 @@ public sealed class SettingsManager
     public (Sectional , Dictionary<string, (Variant, bool)>) AudioSettings { get; private set;}
     = (Sectional.Audio ,new()
     {
-        { "Channel1", (0.9f, true)},
-        { "Channel2", (0.7f, true)},
-        { "ChannelMusic", (0.6f, true)},
+        { "Channel1", (0.9f, true) },
+        { "Channel2", (0.7f, true) },
+        { "ChannelMusic", (0.6f, true) },
     });
     public (Sectional , Dictionary<string, (Variant, bool)>) UserSettings { get; private set;}
     = (Sectional.User ,new()
     {
-        { "Username", ("Player", true)},
+        { "Username", ("Player", true) },
+        { "Resolution", (new Vector2(1920,1080), true) },
+        { "StretchMode", ((int)Window.ContentScaleModeEnum.CanvasItems, true) },
+        { "StretchAspect", ((int)Window.ContentScaleAspectEnum.Expand, true) },
+        { "ScaleFactor", (1.0f, true) },
     });
     private readonly ConfigFile _configFile;
     private readonly string _configPath = "user://settings/";
@@ -40,6 +44,7 @@ public sealed class SettingsManager
             var sections = Enum.GetValues<Sectional>();
             foreach (var section in sections)
             {
+                if (!_configFile.HasSection(section.ToString())) continue;
                 var sectionDict = new Dictionary<string, (Variant, bool)>();
                 var keys = _configFile.GetSectionKeys(section.ToString());
                 foreach (var key in keys)
@@ -53,6 +58,7 @@ public sealed class SettingsManager
                 {
                     case Sectional.Audio: AudioSettings = (section, sectionDict); break;
                     case Sectional.User: UserSettings = (section, sectionDict); break;
+                    default: GD.PrintErr($"Settings Manager: Unknown section '{section}'"); break;
                 }
             }
             OnSettingsUpdated?.Invoke(AudioSettings);
@@ -78,12 +84,14 @@ public sealed class SettingsManager
         {
             case Sectional.Audio: AudioSettings = (section, data); break;
             case Sectional.User: UserSettings = (section, data); break;
+            default: GD.PrintErr($"Settings Manager: Unknown section '{section}'"); break;
         }
         CommitData();
         var dict = section switch
         {
             Sectional.Audio => AudioSettings,
             Sectional.User => UserSettings,
+            _ => (Sectional.None, new Dictionary<string, (Variant, bool)>())
         };
         OnSettingsUpdated?.Invoke(dict);
     }

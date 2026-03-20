@@ -11,5 +11,6 @@ public sealed partial class DebugMenu : Control
     {
         Visible = false;
         _buttonPoints.Pressed += () => OnDebugPoints?.Invoke();
+        _buttonCancel.Pressed += () => Visible = false;
     }
 }

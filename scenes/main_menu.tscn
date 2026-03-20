@@ -2,17 +2,9 @@
 
 [ext_resource type="Theme" uid="uid://cvl1c748wxqaw" path="res://assets/resources/theme.theme" id="1_wu84c"]
 [ext_resource type="Script" uid="uid://c7rm2e5hpvrow" path="res://scripts/common/node/MainMenu.cs" id="2_8ln24"]
-[ext_resource type="Resource" uid="uid://82c405m6a7o5" path="res://assets/resources/audio/button_click.tres" id="3_ohymb"]
 [ext_resource type="Resource" uid="uid://baim5jhp3p5r3" path="res://assets/resources/audio/main_music.tres" id="4_oa1go"]
 [ext_resource type="Texture2D" uid="uid://ccce834d2pe1k" path="res://assets/CRTTilemap.png" id="5_8ln24"]
-[ext_resource type="AudioStream" uid="uid://dgpnw4c5bxwvm" path="res://assets/sounds/phaseJump4.ogg" id="5_oa1go"]
-[ext_resource type="Script" uid="uid://bv235gb45xngb" path="res://scripts/common/resource/AudioEvent.cs" id="6_tbmy8"]
 [ext_resource type="Texture2D" uid="uid://hcvexgajy5rj" path="res://assets/resources/main_atlas.tres" id="8_tbmy8"]
-
-[sub_resource type="Resource" id="Resource_jk1qb"]
-script = ExtResource("6_tbmy8")
-Clip = ExtResource("5_oa1go")
-metadata/_custom_type_script = "uid://bv235gb45xngb"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jk1qb"]
 atlas = ExtResource("5_8ln24")
@@ -37,22 +29,13 @@ region = Rect2(629, 221, 16, 16)
 [node name="MainMenu" type="Control" unique_id=571779155 node_paths=PackedStringArray("_packButtonContainer", "_packDesc", "_selectedPackLabel", "_playButton", "_settingsButton", "_quitButton")]
 texture_filter = 1
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -1920.0
-offset_bottom = -1080.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
 theme = ExtResource("1_wu84c")
 script = ExtResource("2_8ln24")
 _packButtonContainer = NodePath("VBoxContainer")
 _packDesc = NodePath("RichTextLabel")
 _selectedPackLabel = NodePath("Label4")
-_menuBootUpSound = ExtResource("3_ohymb")
 _menuTheme = ExtResource("4_oa1go")
-_sfxButtonPress = ExtResource("3_ohymb")
-_sfxMenuOpen = SubResource("Resource_jk1qb")
 _playButton = NodePath("ButtonPlay")
 _settingsButton = NodePath("ButtonSettings")
 _quitButton = NodePath("ButtonQuit")

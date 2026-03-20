@@ -141,7 +141,7 @@ public sealed class AudioManager
     /// <returns>float</returns>
     private static float LinearToDb(float linear) => linear <= 0.0f ? -80.0f : 20.0f * Mathf.Log(linear);
     /// <summary>
-    /// Builds the audio cache from resources.
+    /// Builds the audio event cache from resources.
     /// </summary>
     private void BuildAudioCache()
     {
@@ -163,12 +163,12 @@ public sealed class AudioManager
                         musicTemp.Add(audioEvent);
                     else
                         audioTemp.Add(audioEvent);
-                    GD.Print($"AudioManager: Cached audio clip from {clipPath}");
+                    GD.Print($"AudioManager: Cached audio event from {clipPath}");
                 }
                 fileName = dir.GetNext();
             }
             dir.ListDirEnd();
-            _audioClips = [.. audioTemp];
+            _audioClips = [..audioTemp];
             _musicClips = [..musicTemp];
         } else
             GD.PrintErr("AudioManager: Failed to open audio resources directory.");

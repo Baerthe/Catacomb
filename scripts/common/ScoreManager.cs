@@ -1,16 +1,16 @@
 namespace Common;
 
-using System.Linq;
 using Godot;
 using Godot.Collections;
+using System.Linq;
 /// <summary>
 /// Manages loading and saving scores for game packs. Scores are stored in 'scores' (godot cfg) files in the user directory, keyed by pack name derived from scene string name.
 /// </summary>
 public sealed class ScoreManager
 {
     public Dictionary<string, uint> CurrentScores { get; set; }
-    public string CurrentP1 { get; private set;} = "test";
-    public string CurrentP2 { get; private set;} = "test";
+    public string CurrentP1 { get; set;} = "test";
+    public string CurrentP2 { get; set;} = "test";
     private readonly string _savePath = "user://saves";
     private readonly string _saveFileName = "high.scores";
     private readonly string _section = "High Scores";

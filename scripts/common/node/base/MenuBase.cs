@@ -1,11 +1,12 @@
 namespace Common;
 
 using Godot;
-using System;
+using System.Collections.Generic;
+/// <summary>
+/// The base class for Control node Menus. Adds access to the managers and sounds.
+/// </summary>
 public abstract partial class MenuBase : Control
 {
-    public abstract event Action OnGameCancel;
-    public abstract event Action OnGameQuit;
     // *-> Exported Properties
     [ExportGroup("Sounds")]
     [Export] protected AudioEvent SfxButtonPress { get; private set;}
@@ -15,7 +16,32 @@ public abstract partial class MenuBase : Control
     protected AudioManager AudioManager { get; private set;} = GameManagers.Instance.Audio;
     protected ScoreManager ScoreManager { get; private set;} = GameManagers.Instance.Score;
     protected SettingsManager SettingsManager { get; private set;} = GameManagers.Instance.Settings;
+
+    // *-> State Tracking
+    private readonly List<ColorPickerButton> _colorPickers = new();
+    private readonly List<OptionButton> _optionButtons = new();
+
     // *-> Godot Overrides
+    public override void _Input(InputEvent @event)
+    {
+        if (!Visible) return;
+        if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
+        {
+            Vector2 globalPos = mouseEvent.GlobalPosition;
+            foreach (var picker in _colorPickers)
+            {
+                if (picker.GetGlobalRect().HasPoint(globalPos)) continue;
+                var popup = picker.GetPopup();
+                if (popup.Visible) popup.Hide();
+            }
+            foreach (var option in _optionButtons)
+            {
+                if (option.GetGlobalRect().HasPoint(globalPos)) continue;
+                PopupMenu popup = option.GetPopup();
+                if (popup.Visible) popup.Hide();
+            }
+        }
+    }
     public override void _EnterTree()
     {
         VisibilityChanged += () =>
@@ -25,9 +51,7 @@ public abstract partial class MenuBase : Control
             else
                 AudioManager.PlayAudioClip(SfxMenuClose);
         };
-        foreach (Node button in GetChildren(true))
-            if (button is Button)
-                ((Button)button).Pressed += () => OnAnyButtonPressed(button as Button);
+        ConnectButtonsRecursive(this);
         ConnectControlEvents();
     }
     // *-> Abstract Methods
@@ -49,10 +73,34 @@ public abstract partial class MenuBase : Control
         picker.SamplerVisible = false;
         picker.ColorModesVisible = false;
         picker.HexVisible = false;
+        picker.ZAsRelative = true;
+        picker.ZIndex = 1;
     }
+    /// <summary>
+    /// Clicked a button? Play a sound!
+    /// </summary>
+    /// <param name="button"></param>
     private void OnAnyButtonPressed(Button button)
     {
         GD.Print($"{Name}: Button {button.Name} pressed.");
         AudioManager.PlayAudioClip(SfxButtonPress);
+    }
+    /// <summary>
+    /// Go through the tree and find every button to wire with OnAnyButtonPressed to.
+    /// </summary>
+    /// <param name="node"></param>
+    private void ConnectButtonsRecursive(Node node)
+    {
+        foreach (Node child in node.GetChildren(true))
+        {
+            if (child is Button button)
+                button.Pressed += () => OnAnyButtonPressed(button);
+            if (child is ColorPickerButton colorPicker)
+                _colorPickers.Add(colorPicker);
+            else if (child is OptionButton optionButton)
+                _optionButtons.Add(optionButton);
+            if (child is Control)
+                ConnectButtonsRecursive(child);
+        }
     }
 }
