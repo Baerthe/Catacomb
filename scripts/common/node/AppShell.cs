@@ -248,6 +248,8 @@ public sealed partial class AppShell : Control
         if (data.TryGetValue("ChannelMusic", out var channelMusicData))
         {
             audioInstance.SetAudioAllowed(3, channelMusicData.Item2);
+            if (channelMusicData.Item2 == false)
+                audioInstance.StopChannel(3);
             audioInstance.SetChannelVolume(3, (float)channelMusicData.Item1);
             GD.Print($"App: Audio settings updated - Channel Music volume set to {(float)channelMusicData.Item1}, Allowed: {channelMusicData.Item2}");
         }
