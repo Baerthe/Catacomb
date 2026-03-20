@@ -38,6 +38,7 @@ public abstract partial class PackBase : Node2D
     private List<Color> _labelColors = new List<Color>();
     private List<Control> _colorableRects = new List<Control>();
     private List<Color> _rectColors = new List<Color>();
+    private byte _tickCount = 0;
     // *-> Godot Overrides
     public override void _EnterTree()
     {
@@ -50,7 +51,15 @@ public abstract partial class PackBase : Node2D
         Player1Controller?.Update();
         Player2Controller?.Update();
         if (!EnableStepTicking)
-            Tick();
+            {
+                Tick();
+                _tickCount++;
+                if (_tickCount >= 10)
+            {
+                _tickCount = 0;
+                InfrequentTick();
+            }
+            }
     }
     // *-> Virtual Debug
     public virtual void DebugPoints(uint points, byte player = 1)
@@ -103,13 +112,19 @@ public abstract partial class PackBase : Node2D
     }
     // *-> Abstract Methods
     /// <summary>
-    /// Game packs called update function. This is called inside of the Godot Process loop, but it is seperated out to allow for more control over when the update logic is executed.
-    /// </summary>
-    protected abstract void Tick();
-    /// <summary>
     /// Reset the current game pack to its initial state.
     /// </summary>
     protected abstract void GameReset();
+    // *-> Virtual Methods
+    /// <summary>
+    /// Game packs called update function. This is called inside of the Godot Process loop.
+    /// This allows adding to _Process both without having to call the base and can be called one frame at a time.
+    /// </summary>
+    public virtual void Tick(){}
+    /// <summary>
+    /// Game packs called update function that is only called every tenth frame.
+    /// </summary>
+    public virtual void InfrequentTick(){}
     // *-> State Management
     /// <summary>
     /// Requests a change in the game state, which will trigger the appropriate logic for that state (e.g. pausing, game over screen, etc.).

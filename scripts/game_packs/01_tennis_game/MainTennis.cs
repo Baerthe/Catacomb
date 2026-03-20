@@ -40,10 +40,6 @@ public sealed partial class MainTennis : PackBase
         _menu.Visible = true;
         AudioManager.PlayAudioClip(SfxGameStart);
     }
-    protected override void Tick()
-    {
-        // No per-frame logic is required for tennis; controllers update via PackBase _Process.
-    }
     protected override void GameReset()
     {
         _gameTimer.Stop();
