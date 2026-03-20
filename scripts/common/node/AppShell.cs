@@ -46,7 +46,6 @@ public sealed partial class AppShell : Control
             GD.PrintErr("App: Failed to initialize System Refs Check _EnterTree method for details.");
         else
             GD.Print("App: Successfully initialized AppShell Systems.");
-        _gameManagers.Settings.LoadData();
         _mainMenu = _gameScreen.InstanceScene(_mainMenuScene) as MainMenu;
         _settingsMenu = _gameScreen.InstanceScene(_settingsMenuScene) as SettingsMenu;
         _settingsMenu.Visible = false;
@@ -64,6 +63,7 @@ public sealed partial class AppShell : Control
         _pauseWatcher.OnTogglePause += HandleTogglePause;
         _gameManagers.Window.SetCustomCursor(_cursorTexture, _gameScreen);
         RequestAppState(AppState.MainMenu);
+        _gameManagers.Settings.LoadData();
     }
     // *-> Private Methods
     /// <summary>

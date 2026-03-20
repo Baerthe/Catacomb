@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="GamePack" format=3 uid="uid://xyb3ggxa0um2"]
+
+[ext_resource type="Script" uid="uid://j5wi57mxmvv3" path="res://scripts/common/resource/GamePack.cs" id="1_iryh1"]
+[ext_resource type="Texture2D" uid="uid://hcvexgajy5rj" path="res://assets/resources/main_atlas.tres" id="1_iy2ak"]
+[ext_resource type="AudioStream" uid="uid://bncpaet0q4ccf" path="res://assets/music/xDeviruchi - Prepare for Battle! .wav" id="2_3r30e"]
+[ext_resource type="Script" uid="uid://bv235gb45xngb" path="res://scripts/common/resource/AudioEvent.cs" id="3_rb8r7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nt1xe"]
+atlas = ExtResource("1_iy2ak")
+region = Rect2(306, 153, 16, 16)
+
+[sub_resource type="Resource" id="Resource_udwh5"]
+script = ExtResource("3_rb8r7")
+Clip = ExtResource("2_3r30e")
+metadata/_custom_type_script = "uid://bv235gb45xngb"
+
+[resource]
+script = ExtResource("1_iryh1")
+GameIcon = SubResource("AtlasTexture_nt1xe")
+GameName = "Frog Game"
+GameMusic = SubResource("Resource_udwh5")
+GameBackgroundColor = Color(0.44313726, 0.78039217, 0.2509804, 1)
+GameDescription = "Safely get that darn frog across the busy free way, scary swamp, and weapons testing field...Where is she going?"
+metadata/_custom_type_script = "uid://j5wi57mxmvv3"
