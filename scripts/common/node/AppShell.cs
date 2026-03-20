@@ -37,7 +37,7 @@ public sealed partial class AppShell : Control
     private MainMenu _mainMenu;
     private SettingsMenu _settingsMenu;
     // *-> Godot Overrides
-    public override void _EnterTree()
+    public override void _Ready()
     {
         _gameManagers = this.AddNode<GameManagers>("game_managers");
         _debugWatcher = this.AddNode<DebugWatcher>("debug_watcher");
@@ -46,9 +46,6 @@ public sealed partial class AppShell : Control
             GD.PrintErr("App: Failed to initialize System Refs Check _EnterTree method for details.");
         else
             GD.Print("App: Successfully initialized AppShell Systems.");
-    }
-    public override void _Ready()
-    {
         _gameManagers.Settings.LoadData();
         _mainMenu = _gameScreen.InstanceScene(_mainMenuScene) as MainMenu;
         _settingsMenu = _gameScreen.InstanceScene(_settingsMenuScene) as SettingsMenu;

@@ -21,8 +21,8 @@ public sealed class SettingsManager
     {
         { "Username", ("Player", true) },
         { "Resolution", (new Vector2(1920,1080), true) },
-        { "StretchMode", ((long)Window.ContentScaleModeEnum.CanvasItems, true) },
-        { "StretchAspect", ((long)Window.ContentScaleAspectEnum.Expand, true) },
+        { "StretchMode", ((int)Window.ContentScaleModeEnum.CanvasItems, true) },
+        { "StretchAspect", ((int)Window.ContentScaleAspectEnum.Expand, true) },
         { "ScaleFactor", (1.0f, true) },
     });
     private readonly ConfigFile _configFile;

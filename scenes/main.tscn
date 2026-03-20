@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b2rpfmxa0l35n" path="res://scripts/common/node/AppShell.cs" id="2_o6xl0"]
 [ext_resource type="Material" uid="uid://dwde0rpeqm4to" path="res://assets/shaders/materials/crt_paused.material" id="3_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://cblhhvjnkxakm" path="res://scenes/settings_menu.tscn" id="3_ya4ey"]
 [ext_resource type="Material" uid="uid://sx1446vh40q" path="res://assets/shaders/materials/crt_boot.material" id="5_o6xl0"]
 [ext_resource type="Texture2D" uid="uid://6inbdykg2lhy" path="res://assets/cursor_tilemap.png" id="6_choun"]
 [ext_resource type="Material" uid="uid://jeo74wvqtm8q" path="res://assets/shaders/materials/crt_default.material" id="6_tefeu"]
@@ -45,6 +46,7 @@ grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("2_o6xl0")
 _mainMenuScene = ExtResource("10_choun")
+_settingsMenuScene = ExtResource("3_ya4ey")
 _debugMenu = NodePath("crt/SubViewportContainer/SubViewport/debug_menu")
 _gameScreen = NodePath("crt/SubViewportContainer/SubViewport/game_screen")
 _loadingScreen = NodePath("crt/SubViewportContainer/SubViewport/loading_screen")

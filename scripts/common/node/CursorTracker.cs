@@ -1,6 +1,9 @@
 namespace Common;
 
 using Godot;
+/// <summary>
+/// Our custom mouse cursor.
+/// </summary>
 public partial class CursorTracker : Node
 {
     public Sprite2D CursorSprite { get; set; }

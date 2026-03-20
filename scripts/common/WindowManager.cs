@@ -4,20 +4,17 @@ using Godot;
 using System.Collections.Generic;
 public sealed class WindowManager
 {
-    private readonly Window _window;
+    private Window _window;
     private Sprite2D _cursorSprite;
     private CursorTracker _cursorTracker;
-    public WindowManager(Window window)
-    {
-        _window = window;
-    }
+    public void AddWindow(Window window) => _window = window;
     /// <summary>
     /// Applies the provided window and display settings to the specified Window.
     /// </summary>
     public void ApplyWindowSettings(Dictionary<string, (Variant, bool)> dict)
     {
         if (dict.TryGetValue("Resolution", out var resolutionData))
-            _window.ContentScaleSize = (Vector2I)resolutionData.Item1.AsVector2();
+            _window.Size = (Vector2I)resolutionData.Item1.AsVector2();
         if (dict.TryGetValue("StretchMode", out var stretchModeData))
             _window.ContentScaleMode = (Window.ContentScaleModeEnum)stretchModeData.Item1.AsByte();
         if (dict.TryGetValue("StretchAspect", out var stretchAspectData))

@@ -26,10 +26,14 @@ public sealed partial class GameManagers : Node
             this.AddNode<AudioStreamPlayer>("AudioChannelMusic"));
         Score = new ScoreManager();
         Settings = new SettingsManager();
-        Window = new WindowManager(GetWindow());
+        Window = new WindowManager();
         if (Audio == null || Score == null || Settings == null)
             GD.PrintErr("GameManagers: Failed to initialize one or more core systems. Check constructor for details.");
         else
         GD.Print("GameManagers: All systems initialized");
+    }
+    public override void _Ready()
+    {
+        Window.AddWindow(GetWindow());
     }
 }
