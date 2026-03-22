@@ -1125,4 +1125,5 @@ separation = Vector2i(1, 1)
 
 [resource]
 physics_layer_0/collision_layer = 7
+physics_layer_0/collision_mask = 7
 sources/0 = SubResource("TileSetAtlasSource_0mq3j")

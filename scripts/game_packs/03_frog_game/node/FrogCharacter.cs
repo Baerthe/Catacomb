@@ -18,6 +18,7 @@ public sealed partial class FrogCharacter : CharacterBody2D
             Direction.None => Vector2.Zero,
             _ => throw new System.InvalidOperationException(),
         };
+        _sprite.FlipH = moveDirection == Vector2.Left || moveDirection == Vector2.Up;
         moveDirection = moveDirection * _gridSize;
         _rayCast.TargetPosition = moveDirection;
         _rayCast.ForceRaycastUpdate();

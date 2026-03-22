@@ -2,6 +2,11 @@
 
 [ext_resource type="Texture2D" uid="uid://ge301vham2ld" path="res://assets/SpriteTilemap.png" id="1_kdbpl"]
 [ext_resource type="Script" uid="uid://4igjihgng3ad" path="res://scripts/game_packs/03_frog_game/node/FrogCharacter.cs" id="1_sn6ae"]
+[ext_resource type="Texture2D" uid="uid://hcvexgajy5rj" path="res://assets/resources/main_atlas.tres" id="2_85d2e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qvkp1"]
+atlas = ExtResource("2_85d2e")
+region = Rect2(17, 289, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sn6ae"]
 atlas = ExtResource("1_kdbpl")
@@ -63,11 +68,16 @@ radius = 8.0
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=653952716 node_paths=PackedStringArray("_rayCast", "_sprite")]
 texture_filter = 1
+collision_layer = 7
+collision_mask = 7
+motion_mode = 1
 script = ExtResource("1_sn6ae")
 _rayCast = NodePath("RayCast2D")
 _sprite = NodePath("AnimatedSprite2D")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=678691105]
+z_index = -2
+z_as_relative = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -75,8 +85,8 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -336.0
 offset_top = -256.0
-offset_right = 336.0
-offset_bottom = 256.0
+offset_right = 304.0
+offset_bottom = 224.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -87,9 +97,14 @@ color = Color(0, 0, 0, 1)
 process_callback = 0
 editor_draw_limits = true
 
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1169888838]
+modulate = Color(0, 0, 0, 1)
+texture = SubResource("AtlasTexture_qvkp1")
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=67651898]
 sprite_frames = SubResource("SpriteFrames_qvkp1")
 animation = &"walk"
+autoplay = "walk"
 frame_progress = 0.38323066
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=603712807]
