@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://ge301vham2ld" path="res://assets/SpriteTilemap.png" id="1_kdbpl"]
 [ext_resource type="Script" uid="uid://4igjihgng3ad" path="res://scripts/game_packs/03_frog_game/node/FrogCharacter.cs" id="1_sn6ae"]
 [ext_resource type="Texture2D" uid="uid://hcvexgajy5rj" path="res://assets/resources/main_atlas.tres" id="2_85d2e"]
+[ext_resource type="Resource" uid="uid://nhrrdedcanws" path="res://assets/resources/audio/character_jump.tres" id="2_ucvuf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qvkp1"]
 atlas = ExtResource("2_85d2e")
@@ -74,6 +75,7 @@ motion_mode = 1
 script = ExtResource("1_sn6ae")
 _rayCast = NodePath("RayCast2D")
 _sprite = NodePath("AnimatedSprite2D")
+_sfxMove = ExtResource("2_ucvuf")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=678691105]
 z_index = -2
@@ -83,10 +85,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -336.0
-offset_top = -256.0
-offset_right = 304.0
-offset_bottom = 224.0
+offset_left = -320.0
+offset_top = -240.0
+offset_right = 320.0
+offset_bottom = 240.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3

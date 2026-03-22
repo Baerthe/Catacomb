@@ -6,9 +6,22 @@ public sealed partial class FrogCharacter : CharacterBody2D
 {
     [Export] private RayCast2D _rayCast;
     [Export] private AnimatedSprite2D _sprite;
+    [Export] private AudioEvent _sfxMove;
+    private Timer _coolDown;
+    private bool _coolDownLock = false;
     private byte _gridSize = 16;
-    public void Move(Direction direction)
+    public override void _Ready()
     {
+        _coolDown = new Timer();
+        _coolDown.Timeout += () => _coolDownLock = !_coolDownLock;
+        _coolDown.OneShot = true;
+        _coolDown.WaitTime = 0.2f;
+        AddChild(_coolDown);
+    }
+    public async void Move(Direction direction)
+    {
+        if (_coolDownLock)
+            return;
         Vector2 moveDirection = direction switch
         {
             Direction.Up => Vector2.Up,
@@ -23,7 +36,12 @@ public sealed partial class FrogCharacter : CharacterBody2D
         _rayCast.TargetPosition = moveDirection;
         _rayCast.ForceRaycastUpdate();
         if (!_rayCast.IsColliding())
+        {
             Position += moveDirection;
+            GameManagers.Instance.Audio.PlayAudioClip(_sfxMove);
+            _coolDownLock = true;
+            _coolDown.Start();
+        }
         MoveAndSlide();
-    }
+        }
 }
