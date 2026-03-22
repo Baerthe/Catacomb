@@ -9,8 +9,8 @@ using System.Collections.Generic;
 /// </summary>
 public abstract partial class PackBase : Node2D
 {
-    public virtual event Action OnRequestPackExit;
-    public virtual event Action OnRequestUnpause;
+    public event Action OnRequestPackExit;
+    public event Action OnRequestUnpause;
     public virtual event Action<byte, uint> OnScoreSubmission;
     public bool EnableStepTicking {get; set;} = false;
     public bool GameStarted {get; private set;} = false;
@@ -34,10 +34,10 @@ public abstract partial class PackBase : Node2D
     protected GameOverReason GameOverReason { get; set;}
     // *-> Fields
     private bool _isRainbowEffectActive = false;
-    private List<Control> _colorableLabels = new List<Control>();
-    private List<Color> _labelColors = new List<Color>();
-    private List<Control> _colorableRects = new List<Control>();
-    private List<Color> _rectColors = new List<Color>();
+    private readonly List<Control> _colorableLabels = [];
+    private readonly List<Color> _labelColors = [];
+    private readonly List<Control> _colorableRects = [];
+    private readonly List<Color> _rectColors = [];
     private byte _tickCount = 0;
     // *-> Godot Overrides
     public override void _EnterTree()

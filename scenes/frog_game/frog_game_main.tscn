@@ -1,0 +1,35 @@
+[gd_scene format=4 uid="uid://bfude2j38ac2q"]
+
+[ext_resource type="Script" uid="uid://dsm8ay25aeivb" path="res://scripts/game_packs/03_frog_game/FrogMain.cs" id="1_8ua1f"]
+[ext_resource type="TileSet" uid="uid://bpvbopfsfnl6o" path="res://assets/main_tileset.tres" id="2_0mq3j"]
+[ext_resource type="PackedScene" uid="uid://bld5p0xgkyk21" path="res://scenes/frog_game/frog_game_character.tscn" id="3_djye0"]
+
+[node name="FrogGameMain" type="Node2D" unique_id=2097243775 node_paths=PackedStringArray("_character")]
+texture_filter = 1
+script = ExtResource("1_8ua1f")
+_character = NodePath("SubViewportContainer/WorldViewPort/FrogGameCharacter")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=570121253]
+offset_right = 640.0
+offset_bottom = 480.0
+
+[node name="WorldViewPort" type="SubViewport" parent="SubViewportContainer" unique_id=235168290]
+handle_input_locally = false
+size = Vector2i(640, 480)
+render_target_update_mode = 4
+
+[node name="ColorRect" type="ColorRect" parent="SubViewportContainer/WorldViewPort" unique_id=2140204459]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="SubViewportContainer/WorldViewPort" unique_id=1492217341]
+texture_filter = 1
+tile_map_data = PackedByteArray("AAABAAEAAAATAAUAAAACAAEAAAATAAUAAAADAAEAAAATAAUAAAAEAAEAAAATAAUAAAAFAAEAAAATAAUAAAAGAAEAAAATAAUAAAAHAAEAAAATAAUAAAA=")
+tile_set = ExtResource("2_0mq3j")
+
+[node name="FrogGameCharacter" parent="SubViewportContainer/WorldViewPort" unique_id=653952716 instance=ExtResource("3_djye0")]
+position = Vector2(24, 40)

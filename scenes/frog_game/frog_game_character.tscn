@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://bld5p0xgkyk21"]
+
+[ext_resource type="Texture2D" uid="uid://ge301vham2ld" path="res://assets/SpriteTilemap.png" id="1_kdbpl"]
+[ext_resource type="Script" uid="uid://4igjihgng3ad" path="res://scripts/game_packs/03_frog_game/node/FrogCharacter.cs" id="1_sn6ae"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sn6ae"]
+atlas = ExtResource("1_kdbpl")
+region = Rect2(357, 153, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_85d2e"]
+atlas = ExtResource("1_kdbpl")
+region = Rect2(374, 153, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ucvuf"]
+atlas = ExtResource("1_kdbpl")
+region = Rect2(391, 153, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5qedp"]
+atlas = ExtResource("1_kdbpl")
+region = Rect2(306, 153, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nkg0h"]
+atlas = ExtResource("1_kdbpl")
+region = Rect2(323, 153, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fnj8m"]
+atlas = ExtResource("1_kdbpl")
+region = Rect2(340, 153, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qvkp1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sn6ae")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_85d2e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ucvuf")
+}],
+"loop": false,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5qedp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nkg0h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fnj8m")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sbjvt"]
+radius = 8.0
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=653952716 node_paths=PackedStringArray("_rayCast", "_sprite")]
+texture_filter = 1
+script = ExtResource("1_sn6ae")
+_rayCast = NodePath("RayCast2D")
+_sprite = NodePath("AnimatedSprite2D")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=974684183]
+position_smoothing_enabled = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=67651898]
+sprite_frames = SubResource("SpriteFrames_qvkp1")
+animation = &"walk"
+frame_progress = 0.871211
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=603712807]
+shape = SubResource("CircleShape2D_sbjvt")
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=2033438699]
+target_position = Vector2(16, 0)
+collision_mask = 7

@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://hcvexgajy5rj" path="res://assets/resources/main_atlas.tres" id="1_iy2ak"]
 [ext_resource type="AudioStream" uid="uid://bncpaet0q4ccf" path="res://assets/music/xDeviruchi - Prepare for Battle! .wav" id="2_3r30e"]
 [ext_resource type="Script" uid="uid://bv235gb45xngb" path="res://scripts/common/resource/AudioEvent.cs" id="3_rb8r7"]
+[ext_resource type="PackedScene" uid="uid://bfude2j38ac2q" path="res://scenes/frog_game/frog_game_main.tscn" id="4_3r30e"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nt1xe"]
 atlas = ExtResource("1_iy2ak")
@@ -18,6 +19,7 @@ metadata/_custom_type_script = "uid://bv235gb45xngb"
 script = ExtResource("1_iryh1")
 GameIcon = SubResource("AtlasTexture_nt1xe")
 GameName = "Frog Game"
+GameScene = ExtResource("4_3r30e")
 GameMusic = SubResource("Resource_udwh5")
 GameBackgroundColor = Color(0.44313726, 0.78039217, 0.2509804, 1)
 GameDescription = "Safely get that darn frog across the busy free way, scary swamp, and weapons testing field...Where is she going?"
