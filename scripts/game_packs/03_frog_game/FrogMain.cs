@@ -17,7 +17,7 @@ public sealed partial class FrogMain : PackBase
         _menu.Visible = true;
         _controller = new FrogPlayer(_character);
     }
-    public override void _PhysicsProcess(double delta)
+    public override void _UnhandledInput(InputEvent @event)
     {
         _controller.Update();
     }
@@ -26,11 +26,8 @@ public sealed partial class FrogMain : PackBase
     {
         // Reset game state to initial conditions here if needed.
     }
-    private void GameStart(PlayerType playerType, int exampleValue1, int exampleValue2)
+    private void GameStart()
     {
-        // Use the settings from the menu to configure the game here.
-        // For example:
-        GD.Print($"Game Starting with PlayerType: {playerType}, ExampleValue1: {exampleValue1}, ExampleValue2: {exampleValue2}");
         RequestGameState(GameState.Playing);
     }
     // *-> Game State Functions

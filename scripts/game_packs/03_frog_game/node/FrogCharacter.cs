@@ -12,13 +12,13 @@ public sealed partial class FrogCharacter : CharacterBody2D
         Vector2 moveDirection = direction switch
         {
             Direction.Up => Vector2.Up,
-            Direction.Left => Vector2.Right,
+            Direction.Left => Vector2.Left,
             Direction.Down => Vector2.Down,
             Direction.Right => Vector2.Right,
             Direction.None => Vector2.Zero,
             _ => throw new System.InvalidOperationException(),
         };
-        moveDirection = moveDirection * 16;
+        moveDirection = moveDirection * _gridSize;
         _rayCast.TargetPosition = moveDirection;
         _rayCast.ForceRaycastUpdate();
         if (!_rayCast.IsColliding())
