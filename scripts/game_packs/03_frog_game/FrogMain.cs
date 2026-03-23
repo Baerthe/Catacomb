@@ -22,9 +22,10 @@ public sealed partial class FrogMain : PackBase
         _controller = new FrogPlayer(_character);
         _frogAI = new FrogAI(_movables, this);
     }
-    public override void _UnhandledInput(InputEvent @event)
+    public override void Tick()
     {
         _controller.Update();
+        _frogAI.Update();
     }
     // *-> Game Methods
     protected override void GameReset()
