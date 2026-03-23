@@ -7,9 +7,9 @@ public sealed partial class FrogCharacter : CharacterBody2D
     [Export] private RayCast2D _rayCast;
     [Export] private AnimatedSprite2D _sprite;
     [Export] private AudioEvent _sfxMove;
+    public byte GridSize { get; set; }
     private Timer _coolDown;
     private bool _coolDownLock = false;
-    private byte _gridSize = 16;
     public override void _Ready()
     {
         _coolDown = new Timer();
@@ -18,7 +18,7 @@ public sealed partial class FrogCharacter : CharacterBody2D
         _coolDown.WaitTime = 0.2f;
         AddChild(_coolDown);
     }
-    public async void Move(Direction direction)
+    public void Move(Direction direction)
     {
         if (_coolDownLock)
             return;
@@ -32,7 +32,7 @@ public sealed partial class FrogCharacter : CharacterBody2D
             _ => throw new System.InvalidOperationException(),
         };
         _sprite.FlipH = moveDirection == Vector2.Left || moveDirection == Vector2.Up;
-        moveDirection = moveDirection * _gridSize;
+        moveDirection *= GridSize;
         _rayCast.TargetPosition = moveDirection;
         _rayCast.ForceRaycastUpdate();
         if (!_rayCast.IsColliding())

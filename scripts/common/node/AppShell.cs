@@ -166,7 +166,6 @@ public sealed partial class AppShell : Control
             return;
         }
         _gameScreen.AddChild(_loadedScene);
-        _loadedScene.Scale = new Vector2(2f, 2f);
         _loadedScene.Position = _gameScreen.Position;
         _loadedScene.OnScoreSubmission += _gameManagers.Score.SubmitScore;
         _loadedScene.OnRequestPackExit += () => RequestAppState(AppState.MainMenu);

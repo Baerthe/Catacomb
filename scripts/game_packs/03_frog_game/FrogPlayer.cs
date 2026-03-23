@@ -2,19 +2,14 @@ namespace FrogGame;
 
 using Common;
 using Godot;
-public sealed class FrogPlayer : IController
+public sealed class FrogPlayer(FrogCharacter _character) : IController
 {
-    private FrogCharacter _characater;
-    public FrogPlayer(FrogCharacter character)
-    {
-        _characater = character;
-    }
     public void Update()
     {
         Direction direction = GetInputDirection();
         if (direction == Direction.None)
             return;
-        _characater.Move(direction);
+        _character.Move(direction);
     }
     public Direction GetInputDirection()
     {

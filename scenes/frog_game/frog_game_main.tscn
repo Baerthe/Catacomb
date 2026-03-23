@@ -9,19 +9,10 @@
 [node name="FrogGameMain" type="Node2D" unique_id=2097243775 node_paths=PackedStringArray("_character", "_menu")]
 texture_filter = 1
 script = ExtResource("1_8ua1f")
-_character = NodePath("SubViewportContainer/WorldViewPort/FrogGameCharacter")
+_character = NodePath("FrogGameCharacter")
 _menu = NodePath("FrogGameMenu")
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=570121253]
-offset_right = 640.0
-offset_bottom = 480.0
-
-[node name="WorldViewPort" type="SubViewport" parent="SubViewportContainer" unique_id=235168290]
-handle_input_locally = false
-size = Vector2i(640, 480)
-render_target_update_mode = 4
-
-[node name="FrogGameCharacter" parent="SubViewportContainer/WorldViewPort" unique_id=653952716 instance=ExtResource("3_djye0")]
+[node name="FrogGameCharacter" parent="" unique_id=653952716 instance=ExtResource("3_djye0")]
 position = Vector2(184, 40)
 
 [node name="FrogGameMenu" parent="." unique_id=2027005638 instance=ExtResource("4_djye0")]
