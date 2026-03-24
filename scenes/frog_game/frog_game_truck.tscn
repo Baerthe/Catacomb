@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://cps3svkak4oy5"]
+
+[ext_resource type="Script" uid="uid://dnxc1buxixkrm" path="res://scripts/game_packs/03_frog_game/node/FrogMovable.cs" id="1_qw2vr"]
+[ext_resource type="Texture2D" uid="uid://ge301vham2ld" path="res://assets/SpriteTilemap.png" id="2_3qx11"]
+[ext_resource type="Texture2D" uid="uid://hcvexgajy5rj" path="res://assets/resources/main_atlas.tres" id="2_t1li2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ka35v"]
+atlas = ExtResource("2_t1li2")
+region = Rect2(17, 289, 16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t1li2"]
+size = Vector2(32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_35dca"]
+atlas = ExtResource("2_3qx11")
+region = Rect2(204, 340, 32, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ka35v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_35dca")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="Truck" type="CharacterBody2D" unique_id=425461252 node_paths=PackedStringArray("_sprite")]
+texture_filter = 3
+collision_layer = 4
+collision_mask = 0
+motion_mode = 1
+script = ExtResource("1_qw2vr")
+MovingDirection = 4
+_sprite = NodePath("AnimatedSprite2D")
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=683036368]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(8, 0)
+texture = SubResource("AtlasTexture_ka35v")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=599666121]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(-8, 0)
+texture = SubResource("AtlasTexture_ka35v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1001732470]
+shape = SubResource("RectangleShape2D_t1li2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1818307801]
+sprite_frames = SubResource("SpriteFrames_ka35v")
+animation = &"walk"

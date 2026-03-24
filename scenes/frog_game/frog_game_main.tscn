@@ -1,10 +1,10 @@
 [gd_scene format=4 uid="uid://bfude2j38ac2q"]
 
 [ext_resource type="Script" uid="uid://dsm8ay25aeivb" path="res://scripts/game_packs/03_frog_game/FrogMain.cs" id="1_8ua1f"]
-[ext_resource type="TileSet" uid="uid://bpvbopfsfnl6o" path="res://assets/main_tileset.tres" id="2_0mq3j"]
+[ext_resource type="TileSet" uid="uid://c5uk0dan5of4" path="res://assets/main_tileset.tres" id="2_0mq3j"]
 [ext_resource type="PackedScene" uid="uid://bld5p0xgkyk21" path="res://scenes/frog_game/frog_game_character.tscn" id="3_djye0"]
 [ext_resource type="PackedScene" uid="uid://bf54kag72ut8k" path="res://scenes/frog_game/frog_game_menu.tscn" id="4_djye0"]
-[ext_resource type="PackedScene" uid="uid://cps3svkak4oy5" path="res://scenes/frog_game/frog_game_car.tscn" id="5_1q8iw"]
+[ext_resource type="PackedScene" uid="uid://cps3svkak4oy5" path="res://scenes/frog_game/frog_game_truck.tscn" id="5_1q8iw"]
 
 [node name="FrogGameMain" type="Node2D" unique_id=2097243775 node_paths=PackedStringArray("_character", "_menu")]
 texture_filter = 1
@@ -30,7 +30,10 @@ tile_set = ExtResource("2_0mq3j")
 [node name="FrogGameCharacter" parent="SubViewportContainer/WorldViewPort" unique_id=653952716 instance=ExtResource("3_djye0")]
 position = Vector2(320, 240)
 
-[node name="CharacterBody2D" parent="." unique_id=425461252 instance=ExtResource("5_1q8iw")]
+[node name="Node" type="Node" parent="SubViewportContainer/WorldViewPort" unique_id=1490191788]
+
+[node name="Truck" parent="SubViewportContainer/WorldViewPort/Node" unique_id=425461252 groups=["moveable"] instance=ExtResource("5_1q8iw")]
+position = Vector2(16, 224)
 
 [node name="FrogGameMenu" parent="." unique_id=2027005638 instance=ExtResource("4_djye0")]
 visible = false

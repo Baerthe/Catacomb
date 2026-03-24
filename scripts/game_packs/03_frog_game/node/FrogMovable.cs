@@ -13,8 +13,13 @@ public sealed partial class FrogMovable : CharacterBody2D
     private VisibleOnScreenNotifier2D _onScreenNotification;
     public override void _Ready()
     {
+        InitPosition = Position;
         _onScreenNotification = this.AddNode<VisibleOnScreenNotifier2D>();
         _onScreenNotification.ScreenExited += () => OnScreen = false;
         _onScreenNotification.ScreenEntered += () => OnScreen = true;
+    }
+    public override void _PhysicsProcess(double delta)
+    {
+        MoveAndSlide();
     }
 }

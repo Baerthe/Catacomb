@@ -132,7 +132,6 @@ z_index = 1000
 z_as_relative = false
 offset_right = 0.0
 offset_bottom = 0.0
-scale = Vector2(2, 2)
 
 [node name="loading_screen" type="Control" parent="crt/SubViewportContainer/SubViewport" unique_id=70546353]
 visible = false

@@ -2,6 +2,7 @@ namespace FrogGame;
 
 using Godot;
 using Common;
+using System.Linq;
 public sealed partial class FrogMain : PackBase
 {
     [ExportGroup("References")]
@@ -20,11 +21,15 @@ public sealed partial class FrogMain : PackBase
         _menu.Visible = true;
         _character.GridSize = _gridSize;
         _controller = new FrogPlayer(_character);
-        _frogAI = new FrogAI(_movables, this);
+        _movables = GetTree().GetNodesInGroup("moveable").OfType<FrogMovable>().ToArray();
+        _frogAI = new FrogAI(_movables);
     }
     public override void Tick()
     {
         _controller.Update();
+    }
+    public override void InfrequentTick()
+    {
         _frogAI.Update();
     }
     // *-> Game Methods
@@ -43,10 +48,10 @@ public sealed partial class FrogMain : PackBase
     }
     protected override void StatePaused()
     {
-        throw new System.NotImplementedException();
+        _menu.Visible = true;
     }
     protected override void StatePlaying()
     {
-        throw new System.NotImplementedException();
+        _menu.Visible = false;
     }
 }
