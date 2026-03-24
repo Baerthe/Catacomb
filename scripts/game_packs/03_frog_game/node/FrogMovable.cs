@@ -10,6 +10,11 @@ public sealed partial class FrogMovable : CharacterBody2D
     [Export] private AnimatedSprite2D _sprite;
     public bool InBounds { get; set; }
     public Vector2 InitPosition { get; private set; }
-    public override void _PhysicsProcess(double delta) => MoveAndSlide();
+    public override void _PhysicsProcess(double delta)
+    {
+        var collision = MoveAndCollide(Velocity);
+        if (collision.GetCollider() is FrogCharacter frog)
+            frog.Death();
+    }
     public void Init() => InitPosition = Position;
 }

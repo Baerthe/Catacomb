@@ -12,7 +12,6 @@ public sealed partial class FrogMain : PackBase
     private FrogAI _frogAI;
     private FrogPlayer _controller;
     private FrogMovable[] _movables;
-    private byte _gridSize = 16;
     // *-> Godot Overrides
     public override void _Ready()
     {
@@ -20,7 +19,6 @@ public sealed partial class FrogMain : PackBase
         _menu.OnGameCancel += InvokeUnpause;
         _menu.OnGameQuit += () => RequestGameState(GameState.GameQuit);
         _menu.Visible = true;
-        _character.GridSize = _gridSize;
         _controller = new FrogPlayer(_character);
         _movables = GetTree().GetNodesInGroup("moveable").OfType<FrogMovable>().ToArray();
         _frogAI = new FrogAI(_movables, _mapBounds);
@@ -52,5 +50,6 @@ public sealed partial class FrogMain : PackBase
     {
         _menu.Visible = false;
         _frogAI.Unfreeze();
+        _character.Active();
     }
 }
