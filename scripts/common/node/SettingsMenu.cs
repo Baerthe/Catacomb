@@ -137,6 +137,20 @@ public sealed partial class SettingsMenu : MenuBase
                 foreach (var size in _baseWindowSizes)
                     _baseSizeOptionButton.AddItem($"{(int)size.X}x{(int)size.Y}");
             }
+            if (_stretchModeOptionButton != null && _stretchModeOptionButton.ItemCount == 0)
+            {
+                _stretchModeOptionButton.AddItem("Disabled");
+                _stretchModeOptionButton.AddItem("Canvas Items");
+                _stretchModeOptionButton.AddItem("Viewport");
+            }
+            if (_stretchAspectOptionButton != null && _stretchAspectOptionButton.ItemCount == 0)
+            {
+                _stretchAspectOptionButton.AddItem("Ignore");
+                _stretchAspectOptionButton.AddItem("Keep");
+                _stretchAspectOptionButton.AddItem("Keep Width");
+                _stretchAspectOptionButton.AddItem("Keep Height");
+                _stretchAspectOptionButton.AddItem("Expand");
+            }
             if (userDict.TryGetValue("Resolution", out var resolutionData))
             {
                 var index = resolutionData.Item1.AsVector2();

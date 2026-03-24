@@ -49,9 +49,7 @@ public sealed partial class AppShell : Control
         _mainMenu = _gameScreen.InstanceScene(_mainMenuScene) as MainMenu;
         _settingsMenu = _gameScreen.InstanceScene(_settingsMenuScene) as SettingsMenu;
         _settingsMenu.Visible = false;
-        _mainMenu.Scale = new Vector2(2f, 2f);
         _mainMenu.Position = _gameScreen.Position;
-        _settingsMenu.Scale = new Vector2(2f, 2f);
         _settingsMenu.Position = _gameScreen.Position;
         _mainMenu.OnStartGame += HandleStartGame;
         _mainMenu.OnSettingsToggle += () => _settingsMenu.Visible = !_settingsMenu.Visible;

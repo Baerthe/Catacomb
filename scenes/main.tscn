@@ -91,6 +91,7 @@ axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="crt" unique_id=1296617]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -99,10 +100,9 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -640.0
 offset_top = -480.0
-offset_right = 640.0
-offset_bottom = 480.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(2, 2)
 
 [node name="SubViewport" type="SubViewport" parent="crt/SubViewportContainer" unique_id=212737128]
 disable_3d = true

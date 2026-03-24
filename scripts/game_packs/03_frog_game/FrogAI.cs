@@ -11,12 +11,12 @@ public sealed class FrogAI
     }
     public void Update()
     {
-        foreach (FrogMovable i in _objList){
-            if (i.OnScreen)
-                i.Velocity += 16f * i.MovingDirection;
-            else
-                i.Position = i.InitPosition;
-        }
+        // foreach (FrogMovable i in _objList){
+        //     if (i.OnScreen)
+        //         i.Velocity += 16f * i.MovingDirection;
+        //     else
+        //         i.Position = i.InitPosition;
+        // }
     }
 }
 public enum FrogSpeed : byte { slow, normal, fast, faster }

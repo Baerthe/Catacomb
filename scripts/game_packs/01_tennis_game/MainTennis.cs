@@ -183,7 +183,7 @@ public sealed partial class MainTennis : PackBase
     /// <summary>
     /// Updates the game timer each second. Calls GameOver if the max time (or score) is reached.
     /// </summary>
-    private async void TimerUpdate()
+    private void TimerUpdate()
     {
         if (Score1.CurrentScore >= _maxScore || Score2.CurrentScore >= _maxScore)
             TriggerGameOver();
