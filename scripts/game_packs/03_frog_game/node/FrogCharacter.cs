@@ -1,17 +1,21 @@
 namespace FrogGame;
 
+using System;
 using Common;
 using Godot;
 public sealed partial class FrogCharacter : CharacterBody2D
 {
+    public event Action OnDeath;
     [Export] private RayCast2D _rayCast;
     [Export] private AnimatedSprite2D _sprite;
     [Export] private AudioEvent _sfxMove;
     public byte GridSize { get; set; }
     private Timer _coolDown;
     private bool _coolDownLock = false;
+    private Vector2 _spawnLocation;
     public override void _Ready()
     {
+        _spawnLocation = Position;
         _coolDown = new Timer();
         _coolDown.Timeout += () => _coolDownLock = !_coolDownLock;
         _coolDown.OneShot = true;
@@ -43,5 +47,10 @@ public sealed partial class FrogCharacter : CharacterBody2D
             _coolDown.Start();
         }
         MoveAndSlide();
-        }
+    }
+    private void Death()
+    {
+        
+        OnDeath?.Invoke();
+    }
 }

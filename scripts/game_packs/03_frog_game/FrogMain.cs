@@ -8,6 +8,7 @@ public sealed partial class FrogMain : PackBase
     [ExportGroup("References")]
     [Export] private FrogCharacter _character;
     [Export] private FrogMenu _menu;
+    [Export] private Area2D _mapBounds;
     private FrogAI _frogAI;
     private FrogPlayer _controller;
     private FrogMovable[] _movables;
@@ -15,14 +16,14 @@ public sealed partial class FrogMain : PackBase
     // *-> Godot Overrides
     public override void _Ready()
     {
-        _menu.OnGameStart += GameStart;
+        _menu.OnGameStart += () => RequestGameState(GameState.Playing);
         _menu.OnGameCancel += InvokeUnpause;
         _menu.OnGameQuit += () => RequestGameState(GameState.GameQuit);
         _menu.Visible = true;
         _character.GridSize = _gridSize;
         _controller = new FrogPlayer(_character);
         _movables = GetTree().GetNodesInGroup("moveable").OfType<FrogMovable>().ToArray();
-        _frogAI = new FrogAI(_movables);
+        _frogAI = new FrogAI(_movables, _mapBounds);
     }
     public override void Tick()
     {
@@ -37,10 +38,6 @@ public sealed partial class FrogMain : PackBase
     {
         // Reset game state to initial conditions here if needed.
     }
-    private void GameStart()
-    {
-        RequestGameState(GameState.Playing);
-    }
     // *-> Game State Functions
     protected override void StateGameOver(GameOverReason reason)
     {
@@ -49,9 +46,11 @@ public sealed partial class FrogMain : PackBase
     protected override void StatePaused()
     {
         _menu.Visible = true;
+        _frogAI.Freeze();
     }
     protected override void StatePlaying()
     {
         _menu.Visible = false;
+        _frogAI.Unfreeze();
     }
 }
