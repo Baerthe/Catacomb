@@ -24,7 +24,6 @@ public sealed partial class FrogCharacter : CharacterBody2D
         AddChild(_coolDown);
     }
     public override void _PhysicsProcess(double delta) => SnapToGrid();
-    public void Active() => _sprite.Play("walk");
     public void Death()
     {
         _sprite.Play("death");
@@ -33,6 +32,7 @@ public sealed partial class FrogCharacter : CharacterBody2D
     }
     public void Move(Direction direction)
     {
+        _sprite.Play("walk");
         if (_coolDownLock)
             return;
         SnapToGrid();

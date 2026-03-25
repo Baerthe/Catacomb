@@ -50,6 +50,5 @@ public sealed partial class FrogMain : PackBase
     {
         _menu.Visible = false;
         _frogAI.Unfreeze();
-        _character.Active();
     }
 }

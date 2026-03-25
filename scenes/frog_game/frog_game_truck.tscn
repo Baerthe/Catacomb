@@ -9,7 +9,7 @@ atlas = ExtResource("2_t1li2")
 region = Rect2(17, 289, 16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t1li2"]
-size = Vector2(32, 16)
+size = Vector2(32, 8)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_35dca"]
 atlas = ExtResource("2_3qx11")
@@ -29,7 +29,7 @@ animations = [{
 [node name="Truck" type="AnimatableBody2D" unique_id=1991138954 node_paths=PackedStringArray("_sprite")]
 texture_filter = 3
 collision_layer = 4
-collision_mask = 2
+collision_mask = 10
 sync_to_physics = false
 script = ExtResource("1_qw2vr")
 Speed = 0

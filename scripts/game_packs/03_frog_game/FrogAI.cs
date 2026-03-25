@@ -8,8 +8,6 @@ public sealed class FrogAI
     public FrogAI (FrogMovable[] objList, Area2D mapBounds)
     {
         _objList = objList;
-        foreach (FrogMovable i in _objList)
-            i.Init();
         mapBounds.BodyEntered += node =>
         {
             if (node is FrogMovable moveable)
@@ -37,10 +35,10 @@ public sealed class FrogAI
                 };
                 float speed = i.Speed switch
                 {
-                    FrogSpeed.slow => 16f,
-                    FrogSpeed.normal => 22.5f,
-                    FrogSpeed.fast => 29.75f,
-                    FrogSpeed.faster => 31.25f,
+                    FrogSpeed.slow => 0.5f,
+                    FrogSpeed.normal => 2f,
+                    FrogSpeed.fast => 6f,
+                    FrogSpeed.faster => 10f,
                     _ => throw new System.InvalidOperationException()
                 };
                 GD.Print($"{this}: moving {i}...");
@@ -48,7 +46,7 @@ public sealed class FrogAI
             }
             else
             {
-                i.Position = i.InitPosition;
+                i.Position = i.SpawnPoint.Position;
                 i.MovementVector = Vector2.Zero;
             }
         }

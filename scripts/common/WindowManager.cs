@@ -31,7 +31,6 @@ public sealed class WindowManager
     /// </summary>
     public void SetCustomCursor(AtlasTexture texture, Control boundsControl)
     {
-        Input.MouseMode = Input.MouseModeEnum.ConfinedHidden;
         if (_cursorSprite == null)
         {
             _cursorSprite = new Sprite2D
