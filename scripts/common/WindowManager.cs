@@ -52,4 +52,9 @@ public sealed class WindowManager
             boundsControl.AddChild(_cursorTracker);
         }
     }
+    /// <summary>
+    /// Sets if the custom cursor is visible.
+    /// </summary>
+    /// <param name="i"></param>
+    public void SetCustomCursorVisible(bool i) => _cursorSprite.Visible = i;
 }

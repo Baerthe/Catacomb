@@ -204,7 +204,7 @@ public sealed partial class AppShell : Control
         if (IsInstanceValid(_loadedScene)
         && _loadedScene.GameStarted == true
         && (_loadedScene.CurrentGameState == GameState.Playing || _loadedScene.CurrentGameState == GameState.Paused))
-            _loadedScene.RequestGameState(isPaused ? GameState.Playing : GameState.Paused);
+                _loadedScene.RequestGameState(isPaused ? GameState.Playing : GameState.Paused);
         else
             return;
         _crtOverlay.Material = isPaused ? _defaultCrtMaterial : _pausedCrtMaterial;
