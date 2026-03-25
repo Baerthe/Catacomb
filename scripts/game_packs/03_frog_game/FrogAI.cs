@@ -37,26 +37,32 @@ public sealed class FrogAI
                 };
                 float speed = i.Speed switch
                 {
-                    FrogSpeed.slow => 26f,
-                    FrogSpeed.normal => 32.5f,
-                    FrogSpeed.fast => 39.75f,
-                    FrogSpeed.faster => 51.25f,
+                    FrogSpeed.slow => 16f,
+                    FrogSpeed.normal => 22.5f,
+                    FrogSpeed.fast => 29.75f,
+                    FrogSpeed.faster => 31.25f,
                     _ => throw new System.InvalidOperationException()
                 };
-                i.Velocity = speed * direction;
+                GD.Print($"{this}: moving {i}...");
+                i.MovementVector = speed * direction;
             }
             else
+            {
                 i.Position = i.InitPosition;
+                i.MovementVector = Vector2.Zero;
+            }
         }
     }
     public void Freeze()
     {
+        GD.Print($"{this}: Freeze Called.");
         foreach (FrogMovable i in _objList)
             if (i.IsPhysicsProcessing())
                 i.SetPhysicsProcess(false);
     }
     public void Unfreeze()
     {
+        GD.Print($"{this}: Unfreeze Called.");
         foreach (FrogMovable i in _objList)
             if (!i.IsPhysicsProcessing())
                 i.SetPhysicsProcess(true);
