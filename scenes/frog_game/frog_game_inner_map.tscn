@@ -30,7 +30,7 @@ metadata/_edit_lock_ = true
 [node name="FrogGameCharacter" parent="." unique_id=653952716 instance=ExtResource("2_ql20p")]
 position = Vector2(320, 240)
 
-[node name="Node" type="Node" parent="." unique_id=1357187203]
+[node name="Entities" type="Node" parent="." unique_id=1357187203]
 
 [node name="LL1" type="Marker2D" parent="Node" unique_id=1658652395]
 position = Vector2(-232, 208)

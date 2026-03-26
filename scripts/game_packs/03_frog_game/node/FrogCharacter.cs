@@ -7,6 +7,7 @@ public sealed partial class FrogCharacter : CharacterBody2D
 {
     public event Action OnDeath;
     [Export] private RayCast2D _rayCast;
+    [Export] private RayCast2D _floorCast;
     [Export] private AnimatedSprite2D _sprite;
     [Export] private AudioEvent _sfxMove;
     private Timer _coolDown;
@@ -23,7 +24,15 @@ public sealed partial class FrogCharacter : CharacterBody2D
         _coolDown.WaitTime = 0.2f;
         AddChild(_coolDown);
     }
-    public override void _PhysicsProcess(double delta) => SnapToGrid();
+    public override void _PhysicsProcess(double delta)
+    {
+        if (_floorCast.IsColliding() && _floorCast.GetCollider() is FrogMovable moveable)
+            Velocity = moveable.MovementVector;
+        else
+            Velocity = Vector2.Zero;
+        SnapToGrid();
+        MoveAndSlide();
+    }
     public void Death()
     {
         _sprite.Play("death");
