@@ -41,7 +41,6 @@ public sealed class FrogAI
                     FrogSpeed.faster => 10f,
                     _ => throw new System.InvalidOperationException()
                 };
-                GD.Print($"{this}: moving {i}...");
                 i.MovementVector = speed * direction;
             }
             else
