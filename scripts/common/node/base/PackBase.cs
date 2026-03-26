@@ -144,6 +144,7 @@ public abstract partial class PackBase : Node2D
                 break;
             case GameState.Paused:
                 StatePaused();
+                GameManagers.Instance.Window.SetCRTShaderPaused();
                 GameManagers.Instance.Window.SetCustomCursorVisible(true);
                 break;
             case GameState.Playing:
@@ -153,6 +154,7 @@ public abstract partial class PackBase : Node2D
                     AudioManager.PlayMusicTrack(MusicGameMain);
                     GameStarted = true;
                     }
+                GameManagers.Instance.Window.SetCRTShaderDefault();
                 GameManagers.Instance.Window.SetCustomCursorVisible(false);
                 break;
             case GameState.GameQuit:

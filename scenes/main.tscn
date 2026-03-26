@@ -51,9 +51,9 @@ _debugMenu = NodePath("crt/SubViewportContainer/SubViewport/debug_menu")
 _gameScreen = NodePath("crt/SubViewportContainer/SubViewport/game_screen")
 _loadingScreen = NodePath("crt/SubViewportContainer/SubViewport/loading_screen")
 _crtOverlay = NodePath("crt/crt_overlay")
+_bootCrtMaterial = ExtResource("5_o6xl0")
 _defaultCrtMaterial = ExtResource("6_tefeu")
 _pausedCrtMaterial = ExtResource("3_tbgi4")
-_bootCrtMaterial = ExtResource("5_o6xl0")
 _cursorTexture = SubResource("AtlasTexture_choun")
 
 [node name="backdrop" type="ColorRect" parent="." unique_id=2068144816]
