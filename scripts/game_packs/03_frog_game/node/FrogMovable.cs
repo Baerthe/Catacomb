@@ -20,7 +20,7 @@ public sealed partial class FrogMovable : AnimatableBody2D
         if (_ridable)
             {
                 GD.Print($"{this}: setting to ridable");
-                CollisionLayer = 8;
+                CollisionLayer = 128;
                 CollisionMask = 2;
             }
         else

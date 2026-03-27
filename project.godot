@@ -91,7 +91,9 @@ p1_move_left={
 2d_physics/layer_1="Foreground 1"
 2d_physics/layer_2="Foreground 2"
 2d_physics/layer_3="Objects"
-2d_physics/layer_4="Platforms"
+2d_physics/layer_4="Layer 4"
+2d_physics/layer_5="Death"
+2d_physics/layer_8="Platform"
 2d_physics/layer_9="Player"
 
 [rendering]

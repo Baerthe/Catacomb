@@ -6,8 +6,9 @@ using System;
 public sealed partial class FrogCharacter : CharacterBody2D
 {
     public event Action OnDeath;
-    [Export] private RayCast2D _rayCast;
+    [Export] private RayCast2D _deathCast;
     [Export] private RayCast2D _floorCast;
+    [Export] private RayCast2D _rayCast;
     [Export] private AnimatedSprite2D _sprite;
     [Export] private AudioEvent _sfxMove;
     private Timer _coolDown;
@@ -27,12 +28,14 @@ public sealed partial class FrogCharacter : CharacterBody2D
     public override void _PhysicsProcess(double delta)
     {
         if (_floorCast.IsColliding() && _floorCast.GetCollider() is FrogMovable moveable)
+        {
             MoveAndCollide(moveable.MovementVector);
-        else
-            {
-                Velocity = Vector2.Zero;
-                MoveAndSlide();
-            }
+            return;
+        }
+        else if (_deathCast.IsColliding() && _deathCast.GetCollider() is TileMapLayer)
+            Death();
+        Velocity = Vector2.Zero;
+        MoveAndSlide();
     }
     public void Death()
     {
