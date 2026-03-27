@@ -27,11 +27,12 @@ public sealed partial class FrogCharacter : CharacterBody2D
     public override void _PhysicsProcess(double delta)
     {
         if (_floorCast.IsColliding() && _floorCast.GetCollider() is FrogMovable moveable)
-            Velocity = moveable.MovementVector;
+            MoveAndCollide(moveable.MovementVector);
         else
-            Velocity = Vector2.Zero;
-        SnapToGrid();
-        MoveAndSlide();
+            {
+                Velocity = Vector2.Zero;
+                MoveAndSlide();
+            }
     }
     public void Death()
     {

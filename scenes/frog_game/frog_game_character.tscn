@@ -67,13 +67,14 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_sbjvt"]
 radius = 8.0
 
-[node name="CharacterBody2D" type="CharacterBody2D" unique_id=653952716 node_paths=PackedStringArray("_rayCast", "_sprite")]
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=653952716 node_paths=PackedStringArray("_rayCast", "_floorCast", "_sprite")]
 texture_filter = 1
-collision_layer = 8
+collision_layer = 256
 collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_sn6ae")
 _rayCast = NodePath("RayCast2D")
+_floorCast = NodePath("RayCast2D2")
 _sprite = NodePath("AnimatedSprite2D")
 _sfxMove = ExtResource("2_ucvuf")
 
@@ -114,4 +115,9 @@ shape = SubResource("CircleShape2D_sbjvt")
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=2033438699]
 target_position = Vector2(16, 0)
-collision_mask = 7
+collision_mask = 5
+
+[node name="RayCast2D2" type="RayCast2D" parent="." unique_id=979084788]
+target_position = Vector2(0, 0)
+collision_mask = 8
+hit_from_inside = true

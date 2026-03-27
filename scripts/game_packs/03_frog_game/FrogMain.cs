@@ -44,11 +44,13 @@ public sealed partial class FrogMain : PackBase
     protected override void StatePaused()
     {
         _menu.Visible = true;
+        _character.SetPhysicsProcess(false);
         _frogAI.Freeze();
     }
     protected override void StatePlaying()
     {
         _menu.Visible = false;
+        _character.SetPhysicsProcess(true);
         _frogAI.Unfreeze();
     }
 }

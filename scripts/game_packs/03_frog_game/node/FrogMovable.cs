@@ -8,27 +8,28 @@ using Godot;
 [GlobalClass]
 public sealed partial class FrogMovable : AnimatableBody2D
 {
-    [Export] public bool Ridable { get; private set;} = false;
     [Export] public Marker2D SpawnPoint { get; private set; }
     [Export] public FrogSpeed Speed { get; private set;} = FrogSpeed.normal;
     [Export] private AnimatedSprite2D _sprite;
     [Export] public Direction MovingDirection { get; private set; }
+    [Export] private bool _ridable;
     public bool InBounds { get; set; } = false;
     public Vector2 MovementVector { get; set; }
     public override void _Ready()
     {
-        if (Ridable)
-            CollisionLayer = 4;
+        if (_ridable)
+            {
+                GD.Print($"{this}: setting to ridable");
+                CollisionLayer = 8;
+                CollisionMask = 2;
+            }
         else
-            CollisionLayer = 8;
+            CollisionLayer = 4;
     }
     public override void _PhysicsProcess(double delta)
     {
         var collision = MoveAndCollide(MovementVector);
-        if (collision?.GetCollider() is FrogCharacter frog)
-            if (!Ridable)
-                frog.Death();
-            else
-                return;
+        if (collision?.GetCollider() is FrogCharacter frog && !_ridable)
+            frog.Death();
     }
 }
