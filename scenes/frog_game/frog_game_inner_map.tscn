@@ -1,36 +1,18 @@
 [gd_scene format=4 uid="uid://pg84exidg6md"]
 
 [ext_resource type="TileSet" uid="uid://c5uk0dan5of4" path="res://assets/main_tileset.tres" id="1_f1v7a"]
+[ext_resource type="PackedScene" uid="uid://coupgf2du6fb5" path="res://scenes/frog_game/frog_game_log.tscn" id="2_32qa1"]
 [ext_resource type="PackedScene" uid="uid://bld5p0xgkyk21" path="res://scenes/frog_game/frog_game_character.tscn" id="2_ql20p"]
+[ext_resource type="PackedScene" uid="uid://daixsu0bwu0qk" path="res://scenes/frog_game/frog_game_fasttruck.tscn" id="3_3ac0m"]
 [ext_resource type="PackedScene" uid="uid://cps3svkak4oy5" path="res://scenes/frog_game/frog_game_truck.tscn" id="3_32qa1"]
-[ext_resource type="Script" uid="uid://dnxc1buxixkrm" path="res://scripts/game_packs/03_frog_game/node/FrogMovable.cs" id="4_3ac0m"]
-[ext_resource type="Texture2D" uid="uid://hcvexgajy5rj" path="res://assets/resources/main_atlas.tres" id="5_y7plw"]
-[ext_resource type="Texture2D" uid="uid://ge301vham2ld" path="res://assets/SpriteTilemap.png" id="6_co8se"]
+[ext_resource type="PackedScene" uid="uid://bfftxjwws0g4o" path="res://scenes/frog_game/frog_game_car.tscn" id="4_32qa1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1q8iw"]
 size = Vector2(1248, 800)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ka35v"]
-atlas = ExtResource("5_y7plw")
-region = Rect2(17, 289, 16, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_t1li2"]
-size = Vector2(36, 20)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_35dca"]
-atlas = ExtResource("6_co8se")
-region = Rect2(204, 340, 32, 16)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_ka35v"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_35dca")
-}],
-"loop": true,
-"name": &"walk",
-"speed": 5.0
-}]
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_ql20p"]
+a = Vector2(0, -168)
+b = Vector2(0, 256)
 
 [node name="Map" type="Node" unique_id=1774919134]
 
@@ -39,11 +21,13 @@ position = Vector2(136, 200)
 collision_layer = 2
 collision_mask = 132
 input_pickable = false
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2080158415]
 position = Vector2(184, -8)
 shape = SubResource("RectangleShape2D_1q8iw")
 debug_color = Color(0, 0, 0, 0.14901961)
+metadata/_edit_lock_ = true
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=440909648]
 z_index = -1
@@ -55,12 +39,10 @@ metadata/_edit_lock_ = true
 
 [node name="Objects" type="Node2D" parent="." unique_id=1164207908]
 z_index = 2
+metadata/_edit_lock_ = true
 
 [node name="LL1" type="Marker2D" parent="Objects" unique_id=1658652395]
 position = Vector2(-232, 208)
-
-[node name="LL7" type="Marker2D" parent="Objects" unique_id=1015829804]
-position = Vector2(-16, 160)
 
 [node name="LL2" type="Marker2D" parent="Objects" unique_id=296653052]
 position = Vector2(-232, 224)
@@ -77,7 +59,375 @@ position = Vector2(944, 32)
 [node name="LL6" type="Marker2D" parent="Objects" unique_id=437515024]
 position = Vector2(944, 0)
 
-[node name="Truck" parent="Objects" unique_id=1991138954 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
+[node name="LL7" type="Marker2D" parent="Objects" unique_id=1015829804]
+position = Vector2(-232, 160)
+
+[node name="LL8" type="Marker2D" parent="Objects" unique_id=175621660]
+position = Vector2(-232, 112)
+
+[node name="LL9" type="Marker2D" parent="Objects" unique_id=111779204]
+position = Vector2(936, 144)
+
+[node name="LL10" type="Marker2D" parent="Objects" unique_id=1073262561]
+position = Vector2(936, 128)
+
+[node name="Log" parent="Objects" unique_id=199924453 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(-200, 160)
+SpawnPoint = NodePath("../LL7")
+
+[node name="Log2" parent="Objects" unique_id=1991138954 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(-168, 160)
+SpawnPoint = NodePath("../LL7")
+
+[node name="Log6" parent="Objects" unique_id=1568206594 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(-16, 160)
+SpawnPoint = NodePath("../LL7")
+
+[node name="Log7" parent="Objects" unique_id=2086777227 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(48, 160)
+SpawnPoint = NodePath("../LL7")
+
+[node name="Log9" parent="Objects" unique_id=877523542 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(112, 160)
+SpawnPoint = NodePath("../LL7")
+
+[node name="Log10" parent="Objects" unique_id=765685719 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(160, 160)
+SpawnPoint = NodePath("../LL7")
+
+[node name="Log12" parent="Objects" unique_id=463716377 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(240, 160)
+SpawnPoint = NodePath("../LL7")
+
+[node name="Log13" parent="Objects" unique_id=762229196 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(304, 160)
+SpawnPoint = NodePath("../LL7")
+
+[node name="Log16" parent="Objects" unique_id=1110736712 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(416, 160)
+SpawnPoint = NodePath("../LL7")
+
+[node name="Log18" parent="Objects" unique_id=595844068 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(496, 160)
+SpawnPoint = NodePath("../LL7")
+
+[node name="Log19" parent="Objects" unique_id=1883843109 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(560, 160)
+SpawnPoint = NodePath("../LL7")
+
+[node name="Log20" parent="Objects" unique_id=537659325 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(592, 160)
+SpawnPoint = NodePath("../LL7")
+
+[node name="Log21" parent="Objects" unique_id=1302841578 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(624, 160)
+SpawnPoint = NodePath("../LL7")
+
+[node name="Log22" parent="Objects" unique_id=1813471183 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(672, 160)
+SpawnPoint = NodePath("../LL7")
+
+[node name="Log23" parent="Objects" unique_id=1601068801 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(704, 160)
+SpawnPoint = NodePath("../LL7")
+
+[node name="Truck7" parent="Objects" unique_id=2044201492 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_3ac0m")]
+position = Vector2(168, 16)
+SpawnPoint = NodePath("../LL4")
+
+[node name="Truck32" parent="Objects" unique_id=736696609 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_3ac0m")]
+position = Vector2(80, 16)
+SpawnPoint = NodePath("../LL4")
+
+[node name="Truck36" parent="Objects" unique_id=304196492 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_3ac0m")]
+position = Vector2(-176, 16)
+SpawnPoint = NodePath("../LL4")
+
+[node name="Truck34" parent="Objects" unique_id=878470935 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_3ac0m")]
+position = Vector2(8, 16)
+SpawnPoint = NodePath("../LL4")
+
+[node name="Truck9" parent="Objects" unique_id=1051941447 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_3ac0m")]
+position = Vector2(216, 16)
+SpawnPoint = NodePath("../LL4")
+
+[node name="Truck15" parent="Objects" unique_id=1499774668 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_3ac0m")]
+position = Vector2(264, 16)
+SpawnPoint = NodePath("../LL4")
+
+[node name="Truck17" parent="Objects" unique_id=573030556 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_3ac0m")]
+position = Vector2(312, 16)
+SpawnPoint = NodePath("../LL4")
+
+[node name="Truck43" parent="Objects" unique_id=1498011762 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_3ac0m")]
+position = Vector2(360, 16)
+SpawnPoint = NodePath("../LL4")
+
+[node name="Truck44" parent="Objects" unique_id=2088597488 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_3ac0m")]
+position = Vector2(424, 16)
+SpawnPoint = NodePath("../LL4")
+
+[node name="Truck45" parent="Objects" unique_id=1668202885 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_3ac0m")]
+position = Vector2(472, 16)
+SpawnPoint = NodePath("../LL4")
+
+[node name="Truck46" parent="Objects" unique_id=2106527039 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_3ac0m")]
+position = Vector2(584, 16)
+SpawnPoint = NodePath("../LL4")
+
+[node name="Truck47" parent="Objects" unique_id=2067499094 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_3ac0m")]
+position = Vector2(760, 16)
+SpawnPoint = NodePath("../LL4")
+
+[node name="Truck48" parent="Objects" unique_id=1053682165 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_3ac0m")]
+position = Vector2(896, 16)
+SpawnPoint = NodePath("../LL4")
+
+[node name="Log25" parent="Objects" unique_id=393225695 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(808, 160)
+SpawnPoint = NodePath("../LL7")
+
+[node name="Log26" parent="Objects" unique_id=416842939 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(896, 160)
+SpawnPoint = NodePath("../LL7")
+
+[node name="Log27" parent="Objects" unique_id=1383650221 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(-200, 112)
+SpawnPoint = NodePath("../LL8")
+
+[node name="Log30" parent="Objects" unique_id=1773025120 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(-96, 112)
+SpawnPoint = NodePath("../LL8")
+
+[node name="Log31" parent="Objects" unique_id=1588948854 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(-40, 112)
+SpawnPoint = NodePath("../LL8")
+
+[node name="Log32" parent="Objects" unique_id=324788268 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(16, 112)
+SpawnPoint = NodePath("../LL8")
+
+[node name="Log33" parent="Objects" unique_id=104489016 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(48, 112)
+SpawnPoint = NodePath("../LL8")
+
+[node name="Log35" parent="Objects" unique_id=471297034 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(128, 112)
+SpawnPoint = NodePath("../LL8")
+
+[node name="Log36" parent="Objects" unique_id=1304930767 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(160, 112)
+SpawnPoint = NodePath("../LL8")
+
+[node name="Log38" parent="Objects" unique_id=996287105 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(240, 112)
+SpawnPoint = NodePath("../LL8")
+
+[node name="Log41" parent="Objects" unique_id=1236623747 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(384, 112)
+SpawnPoint = NodePath("../LL8")
+
+[node name="Log43" parent="Objects" unique_id=268264233 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(480, 112)
+SpawnPoint = NodePath("../LL8")
+
+[node name="Log45" parent="Objects" unique_id=2029883171 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(560, 112)
+SpawnPoint = NodePath("../LL8")
+
+[node name="Log46" parent="Objects" unique_id=761900678 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(592, 112)
+SpawnPoint = NodePath("../LL8")
+
+[node name="Log47" parent="Objects" unique_id=1585253823 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(640, 112)
+SpawnPoint = NodePath("../LL8")
+
+[node name="Log48" parent="Objects" unique_id=1233005141 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(672, 112)
+SpawnPoint = NodePath("../LL8")
+
+[node name="Log50" parent="Objects" unique_id=1681707118 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(752, 112)
+SpawnPoint = NodePath("../LL8")
+
+[node name="Log51" parent="Objects" unique_id=1069359890 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(808, 112)
+SpawnPoint = NodePath("../LL8")
+
+[node name="Log52" parent="Objects" unique_id=748336829 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(912, 112)
+SpawnPoint = NodePath("../LL8")
+
+[node name="Log53" parent="Objects" unique_id=1936646874 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(-184, 144)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL9")
+Speed = 0
+MovingDirection = 3
+
+[node name="Log55" parent="Objects" unique_id=1129179477 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(-128, 144)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL9")
+Speed = 0
+MovingDirection = 3
+
+[node name="Log58" parent="Objects" unique_id=2009670265 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(0, 144)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL9")
+Speed = 0
+MovingDirection = 3
+
+[node name="Log59" parent="Objects" unique_id=1263488879 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(40, 144)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL9")
+Speed = 0
+MovingDirection = 3
+
+[node name="Log63" parent="Objects" unique_id=2147079232 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(208, 144)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL9")
+Speed = 0
+MovingDirection = 3
+
+[node name="Log64" parent="Objects" unique_id=1055442956 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(264, 144)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL9")
+Speed = 0
+MovingDirection = 3
+
+[node name="Log65" parent="Objects" unique_id=1851846218 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(304, 144)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL9")
+Speed = 0
+MovingDirection = 3
+
+[node name="Log71" parent="Objects" unique_id=1368129881 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(544, 144)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL9")
+Speed = 0
+MovingDirection = 3
+
+[node name="Log72" parent="Objects" unique_id=1066487912 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(592, 144)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL9")
+Speed = 0
+MovingDirection = 3
+
+[node name="Log76" parent="Objects" unique_id=1084362866 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(752, 144)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL9")
+Speed = 0
+MovingDirection = 3
+
+[node name="Log77" parent="Objects" unique_id=467670639 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(824, 144)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL9")
+Speed = 0
+MovingDirection = 3
+
+[node name="Log78" parent="Objects" unique_id=934079003 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(880, 144)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL9")
+Speed = 0
+MovingDirection = 3
+
+[node name="Log66" parent="Objects" unique_id=199560854 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(-168, 128)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL10")
+Speed = 0
+MovingDirection = 3
+
+[node name="Log82" parent="Objects" unique_id=215587190 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(8, 128)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL10")
+Speed = 0
+MovingDirection = 3
+
+[node name="Log83" parent="Objects" unique_id=1442407198 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(40, 128)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL10")
+Speed = 0
+MovingDirection = 3
+
+[node name="Log84" parent="Objects" unique_id=418497492 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(80, 128)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL10")
+Speed = 0
+MovingDirection = 3
+
+[node name="Log87" parent="Objects" unique_id=1422531548 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(232, 128)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL10")
+Speed = 0
+MovingDirection = 3
+
+[node name="Log89" parent="Objects" unique_id=376253148 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(288, 128)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL10")
+Speed = 0
+MovingDirection = 3
+
+[node name="Log91" parent="Objects" unique_id=92218237 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(416, 128)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL10")
+Speed = 0
+MovingDirection = 3
+
+[node name="Log94" parent="Objects" unique_id=260961960 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(512, 128)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL10")
+Speed = 0
+MovingDirection = 3
+
+[node name="Log95" parent="Objects" unique_id=1007345090 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(624, 128)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL10")
+Speed = 0
+MovingDirection = 3
+
+[node name="Log98" parent="Objects" unique_id=1731120986 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(776, 128)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL10")
+Speed = 0
+MovingDirection = 3
+
+[node name="Log99" parent="Objects" unique_id=1272181904 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(840, 128)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL10")
+Speed = 0
+MovingDirection = 3
+
+[node name="Log100" parent="Objects" unique_id=938829798 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("2_32qa1")]
+position = Vector2(896, 128)
+scale = Vector2(-1, 1)
+SpawnPoint = NodePath("../LL10")
+Speed = 0
+MovingDirection = 3
+
+[node name="Truck" parent="Objects" unique_id=1388787196 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
 position = Vector2(-176, 224)
 SpawnPoint = NodePath("../LL2")
 
@@ -89,41 +439,21 @@ SpawnPoint = NodePath("../LL1")
 position = Vector2(-208, 48)
 SpawnPoint = NodePath("../LL3")
 
-[node name="Truck32" parent="Objects" unique_id=308952526 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(-208, 16)
-SpawnPoint = NodePath("../LL4")
-
 [node name="Truck33" parent="Objects" unique_id=1418634394 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
 position = Vector2(-152, 48)
 SpawnPoint = NodePath("../LL3")
-
-[node name="Truck34" parent="Objects" unique_id=123812120 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(-152, 16)
-SpawnPoint = NodePath("../LL4")
 
 [node name="Truck35" parent="Objects" unique_id=19038862 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
 position = Vector2(-120, 48)
 SpawnPoint = NodePath("../LL3")
 
-[node name="Truck36" parent="Objects" unique_id=1962324825 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(-120, 16)
-SpawnPoint = NodePath("../LL4")
-
 [node name="Truck37" parent="Objects" unique_id=1181703781 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
 position = Vector2(-24, 48)
 SpawnPoint = NodePath("../LL3")
 
-[node name="Truck38" parent="Objects" unique_id=721694879 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(-24, 16)
-SpawnPoint = NodePath("../LL4")
-
 [node name="Truck39" parent="Objects" unique_id=592380195 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
 position = Vector2(32, 48)
 SpawnPoint = NodePath("../LL3")
-
-[node name="Truck40" parent="Objects" unique_id=1031235340 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(56, 16)
-SpawnPoint = NodePath("../LL4")
 
 [node name="Truck41" parent="Objects" unique_id=643037922 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
 position = Vector2(72, 48)
@@ -345,7 +675,7 @@ Speed = 1
 MovingDirection = 3
 
 [node name="Truck76" parent="Objects" unique_id=291374918 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(664, 32)
+position = Vector2(696, 32)
 rotation = -3.1415925
 scale = Vector2(1, -1)
 SpawnPoint = NodePath("../LL5")
@@ -353,7 +683,7 @@ Speed = 1
 MovingDirection = 3
 
 [node name="Truck77" parent="Objects" unique_id=554008634 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(552, 32)
+position = Vector2(512, 32)
 rotation = -3.1415925
 scale = Vector2(1, -1)
 SpawnPoint = NodePath("../LL5")
@@ -377,15 +707,7 @@ Speed = 1
 MovingDirection = 3
 
 [node name="Truck80" parent="Objects" unique_id=115049443 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(256, 32)
-rotation = -3.1415925
-scale = Vector2(1, -1)
-SpawnPoint = NodePath("../LL5")
-Speed = 1
-MovingDirection = 3
-
-[node name="Truck81" parent="Objects" unique_id=1308434173 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(184, 32)
+position = Vector2(288, 32)
 rotation = -3.1415925
 scale = Vector2(1, -1)
 SpawnPoint = NodePath("../LL5")
@@ -432,70 +754,6 @@ SpawnPoint = NodePath("../LL5")
 Speed = 1
 MovingDirection = 3
 
-[node name="Truck42" parent="Objects" unique_id=338781950 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(88, 16)
-SpawnPoint = NodePath("../LL4")
-
-[node name="Truck43" parent="Objects" unique_id=2135224742 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(160, 16)
-SpawnPoint = NodePath("../LL4")
-
-[node name="Truck44" parent="Objects" unique_id=743104849 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(232, 16)
-SpawnPoint = NodePath("../LL4")
-
-[node name="Truck45" parent="Objects" unique_id=2027525577 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(264, 16)
-SpawnPoint = NodePath("../LL4")
-
-[node name="Truck46" parent="Objects" unique_id=1928827377 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(312, 16)
-SpawnPoint = NodePath("../LL4")
-
-[node name="Truck47" parent="Objects" unique_id=267585241 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(376, 16)
-SpawnPoint = NodePath("../LL4")
-
-[node name="Truck48" parent="Objects" unique_id=1276868877 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(456, 16)
-SpawnPoint = NodePath("../LL4")
-
-[node name="Truck49" parent="Objects" unique_id=1739594834 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(520, 16)
-SpawnPoint = NodePath("../LL4")
-
-[node name="Truck50" parent="Objects" unique_id=1903250033 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(568, 16)
-SpawnPoint = NodePath("../LL4")
-
-[node name="Truck51" parent="Objects" unique_id=186872151 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(616, 16)
-SpawnPoint = NodePath("../LL4")
-
-[node name="Truck52" parent="Objects" unique_id=1916764223 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(648, 16)
-SpawnPoint = NodePath("../LL4")
-
-[node name="Truck53" parent="Objects" unique_id=485354356 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(712, 16)
-SpawnPoint = NodePath("../LL4")
-
-[node name="Truck54" parent="Objects" unique_id=549157857 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(744, 16)
-SpawnPoint = NodePath("../LL4")
-
-[node name="Truck55" parent="Objects" unique_id=1366667190 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(808, 16)
-SpawnPoint = NodePath("../LL4")
-
-[node name="Truck56" parent="Objects" unique_id=370266784 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(856, 16)
-SpawnPoint = NodePath("../LL4")
-
-[node name="Truck57" parent="Objects" unique_id=732372532 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(920, 16)
-SpawnPoint = NodePath("../LL4")
-
 [node name="Truck3" parent="Objects" unique_id=1621117088 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
 position = Vector2(-112, 224)
 SpawnPoint = NodePath("../LL2")
@@ -508,100 +766,25 @@ SpawnPoint = NodePath("../LL1")
 position = Vector2(-48, 224)
 SpawnPoint = NodePath("../LL2")
 
-[node name="Truck6" parent="Objects" unique_id=2109622112 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(-72, 208)
-SpawnPoint = NodePath("../LL1")
-
-[node name="Truck7" parent="Objects" unique_id=506146787 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(-16, 224)
-SpawnPoint = NodePath("../LL2")
-
-[node name="Truck8" parent="Objects" unique_id=71835662 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(-40, 208)
-SpawnPoint = NodePath("../LL1")
-
-[node name="Truck9" parent="Objects" unique_id=1522212818 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(40, 224)
-SpawnPoint = NodePath("../LL2")
-
-[node name="Truck10" parent="Objects" unique_id=1529336331 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(16, 208)
-SpawnPoint = NodePath("../LL1")
-
 [node name="Truck11" parent="Objects" unique_id=1058475569 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
 position = Vector2(160, 224)
 SpawnPoint = NodePath("../LL2")
 
-[node name="Truck12" parent="Objects" unique_id=1635734563 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(136, 208)
-SpawnPoint = NodePath("../LL1")
-
-[node name="Truck17" parent="Objects" unique_id=1602600288 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(88, 208)
-SpawnPoint = NodePath("../LL1")
+[node name="Truck12" parent="Objects" unique_id=232860677 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
+position = Vector2(24, 224)
+SpawnPoint = NodePath("../LL2")
 
 [node name="Truck13" parent="Objects" unique_id=954220455 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
 position = Vector2(240, 224)
 SpawnPoint = NodePath("../LL2")
 
-[node name="Truck14" parent="Objects" unique_id=527724793 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(240, 208)
-SpawnPoint = NodePath("../LL1")
-
-[node name="Truck15" parent="Objects" unique_id=1998850665 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(296, 224)
-SpawnPoint = NodePath("../LL2")
-
-[node name="Truck16" parent="Objects" unique_id=1825751171 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(296, 208)
-SpawnPoint = NodePath("../LL1")
-
-[node name="Truck103" type="AnimatableBody2D" parent="Objects" unique_id=725420399 node_paths=PackedStringArray("SpawnPoint", "_sprite") groups=["moveable"]]
-modulate = Color(1, 0, 0, 1)
-texture_filter = 3
-position = Vector2(48, 160)
-collision_layer = 132
-collision_mask = 2
-sync_to_physics = false
-script = ExtResource("4_3ac0m")
-SpawnPoint = NodePath("../LL7")
-Speed = 0
-_sprite = NodePath("AnimatedSprite2D")
-MovingDirection = 4
-_ridable = true
-
-[node name="Sprite2D2" type="Sprite2D" parent="Objects/Truck103" unique_id=683036368]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(8, 0)
-texture = SubResource("AtlasTexture_ka35v")
-
-[node name="Sprite2D" type="Sprite2D" parent="Objects/Truck103" unique_id=599666121]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(-8, 0)
-texture = SubResource("AtlasTexture_ka35v")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Objects/Truck103" unique_id=1001732470]
-shape = SubResource("RectangleShape2D_t1li2")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Objects/Truck103" unique_id=1818307801]
-sprite_frames = SubResource("SpriteFrames_ka35v")
-animation = &"walk"
-
 [node name="Truck18" parent="Objects" unique_id=1210550896 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
 position = Vector2(328, 224)
 SpawnPoint = NodePath("../LL2")
 
-[node name="Truck19" parent="Objects" unique_id=2008016361 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(328, 208)
-SpawnPoint = NodePath("../LL1")
-
 [node name="Truck20" parent="Objects" unique_id=491025487 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
 position = Vector2(408, 224)
 SpawnPoint = NodePath("../LL2")
-
-[node name="Truck21" parent="Objects" unique_id=350888594 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(408, 208)
-SpawnPoint = NodePath("../LL1")
 
 [node name="Truck22" parent="Objects" unique_id=2051018678 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
 position = Vector2(456, 224)
@@ -611,33 +794,139 @@ SpawnPoint = NodePath("../LL2")
 position = Vector2(552, 224)
 SpawnPoint = NodePath("../LL2")
 
-[node name="Truck23" parent="Objects" unique_id=1517251536 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(488, 208)
-SpawnPoint = NodePath("../LL1")
-
-[node name="Truck25" parent="Objects" unique_id=560575069 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(600, 208)
-SpawnPoint = NodePath("../LL1")
-
 [node name="Truck26" parent="Objects" unique_id=483068437 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
 position = Vector2(648, 224)
 SpawnPoint = NodePath("../LL2")
-
-[node name="Truck27" parent="Objects" unique_id=494500112 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(696, 208)
-SpawnPoint = NodePath("../LL1")
 
 [node name="Truck28" parent="Objects" unique_id=1278959852 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
 position = Vector2(744, 224)
 SpawnPoint = NodePath("../LL2")
 
-[node name="Truck29" parent="Objects" unique_id=291383320 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
-position = Vector2(792, 208)
-SpawnPoint = NodePath("../LL1")
+[node name="Truck29" parent="Objects" unique_id=2143151607 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
+position = Vector2(816, 224)
+SpawnPoint = NodePath("../LL2")
 
-[node name="Truck30" parent="Objects" unique_id=1180536391 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
+[node name="Truck30" parent="Objects" unique_id=546217660 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("3_32qa1")]
+position = Vector2(904, 224)
+SpawnPoint = NodePath("../LL2")
+
+[node name="Car" parent="Objects" unique_id=1076029640 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("4_32qa1")]
+position = Vector2(64, 208)
+SpawnPoint = NodePath("../LL1")
+Speed = 0
+
+[node name="Car9" parent="Objects" unique_id=1389167359 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("4_32qa1")]
+position = Vector2(32, 208)
+SpawnPoint = NodePath("../LL1")
+Speed = 0
+
+[node name="Car11" parent="Objects" unique_id=1851749753 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("4_32qa1")]
+position = Vector2(80, 208)
+SpawnPoint = NodePath("../LL1")
+Speed = 0
+
+[node name="Car12" parent="Objects" unique_id=2017733620 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("4_32qa1")]
+position = Vector2(112, 208)
+SpawnPoint = NodePath("../LL1")
+Speed = 0
+
+[node name="Car14" parent="Objects" unique_id=389702126 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("4_32qa1")]
+position = Vector2(480, 208)
+SpawnPoint = NodePath("../LL1")
+Speed = 0
+
+[node name="Car15" parent="Objects" unique_id=1624982923 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("4_32qa1")]
+position = Vector2(784, 208)
+SpawnPoint = NodePath("../LL1")
+Speed = 0
+
+[node name="Car18" parent="Objects" unique_id=1478671689 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("4_32qa1")]
 position = Vector2(824, 208)
 SpawnPoint = NodePath("../LL1")
+Speed = 0
+
+[node name="Car19" parent="Objects" unique_id=1955196147 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("4_32qa1")]
+position = Vector2(864, 208)
+SpawnPoint = NodePath("../LL1")
+Speed = 0
+
+[node name="Car20" parent="Objects" unique_id=230013571 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("4_32qa1")]
+position = Vector2(904, 208)
+SpawnPoint = NodePath("../LL1")
+Speed = 0
+
+[node name="Car21" parent="Objects" unique_id=1198913886 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("4_32qa1")]
+position = Vector2(920, 208)
+SpawnPoint = NodePath("../LL1")
+Speed = 0
+
+[node name="Car2" parent="Objects" unique_id=1386421257 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("4_32qa1")]
+position = Vector2(216, 208)
+SpawnPoint = NodePath("../LL1")
+Speed = 0
+
+[node name="Car10" parent="Objects" unique_id=1457792572 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("4_32qa1")]
+position = Vector2(264, 208)
+SpawnPoint = NodePath("../LL1")
+Speed = 0
+
+[node name="Car13" parent="Objects" unique_id=539467794 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("4_32qa1")]
+position = Vector2(416, 208)
+SpawnPoint = NodePath("../LL1")
+Speed = 0
+
+[node name="Car16" parent="Objects" unique_id=2050920625 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("4_32qa1")]
+position = Vector2(-32, 208)
+SpawnPoint = NodePath("../LL1")
+Speed = 0
+
+[node name="Car3" parent="Objects" unique_id=188534245 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("4_32qa1")]
+position = Vector2(360, 208)
+SpawnPoint = NodePath("../LL1")
+Speed = 0
+
+[node name="Car4" parent="Objects" unique_id=942737926 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("4_32qa1")]
+position = Vector2(536, 208)
+SpawnPoint = NodePath("../LL1")
+Speed = 0
+
+[node name="Car5" parent="Objects" unique_id=1552994672 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("4_32qa1")]
+position = Vector2(632, 208)
+SpawnPoint = NodePath("../LL1")
+Speed = 0
+
+[node name="Car17" parent="Objects" unique_id=708550548 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("4_32qa1")]
+position = Vector2(592, 208)
+SpawnPoint = NodePath("../LL1")
+Speed = 0
+
+[node name="Car6" parent="Objects" unique_id=787147322 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("4_32qa1")]
+position = Vector2(648, 208)
+SpawnPoint = NodePath("../LL1")
+Speed = 0
+
+[node name="Car7" parent="Objects" unique_id=1875913270 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("4_32qa1")]
+position = Vector2(664, 208)
+SpawnPoint = NodePath("../LL1")
+Speed = 0
+
+[node name="Car8" parent="Objects" unique_id=133691023 node_paths=PackedStringArray("SpawnPoint") groups=["moveable"] instance=ExtResource("4_32qa1")]
+position = Vector2(744, 208)
+SpawnPoint = NodePath("../LL1")
+Speed = 0
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1149041611]
+collision_layer = 17
+collision_mask = 256
+collision_priority = 5.0
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D" unique_id=1212597594]
+position = Vector2(512, 8)
+shape = SubResource("SegmentShape2D_ql20p")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=498659390]
+position = Vector2(144, 8)
+shape = SubResource("SegmentShape2D_ql20p")
 
 [node name="FrogGameCharacter" parent="." unique_id=653952716 instance=ExtResource("2_ql20p")]
 z_index = 3

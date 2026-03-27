@@ -1,47 +1,45 @@
-[gd_scene format=3 uid="uid://cps3svkak4oy5"]
+[gd_scene format=3 uid="uid://coupgf2du6fb5"]
 
-[ext_resource type="Script" uid="uid://dnxc1buxixkrm" path="res://scripts/game_packs/03_frog_game/node/FrogMovable.cs" id="1_qw2vr"]
-[ext_resource type="Texture2D" uid="uid://ge301vham2ld" path="res://assets/SpriteTilemap.png" id="2_3qx11"]
+[ext_resource type="Script" uid="uid://dnxc1buxixkrm" path="res://scripts/game_packs/03_frog_game/node/FrogMovable.cs" id="1_clrp7"]
+[ext_resource type="Texture2D" uid="uid://ge301vham2ld" path="res://assets/SpriteTilemap.png" id="3_vqny6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ka35v"]
-atlas = ExtResource("2_3qx11")
-region = Rect2(16, 272, 16, 16)
+atlas = ExtResource("3_vqny6")
+region = Rect2(0, 368, 16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t1li2"]
-size = Vector2(32, 8)
+size = Vector2(32, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_3i81r"]
-atlas = ExtResource("2_3qx11")
-region = Rect2(192, 320, 32, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_clrp7"]
+atlas = ExtResource("3_vqny6")
+region = Rect2(0, 352, 32, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ka35v"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_3i81r")
+"texture": SubResource("AtlasTexture_clrp7")
 }],
 "loop": true,
 "name": &"walk",
 "speed": 5.0
 }]
 
-[node name="Truck" type="AnimatableBody2D" unique_id=1991138954 node_paths=PackedStringArray("_sprite")]
+[node name="Log" type="AnimatableBody2D" unique_id=1991138954 node_paths=PackedStringArray("_sprite")]
 texture_filter = 3
 collision_layer = 4
 collision_mask = 258
 sync_to_physics = false
-script = ExtResource("1_qw2vr")
-Speed = 0
+script = ExtResource("1_clrp7")
 _sprite = NodePath("AnimatedSprite2D")
 MovingDirection = 4
+_ridable = true
 
 [node name="Sprite2D2" type="Sprite2D" parent="." unique_id=683036368]
-modulate = Color(0, 0, 0, 1)
 position = Vector2(8, 0)
 texture = SubResource("AtlasTexture_ka35v")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=599666121]
-modulate = Color(0, 0, 0, 1)
 position = Vector2(-8, 0)
 texture = SubResource("AtlasTexture_ka35v")
 
