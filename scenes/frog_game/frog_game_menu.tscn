@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bf54kag72ut8k"]
 
 [ext_resource type="Theme" uid="uid://cvl1c748wxqaw" path="res://assets/resources/theme.theme" id="1_theme"]
-[ext_resource type="Script" uid="uid://c3rvdyatnrxqq" path="res://scripts/game_packs/03_frog_game/FrogMenu.cs" id="2_script"]
+[ext_resource type="Script" uid="uid://rgojilclvhbq" path="res://scripts/game_packs/03_frog_game/FrogMenu.cs" id="2_script"]
 [ext_resource type="Texture2D" uid="uid://b3e0vvk3gtpra" path="res://assets/resources/menu/play.res" id="3_play"]
 [ext_resource type="Resource" uid="uid://82c405m6a7o5" path="res://assets/resources/audio/button_click.tres" id="4_click"]
 [ext_resource type="Texture2D" uid="uid://buhbgwcwemblx" path="res://assets/resources/menu/quit.res" id="5_quit"]
@@ -27,7 +27,7 @@ SfxButtonPress = ExtResource("4_click")
 SfxMenuOpen = ExtResource("6_open")
 SfxMenuClose = ExtResource("7_close")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=556816825]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,7 +36,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=1609329718]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -44,13 +44,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ColorRect" type="ColorRect" parent="Control"]
+[node name="ColorRect" type="ColorRect" parent="Control" unique_id=1261079122]
 layout_mode = 0
 offset_top = 61.0
 offset_right = 640.0
 offset_bottom = 65.0
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=1945021009]
 layout_mode = 0
 offset_right = 640.0
 offset_bottom = 64.0
@@ -59,7 +59,7 @@ label_settings = SubResource("LabelSettings_title")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ButtonPlay" type="Button" parent="."]
+[node name="ButtonPlay" type="Button" parent="." unique_id=1781819120]
 layout_mode = 0
 offset_left = 496.0
 offset_top = 78.0
@@ -75,7 +75,7 @@ flat = true
 icon_alignment = 1
 expand_icon = true
 
-[node name="ButtonQuit" type="Button" parent="."]
+[node name="ButtonQuit" type="Button" parent="." unique_id=696062636]
 layout_mode = 0
 offset_left = 496.0
 offset_top = 146.0

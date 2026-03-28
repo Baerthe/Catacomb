@@ -24,6 +24,8 @@ public sealed class FrogAI
         foreach (FrogMovable i in _objList){
             if (i.InBounds)
             {
+                if (i.Speed == FrogSpeed.none)
+                    continue;
                 Vector2 direction = i.MovingDirection switch
                 {
                     Direction.Up => Vector2.Up,
@@ -35,10 +37,11 @@ public sealed class FrogAI
                 };
                 float speed = i.Speed switch
                 {
+                    FrogSpeed.none => 0f,
                     FrogSpeed.slow => 0.5f,
-                    FrogSpeed.normal => 2f,
-                    FrogSpeed.fast => 6f,
-                    FrogSpeed.faster => 10f,
+                    FrogSpeed.normal => 1f,
+                    FrogSpeed.fast => 1.5f,
+                    FrogSpeed.faster => 2f,
                     _ => throw new System.InvalidOperationException()
                 };
                 i.MovementVector = speed * direction;
@@ -65,4 +68,4 @@ public sealed class FrogAI
                 i.SetPhysicsProcess(true);
     }
 }
-public enum FrogSpeed : byte { slow, normal, fast, faster }
+public enum FrogSpeed : byte {slow, normal, fast, faster, none }

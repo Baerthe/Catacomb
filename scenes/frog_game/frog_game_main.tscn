@@ -22,9 +22,6 @@ render_target_update_mode = 4
 
 [node name="Map" parent="SubViewportContainer/WorldViewPort" unique_id=1774919134 instance=ExtResource("2_0mq3j")]
 
-[node name="Truck103" parent="SubViewportContainer/WorldViewPort/Map/Node" parent_id_path=PackedInt32Array(1774919134, 1357187203) index="96" unique_id=725420399]
-Ridable = false
-
 [node name="FrogGameMenu" parent="." unique_id=2027005638 instance=ExtResource("4_djye0")]
 visible = false
 

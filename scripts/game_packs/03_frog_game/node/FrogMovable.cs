@@ -25,6 +25,7 @@ public sealed partial class FrogMovable : AnimatableBody2D
             }
         else
             CollisionLayer = 4;
+        _sprite.Play("walk");
     }
     public override void _PhysicsProcess(double delta)
     {

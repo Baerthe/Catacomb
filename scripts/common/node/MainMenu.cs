@@ -77,6 +77,7 @@ public sealed partial class MainMenu : MenuBase
             GD.Print($"MainMenu: Pack selected: {pack.GameName}");
             if (pack != null)
                 _selectedGamePack = pack;
+            _playButton.Icon = pack.GameIcon;
             _selectedPackLabel.Text = pack.GameName;
             _selectedGamePackDesc = RequestGamePackScores(pack);
             _packDesc.Text = _selectedGamePackDesc;

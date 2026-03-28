@@ -5,7 +5,7 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ka35v"]
 atlas = ExtResource("2_p60ds")
-region = Rect2(16, 272, 16, 16)
+region = Rect2(48, 368, 32, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t1li2"]
 size = Vector2(32, 8)
@@ -34,14 +34,7 @@ script = ExtResource("1_ucl2q")
 _sprite = NodePath("AnimatedSprite2D")
 MovingDirection = 4
 
-[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=683036368]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(8, 0)
-texture = SubResource("AtlasTexture_ka35v")
-
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=599666121]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(-8, 0)
 texture = SubResource("AtlasTexture_ka35v")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1001732470]

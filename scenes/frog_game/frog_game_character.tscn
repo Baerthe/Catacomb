@@ -2,12 +2,11 @@
 
 [ext_resource type="Texture2D" uid="uid://ge301vham2ld" path="res://assets/SpriteTilemap.png" id="1_kdbpl"]
 [ext_resource type="Script" uid="uid://4igjihgng3ad" path="res://scripts/game_packs/03_frog_game/node/FrogCharacter.cs" id="1_sn6ae"]
-[ext_resource type="Texture2D" uid="uid://hcvexgajy5rj" path="res://assets/resources/main_atlas.tres" id="2_85d2e"]
 [ext_resource type="Resource" uid="uid://nhrrdedcanws" path="res://assets/resources/audio/character_jump.tres" id="2_ucvuf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qvkp1"]
-atlas = ExtResource("2_85d2e")
-region = Rect2(16, 272, 16, 16)
+atlas = ExtResource("1_kdbpl")
+region = Rect2(32, 368, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ucvuf"]
 atlas = ExtResource("1_kdbpl")
@@ -109,7 +108,6 @@ process_callback = 0
 editor_draw_limits = true
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1169888838]
-modulate = Color(0, 0, 0, 1)
 texture = SubResource("AtlasTexture_qvkp1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=67651898]
@@ -126,7 +124,7 @@ collision_mask = 5
 
 [node name="Floor Cast" type="RayCast2D" parent="." unique_id=979084788]
 target_position = Vector2(0, 0)
-collision_mask = 128
+collision_mask = 160
 hit_from_inside = true
 
 [node name="DeathCast" type="RayCast2D" parent="." unique_id=1228464331]

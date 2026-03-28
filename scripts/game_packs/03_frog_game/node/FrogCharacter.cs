@@ -32,6 +32,8 @@ public sealed partial class FrogCharacter : CharacterBody2D
             MoveAndCollide(moveable.MovementVector);
             return;
         }
+        else if (_floorCast.GetCollider() is TileMapLayer)
+            Win();
         else if (_deathCast.IsColliding() && _deathCast.GetCollider() is TileMapLayer)
             Death();
         Velocity = Vector2.Zero;
@@ -83,4 +85,5 @@ public sealed partial class FrogCharacter : CharacterBody2D
         if (Position.DistanceTo(snappedPosition) > _gridSnapEpsilon)
             Position = snappedPosition;
     }
+    private void Win(){GD.Print("win");}
 }
