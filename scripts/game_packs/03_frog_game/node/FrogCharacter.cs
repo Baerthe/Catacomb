@@ -6,6 +6,7 @@ using System;
 public sealed partial class FrogCharacter : CharacterBody2D
 {
     public event Action OnDeath;
+    public event Action OnWin;
     [Export] private RayCast2D _deathCast;
     [Export] private RayCast2D _floorCast;
     [Export] private RayCast2D _rayCast;
@@ -19,11 +20,10 @@ public sealed partial class FrogCharacter : CharacterBody2D
     public override void _Ready()
     {
         _spawnLocation = Position;
-        _coolDown = new Timer();
+        _coolDown = this.AddNode<Timer>();
         _coolDown.Timeout += () => _coolDownLock = !_coolDownLock;
         _coolDown.OneShot = true;
         _coolDown.WaitTime = 0.2f;
-        AddChild(_coolDown);
     }
     public override void _PhysicsProcess(double delta)
     {
@@ -33,7 +33,7 @@ public sealed partial class FrogCharacter : CharacterBody2D
             return;
         }
         else if (_floorCast.GetCollider() is TileMapLayer)
-            Win();
+            OnWin?.Invoke();
         else if (_deathCast.IsColliding() && _deathCast.GetCollider() is TileMapLayer)
             Death();
         Velocity = Vector2.Zero;
@@ -42,9 +42,10 @@ public sealed partial class FrogCharacter : CharacterBody2D
     public void Death()
     {
         _sprite.Play("death");
-        Position = _spawnLocation;
+        ResetPosition();
         OnDeath?.Invoke();
     }
+    public void ResetPosition() => Position = _spawnLocation;
     public void Move(Direction direction)
     {
         _sprite.Play("walk");
@@ -85,5 +86,4 @@ public sealed partial class FrogCharacter : CharacterBody2D
         if (Position.DistanceTo(snappedPosition) > _gridSnapEpsilon)
             Position = snappedPosition;
     }
-    private void Win(){GD.Print("win");}
 }

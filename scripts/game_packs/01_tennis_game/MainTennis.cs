@@ -174,7 +174,7 @@ public sealed partial class MainTennis : PackBase
     /// <summary>
     /// Sends out the highest of the player scores.
     /// </summary>
-    protected override void SubmitScore()
+    protected override void SubmitScore(byte _ = 0, Score __ = null)
     {
         var score = Score1.CurrentScore >= Score2.CurrentScore ? Score1.CurrentScore : Score2.CurrentScore;
         OnScoreSubmission?.Invoke(1, score);

@@ -73,7 +73,7 @@ public abstract partial class PackBase : Node2D
     /// <summary>
     /// Submits the current score to the score manager.
     /// </summary>
-    protected virtual void SubmitScore() => OnScoreSubmission?.Invoke(1, Score1.CurrentScore);
+    protected virtual void SubmitScore(byte player, Score score) => OnScoreSubmission?.Invoke(player, score.CurrentScore);
     /// <summary>
     /// Toggles a rainbow color cycling effect on game elements.
     /// </summary>

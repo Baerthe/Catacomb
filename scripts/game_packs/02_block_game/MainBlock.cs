@@ -124,7 +124,8 @@ public sealed partial class MainBlock : PackBase
             GameOverReason.LevelCleared => "Level Cleared!",
             _ => "Game Over!"
         };
-        SubmitScore();
+        SubmitScore(1, Score1);
+        SubmitScore(2, Score2);
         ToggleRainbowColorEffect();
         _middleScreenLabel.Text = message;
         _middleScreenLabel.Visible = true;

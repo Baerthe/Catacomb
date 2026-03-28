@@ -114,6 +114,7 @@ texture = SubResource("AtlasTexture_qvkp1")
 sprite_frames = SubResource("SpriteFrames_qvkp1")
 animation = &"walk"
 autoplay = "walk"
+frame_progress = 0.5416606
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=603712807]
 shape = SubResource("CircleShape2D_sbjvt")
