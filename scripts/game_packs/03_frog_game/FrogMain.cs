@@ -8,6 +8,7 @@ public sealed partial class FrogMain : PackBase
     [ExportGroup("References")]
     [Export] private FrogCharacter _character;
     [Export] private FrogMenu _menu;
+    [Export] private Node2D _map;
     [Export] private Area2D _mapBounds;
     [Export] private Label _scoreLabel;
     private FrogPlayer _controller;
@@ -22,6 +23,8 @@ public sealed partial class FrogMain : PackBase
         _menu.OnGameCancel += InvokeUnpause;
         _menu.OnGameQuit += () => RequestGameState(GameState.GameQuit);
         _menu.Visible = true;
+        _map.Modulate = new Color(0.1f, 0.1f, 0.1f, 1f);
+        _scoreLabel.Visible = false;
         _controller = new FrogPlayer(_character);
         _character.OnDeath += () => _playerLives -= 1;
         _character.OnWin += () =>
@@ -33,6 +36,7 @@ public sealed partial class FrogMain : PackBase
         _frogAI = new FrogAI(_movables, _mapBounds);
         _rewardTimer = this.AddNode<Timer>();
         Score1 = new Score(_scoreLabel);
+        Score1.AddPoints(10000);
     }
     public override void Tick()
     {
@@ -45,12 +49,16 @@ public sealed partial class FrogMain : PackBase
     }
     public override void InfrequentTick()
     {
+        if (_playerLives <= 0)
+            return;
+        Score1.RemovePoints(1);
         _frogAI.Update();
     }
     // *-> Game Methods
     protected override void GameReset()
     {
         Score1.Reset();
+        Score1.AddPoints(10000);
         _playerLives = 3;
         _character.ResetPosition();
         _rewardTimer.Stop();
@@ -66,6 +74,8 @@ public sealed partial class FrogMain : PackBase
     }
     protected override void StatePaused()
     {
+        _scoreLabel.Visible = false;
+        _map.Modulate = new Color(0.1f, 0.1f, 0.1f, 1f);
         _menu.Visible = true;
         _character.SetPhysicsProcess(false);
         _rewardTimer.Paused = true;
@@ -73,6 +83,8 @@ public sealed partial class FrogMain : PackBase
     }
     protected override void StatePlaying()
     {
+        _scoreLabel.Visible = true;
+        _map.Modulate = new Color(1f, 1f, 1f, 1f);
         _menu.Visible = false;
         _character.SetPhysicsProcess(true);
         _rewardTimer.Paused = false;

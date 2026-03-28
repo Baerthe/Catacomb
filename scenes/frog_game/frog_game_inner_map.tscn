@@ -1,17 +1,17 @@
 [gd_scene format=4 uid="uid://pg84exidg6md"]
 
 [ext_resource type="TileSet" uid="uid://c5uk0dan5of4" path="res://assets/main_tileset.tres" id="1_f1v7a"]
-[ext_resource type="PackedScene" uid="uid://coupgf2du6fb5" path="res://scenes/frog_game/frog_game_log.tscn" id="2_32qa1"]
-[ext_resource type="PackedScene" uid="uid://bld5p0xgkyk21" path="res://scenes/frog_game/frog_game_character.tscn" id="2_ql20p"]
-[ext_resource type="PackedScene" uid="uid://daixsu0bwu0qk" path="res://scenes/frog_game/frog_game_fasttruck.tscn" id="3_3ac0m"]
-[ext_resource type="PackedScene" uid="uid://cps3svkak4oy5" path="res://scenes/frog_game/frog_game_truck.tscn" id="3_32qa1"]
-[ext_resource type="PackedScene" uid="uid://bfftxjwws0g4o" path="res://scenes/frog_game/frog_game_car.tscn" id="4_32qa1"]
-[ext_resource type="PackedScene" uid="uid://cfid7kn5hlscd" path="res://scenes/frog_game/frog_game_turtle.tscn" id="6_y7plw"]
+[ext_resource type="PackedScene" uid="uid://coupgf2du6fb5" path="res://scenes/frog_game/entities/frog_game_log.tscn" id="2_32qa1"]
+[ext_resource type="PackedScene" uid="uid://bld5p0xgkyk21" path="res://scenes/frog_game/entities/frog_game_character.tscn" id="2_ql20p"]
+[ext_resource type="PackedScene" uid="uid://daixsu0bwu0qk" path="res://scenes/frog_game/entities/frog_game_fasttruck.tscn" id="3_3ac0m"]
+[ext_resource type="PackedScene" uid="uid://cps3svkak4oy5" path="res://scenes/frog_game/entities/frog_game_truck.tscn" id="3_32qa1"]
+[ext_resource type="PackedScene" uid="uid://bfftxjwws0g4o" path="res://scenes/frog_game/entities/frog_game_car.tscn" id="4_32qa1"]
+[ext_resource type="PackedScene" uid="uid://cfid7kn5hlscd" path="res://scenes/frog_game/entities/frog_game_turtle.tscn" id="6_y7plw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1q8iw"]
 size = Vector2(1248, 800)
 
-[node name="Map" type="Node" unique_id=1774919134]
+[node name="Map" type="Node2D" unique_id=38951518]
 
 [node name="Area2D" type="Area2D" parent="." unique_id=530056351]
 position = Vector2(136, 200)

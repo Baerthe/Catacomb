@@ -36,6 +36,18 @@ public sealed class Score
         UpdateLabel();
     }
     /// <summary>
+    /// Removes points from the current score and updates the label. If points to remove exceed current score, score is set to zero.
+    /// </summary>
+    /// <param name="points"></param>
+    public void RemovePoints(uint points)
+    {
+        if (points > CurrentScore)
+            CurrentScore = 0;
+        else
+            CurrentScore -= points;
+        UpdateLabel();
+    }
+    /// <summary>
     /// Updates the score label with the current points.
     /// </summary>
     private void UpdateLabel() =>_scoreLabel.Text = CurrentScore.ToString("D8");

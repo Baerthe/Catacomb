@@ -2,14 +2,17 @@
 
 [ext_resource type="Script" uid="uid://dsm8ay25aeivb" path="res://scripts/game_packs/03_frog_game/FrogMain.cs" id="1_8ua1f"]
 [ext_resource type="PackedScene" uid="uid://pg84exidg6md" path="res://scenes/frog_game/frog_game_inner_map.tscn" id="2_0mq3j"]
+[ext_resource type="LabelSettings" uid="uid://byccfdhf0xlb1" path="res://assets/themes/in_game_label_settings.tres" id="2_djye0"]
 [ext_resource type="PackedScene" uid="uid://bf54kag72ut8k" path="res://scenes/frog_game/frog_game_menu.tscn" id="4_djye0"]
 
-[node name="FrogGameMain" type="Node2D" unique_id=2097243775 node_paths=PackedStringArray("_character", "_menu", "_mapBounds")]
+[node name="FrogGameMain" type="Node2D" unique_id=2097243775 node_paths=PackedStringArray("_character", "_menu", "_map", "_mapBounds", "_scoreLabel")]
 texture_filter = 1
 script = ExtResource("1_8ua1f")
 _character = NodePath("SubViewportContainer/WorldViewPort/Map/FrogGameCharacter")
 _menu = NodePath("FrogGameMenu")
+_map = NodePath("SubViewportContainer/WorldViewPort/Map")
 _mapBounds = NodePath("SubViewportContainer/WorldViewPort/Map/Area2D")
+_scoreLabel = NodePath("ColorRect/Score")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=570121253]
 offset_right = 640.0
@@ -21,6 +24,25 @@ size = Vector2i(640, 480)
 render_target_update_mode = 4
 
 [node name="Map" parent="SubViewportContainer/WorldViewPort" unique_id=1774919134 instance=ExtResource("2_0mq3j")]
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1158675247]
+offset_right = 640.0
+offset_bottom = 32.0
+size_flags_horizontal = 3
+color = Color(0, 0, 0, 1)
+
+[node name="Score" type="Label" parent="ColorRect" unique_id=1050322326]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "000000000"
+label_settings = ExtResource("2_djye0")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="FrogGameMenu" parent="." unique_id=2027005638 instance=ExtResource("4_djye0")]
 visible = false
