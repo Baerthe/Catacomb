@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://buhbgwcwemblx" path="res://assets/resources/menu/quit.res" id="5_quit"]
 [ext_resource type="Resource" uid="uid://cdkf66qayxsd5" path="res://assets/resources/audio/menu_open.tres" id="6_open"]
 [ext_resource type="Resource" uid="uid://dmrwdkuq7lgqx" path="res://assets/resources/audio/menu_close.tres" id="7_close"]
+[ext_resource type="Texture2D" uid="uid://dphj56gdcd1a1" path="res://assets/resources/menu/esc.res" id="8_esc"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_title"]
 font_size = 36
@@ -90,3 +91,70 @@ icon = ExtResource("5_quit")
 flat = true
 icon_alignment = 1
 expand_icon = true
+
+[node name="ButtonCancel" type="Button" parent="." unique_id=64829103]
+layout_mode = 0
+offset_left = 496.0
+offset_top = 214.0
+offset_right = 640.0
+offset_bottom = 282.0
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 0.23529412)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 0.98039216)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 0.78431374)
+theme_override_font_sizes/font_size = 32
+text = "ESC"
+icon = ExtResource("8_esc")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="SliderLives" type="Control" parent="." unique_id=318947112]
+anchors_preset = 0
+offset_left = 72.0
+offset_top = 100.0
+offset_right = 400.0
+offset_bottom = 140.0
+
+[node name="Label" type="Label" parent="SliderLives" unique_id=98712391]
+layout_mode = 0
+offset_right = 160.0
+offset_bottom = 32.0
+text = "Lives"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="SliderLives" unique_id=81239123]
+layout_mode = 0
+offset_left = 168.0
+offset_right = 208.0
+offset_bottom = 32.0
+text = "03"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Slider" type="HSlider" parent="SliderLives" unique_id=71231238]
+layout_mode = 0
+offset_top = 32.0
+offset_right = 208.0
+offset_bottom = 48.0
+min_value = 1.0
+max_value = 10.0
+value = 3.0
+
+[node name="ColorLabel" type="Label" parent="." unique_id=51239121]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 180.0
+offset_right = 200.0
+offset_bottom = 212.0
+text = "Frog Color"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="." unique_id=41238127]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 220.0
+offset_right = 136.0
+offset_bottom = 284.0
+color = Color(0, 1, 0, 1)

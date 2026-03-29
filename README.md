@@ -1,17 +1,27 @@
 # Catacomb
-Catacomb is an open-source arcade collection project. It serves as a comprehensive learning exercise in Godot 4.6 (Godot.NET.Sdk/4.6.0, .NET 9.0, C#) architecture by encapsulating classic retro games (like Pong and Breakout) into a modular, unified "GamePack" system.
+Catacomb is an open-source arcade collection project. It serves as a comprehensive learning exercise in Godot 4.6 (Godot.NET.Sdk/4.6.0, .NET 9.0, C#) architecture by encapsulating classic retro games into a modular, unified "GamePack" system.
+
+## Included Arcade Games
+The project features recreated classic arcade titles, dynamically loaded using the custom GamePack infrastructure:
+- **01. Tennis Game**: A classic Pong-style two-paddle game featuring single-player AI, multiplayer modes, speed scaling, paddle/color customization, and an integrated max-score system.
+- **02. Block Game**: A Breakout/Arkanoid-style block-breaking game that relies on level-data layouts, block color mapping, and paddle physics to challenge players at clearing stages.
+- **03. Frog Game**: A fully implemented Frogger-style survival/navigation game. Includes a `FrogCharacter` with grid-step movement, dangerous traffic, and `FrogMovable` entities (turtles, logs) with rideable platform properties. Completed with dynamic modulations and lives selections.
 
 ## Technical Details & Architecture
-The project is structured around a single-window "AppShell" that handles global states (Main Menu, Loading, In-Game) while dynamically instantiating self-contained game modules ("GamePacks").
+The project is structurally rooted around a single, global orchestration node (`AppShell`) that manages high-level transitions between the core systems like the Main Menu, dynamically instantiating self-contained game modules ("GamePacks"), and applying overlays (e.g. CRT Shaders).
 
 ### Core Systems Flow
-- **AppShell (`AppShell.cs`)**: The global root node that orchestrates scenes, CRT shader overlays, transitioning, and system hooking.
-- **Game Managers (`GameManagers.cs`)**: A globally accessible registry that manages `AudioManager`, `ScoreManager`, and `SettingsManager` instances.
-    - *Audio Manager*: Functions as a three channel static global audio system; handles loading and indexing the AudioEvent resources which is used to build a lookup table for relevant audio in the game.
-    - *Score Manager*: Keeps track of saving and loading specific pack scores, creates a default table if no high scores present. Scores are saved when the pack is exited.
-    - *Settings Manager*: Handles game settings. **Not Fully Implemented**
-- **Pack Register (`PackRegister.cs`)**: Scans the designated resource directory (`res://assets/resources/packs`) at runtime for `.tres` files to automatically populate the valid game list in the main menu.
-- **Pack Base (`PackBase.cs`)**: The abstract Node2D base class that every GamePack must implement. It provides baseline logic for game states (`GameState.Playing`, `GameState.Paused`), controller inputs (`Player1Controller`, `Player2Controller`), scores (`Score1`), and base event hooks (`OnRequestPackExit`, `OnScoreSubmission`).
+- **AppShell (`AppShell.cs`)**: The global root node that handles application-level states (Intro, Main Menu, In-Game, Pause), orchestrated screen transitions, robust cursor visibility handling, and dynamic CRT shader overlays!
+- **Game Managers (`GameManagers.cs`)**: A universally accessible wrapper that loads and provides essential systems across the app.
+    - *Audio Manager*: Functions as a three-channel global playback structure. Loads and indexes `AudioEvent` resource files mapped into a lookup table for seamless sound logic without tight scene coupling.
+    - *Score Manager*: Actively tracks high scores per GamePack. It can save/load data dynamically to Godot's local user directory and commit new entries whenever a pack evaluates a win/loss closure.
+    - *Settings Manager*: Persists global user customization and auditory scales natively through `ConfigFile`. Actively maintains memory states like full screen handling, stretch modes, and channel sliders tied directly into the built-in UI representations (`settings_menu.tscn`).
+- **Pack Register (`PackRegister.cs`)**: The runtime parser. It scans the designated `.tres` resource directory (`res://assets/resources/packs`) to auto-populate the valid games into the `MainMenu` registry.
+- **Pack Base (`PackBase.cs`)**: The abstract `Node2D` backbone that every individual game inherits. Provides unified overrides natively connecting individual `GameState` operations (`Paused`, `Playing`, `GameOver`), automated tracking endpoints (`OnScoreSubmission`), and base controller hooks (`Player1`, `Score1`).
+
+## Recent Project Updates
+- **Frog Game (Game Pack 03)** Full finalization: Pack implemented custom adjustable start values (lives and modulation), fully resolving rideable platforms on a grid-based physics layout!
+- **Engine Polish**: Deepened `AppShell` handling for applying runtime CRT shaders effectively scaled according to app state, alongside intuitive internal UI fixes for displaying custom cursors toggled directly over running vs. active configurations.
 
 ### Using & Adding GamePacks
 The codebase is built for extreme modularity. A GamePack is essentially a complete Godot `PackedScene` wrapped with a customizable `GamePack` resource definition. GamePacks have their own state management; just fill in the state methods, use `RequestGameState()` to change state and relevant events to access outside flow. There is a template script setup under `scripts/game_packs/00_template_game`.

@@ -13,13 +13,20 @@ public sealed partial class FrogMain : PackBase
     [Export] private Label _scoreLabel;
     private FrogPlayer _controller;
     private byte _playerLives = 3;
+    private byte _startLives = 3;
     private FrogAI _frogAI;
     private Timer _rewardTimer;
     private FrogMovable[] _movables;
     // *-> Godot Overrides
     public override void _Ready()
     {
-        _menu.OnGameStart += () => RequestGameState(GameState.Playing);
+        _menu.OnGameStart += (lives, color) =>
+        {
+            _startLives = lives;
+            _playerLives = lives;
+            _character.Modulate = color;
+            RequestGameState(GameState.Playing);
+        };
         _menu.OnGameCancel += InvokeUnpause;
         _menu.OnGameQuit += () => RequestGameState(GameState.GameQuit);
         _menu.Visible = true;
@@ -59,7 +66,7 @@ public sealed partial class FrogMain : PackBase
     {
         Score1.Reset();
         Score1.AddPoints(10000);
-        _playerLives = 3;
+        _playerLives = _startLives;
         _character.ResetPosition();
         _rewardTimer.Stop();
         _rewardTimer.Start(999999f);
