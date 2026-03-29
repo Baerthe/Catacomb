@@ -4,9 +4,35 @@ using Godot;
 using System.Collections.Generic;
 public sealed class WindowManager
 {
-    private Window _window;
+    private ColorRect _crtScreen;
+    private ShaderMaterial _bootCRT;
+    private ShaderMaterial _defaultCRT;
+    private ShaderMaterial _pausedCRT;
     private Sprite2D _cursorSprite;
     private CursorTracker _cursorTracker;
+    private Window _window;
+    /// <summary>
+    /// Sets the CRT screen shader. This is called in _Ready due to we need the control to exist.
+    /// </summary>
+    /// <param name="control"></param>
+    public void AddScreen(ColorRect control) => _crtScreen = control;
+    /// <summary>
+    /// Sets the CRT shader materials.
+    /// </summary>
+    /// <param name="boot"></param>
+    /// <param name="def"></param>
+    /// <param name="paused"></param>
+    public void AddScreenShaders(ShaderMaterial boot, ShaderMaterial def, ShaderMaterial paused)
+    {
+        GD.Print($"{this}: Adding shaders...");
+        _bootCRT = boot;
+        _defaultCRT = def;
+        _pausedCRT = paused;
+    }
+    /// <summary>
+    /// Sets the window the manager controls. This is called in _Ready due to we need the window to exist.
+    /// </summary>
+    /// <param name="window"></param>
     public void AddWindow(Window window) => _window = window;
     /// <summary>
     /// Applies the provided window and display settings to the specified Window.
@@ -26,12 +52,23 @@ public sealed class WindowManager
         GD.Print($"Window Manager: Updated to {resolutionData}, {stretchModeData}, {stretchAspectData}, {scaleFactorData}, {screenSetData}");
     }
     /// <summary>
+    /// Set CRT screen to Boot Shader
+    /// </summary>
+    public void SetCRTShaderBoot() => SetCRTShader(_bootCRT);
+    /// <summary>
+    /// Set CRT screen to Default Shader
+    /// </summary>
+    public void SetCRTShaderDefault() => SetCRTShader(_defaultCRT);
+    /// <summary>
+    /// Set CRT Screen to Paused Shader
+    /// </summary>
+    public void SetCRTShaderPaused() => SetCRTShader(_pausedCRT);
+    /// <summary>
     /// Sets a custom AtlasTexture as the mouse cursor, hiding the OS cursor, and locking its position within the specified bounds.
     /// The sprite is injected just below the CRT overlay Z-index.
     /// </summary>
     public void SetCustomCursor(AtlasTexture texture, Control boundsControl)
     {
-        Input.MouseMode = Input.MouseModeEnum.ConfinedHidden;
         if (_cursorSprite == null)
         {
             _cursorSprite = new Sprite2D
@@ -53,4 +90,14 @@ public sealed class WindowManager
             boundsControl.AddChild(_cursorTracker);
         }
     }
+    /// <summary>
+    /// Sets if the custom cursor is visible.
+    /// </summary>
+    /// <param name="i"></param>
+    public void SetCustomCursorVisible(bool i) => _cursorSprite.Visible = i;
+    /// <summary>
+    /// Helper function to set crt screen material.
+    /// </summary>
+    /// <param name="shader"></param>
+    private void SetCRTShader(ShaderMaterial shader) => _crtScreen.Material = shader;
 }

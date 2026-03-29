@@ -32,8 +32,4 @@ public sealed partial class GameManagers : Node
         else
         GD.Print("GameManagers: All systems initialized");
     }
-    public override void _Ready()
-    {
-        Window.AddWindow(GetWindow());
-    }
 }

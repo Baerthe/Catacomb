@@ -40,10 +40,6 @@ public sealed partial class MainTennis : PackBase
         _menu.Visible = true;
         AudioManager.PlayAudioClip(SfxGameStart);
     }
-    protected override void Tick()
-    {
-        // No per-frame logic is required for tennis; controllers update via PackBase _Process.
-    }
     protected override void GameReset()
     {
         _gameTimer.Stop();
@@ -178,7 +174,7 @@ public sealed partial class MainTennis : PackBase
     /// <summary>
     /// Sends out the highest of the player scores.
     /// </summary>
-    protected override void SubmitScore()
+    protected override void SubmitScore(byte _ = 0, Score __ = null)
     {
         var score = Score1.CurrentScore >= Score2.CurrentScore ? Score1.CurrentScore : Score2.CurrentScore;
         OnScoreSubmission?.Invoke(1, score);
@@ -187,7 +183,7 @@ public sealed partial class MainTennis : PackBase
     /// <summary>
     /// Updates the game timer each second. Calls GameOver if the max time (or score) is reached.
     /// </summary>
-    private async void TimerUpdate()
+    private void TimerUpdate()
     {
         if (Score1.CurrentScore >= _maxScore || Score2.CurrentScore >= _maxScore)
             TriggerGameOver();

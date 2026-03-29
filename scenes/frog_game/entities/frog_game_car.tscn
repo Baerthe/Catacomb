@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://bfftxjwws0g4o"]
+
+[ext_resource type="Script" uid="uid://dnxc1buxixkrm" path="res://scripts/game_packs/03_frog_game/node/FrogMovable.cs" id="1_3qx11"]
+[ext_resource type="Texture2D" uid="uid://ge301vham2ld" path="res://assets/SpriteTilemap.png" id="2_t1li2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ka35v"]
+atlas = ExtResource("2_t1li2")
+region = Rect2(32, 368, 16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t1li2"]
+size = Vector2(16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3qx11"]
+atlas = ExtResource("2_t1li2")
+region = Rect2(96, 352, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ka35v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3qx11")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="Car" type="AnimatableBody2D" unique_id=1991138954 node_paths=PackedStringArray("_sprite")]
+texture_filter = 3
+collision_layer = 4
+collision_mask = 258
+sync_to_physics = false
+script = ExtResource("1_3qx11")
+Speed = 3
+_sprite = NodePath("AnimatedSprite2D")
+MovingDirection = 4
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=683036368]
+texture = SubResource("AtlasTexture_ka35v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1001732470]
+shape = SubResource("RectangleShape2D_t1li2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1818307801]
+sprite_frames = SubResource("SpriteFrames_ka35v")
+animation = &"walk"
+frame_progress = 0.083972275

@@ -57,6 +57,8 @@ public sealed partial class MainMenu : MenuBase
             Button packButton = _packButtonContainer.AddNode<Button>();
             packButton.Text = packEntry.Value.GameName;
             packButton.Icon = packEntry.Value.GameIcon;
+            packButton.ExpandIcon = true;
+            packButton.Set("theme_override_font_sizes/font_size", 16);
             packButton.MouseEntered += () => _packDesc.Text = RequestGamePackScores(packEntry.Value);
             packButton.MouseExited += () => _packDesc.Text = _selectedGamePackDesc;
             packButton.Pressed += () => HandlePackSelected(packEntry.Value);
@@ -75,6 +77,7 @@ public sealed partial class MainMenu : MenuBase
             GD.Print($"MainMenu: Pack selected: {pack.GameName}");
             if (pack != null)
                 _selectedGamePack = pack;
+            _playButton.Icon = pack.GameIcon;
             _selectedPackLabel.Text = pack.GameName;
             _selectedGamePackDesc = RequestGamePackScores(pack);
             _packDesc.Text = _selectedGamePackDesc;

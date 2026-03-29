@@ -12,6 +12,7 @@
 [ext_resource type="Theme" uid="uid://cvl1c748wxqaw" path="res://assets/resources/theme.theme" id="7_3ir7k"]
 [ext_resource type="FontFile" uid="uid://bpyvhrqs3tbf8" path="res://assets/fonts/Kenney Future Narrow.ttf" id="7_p6ga7"]
 [ext_resource type="PackedScene" uid="uid://bo8k2u5yds5pj" path="res://scenes/block_game/block_game_menu.tscn" id="8_menu"]
+[ext_resource type="LabelSettings" uid="uid://byccfdhf0xlb1" path="res://assets/themes/in_game_label_settings.tres" id="11_1l4jw"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_pmr2s"]
 a = Vector2(-20, 0)
@@ -104,6 +105,7 @@ offset_right = 128.0
 offset_bottom = 24.0
 theme_override_colors/font_color = Color(0.62763536, 0.62763536, 0.62763536, 1)
 text = "P1 Score"
+label_settings = ExtResource("11_1l4jw")
 horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true

@@ -12,12 +12,17 @@ public partial class CursorTracker : Node
     {
         if (CursorSprite == null || !IsInstanceValid(CursorSprite)) return;
         Vector2 mousePos = CursorSprite.GetGlobalMousePosition();
-        if (BoundsControl != null && IsInstanceValid(BoundsControl))
+        Vector2 mousePosReal = mousePos;
+        if (IsInstanceValid(BoundsControl))
         {
             Rect2 rect = BoundsControl.GetGlobalRect();
             mousePos.X = Mathf.Clamp(mousePos.X, rect.Position.X, rect.End.X);
             mousePos.Y = Mathf.Clamp(mousePos.Y, rect.Position.Y, rect.End.Y);
         }
         CursorSprite.GlobalPosition = mousePos;
+        if (mousePos != mousePosReal)
+            Input.SetMouseMode(Input.MouseModeEnum.Visible);
+        else
+            Input.SetMouseMode(Input.MouseModeEnum.Hidden);
     }
 }

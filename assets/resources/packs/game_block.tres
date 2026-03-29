@@ -7,7 +7,7 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_trvtn"]
 atlas = ExtResource("1_oqskg")
-region = Rect2(544, 357, 16, 16)
+region = Rect2(592, 224, 16, 16)
 
 [resource]
 script = ExtResource("3_doj50")

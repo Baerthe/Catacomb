@@ -51,9 +51,9 @@ _debugMenu = NodePath("crt/SubViewportContainer/SubViewport/debug_menu")
 _gameScreen = NodePath("crt/SubViewportContainer/SubViewport/game_screen")
 _loadingScreen = NodePath("crt/SubViewportContainer/SubViewport/loading_screen")
 _crtOverlay = NodePath("crt/crt_overlay")
+_bootCrtMaterial = ExtResource("5_o6xl0")
 _defaultCrtMaterial = ExtResource("6_tefeu")
 _pausedCrtMaterial = ExtResource("3_tbgi4")
-_bootCrtMaterial = ExtResource("5_o6xl0")
 _cursorTexture = SubResource("AtlasTexture_choun")
 
 [node name="backdrop" type="ColorRect" parent="." unique_id=2068144816]
@@ -91,6 +91,7 @@ axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="crt" unique_id=1296617]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -99,10 +100,9 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -640.0
 offset_top = -480.0
-offset_right = 640.0
-offset_bottom = 480.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(2, 2)
 
 [node name="SubViewport" type="SubViewport" parent="crt/SubViewportContainer" unique_id=212737128]
 disable_3d = true
@@ -110,7 +110,7 @@ handle_input_locally = false
 use_hdr_2d = true
 canvas_item_default_texture_filter = 0
 gui_embed_subwindows = true
-size = Vector2i(1280, 960)
+size = Vector2i(640, 480)
 render_target_update_mode = 4
 
 [node name="game_screen" type="ColorRect" parent="crt/SubViewportContainer/SubViewport" unique_id=1650678906]
@@ -132,7 +132,6 @@ z_index = 1000
 z_as_relative = false
 offset_right = 0.0
 offset_bottom = 0.0
-scale = Vector2(2, 2)
 
 [node name="loading_screen" type="Control" parent="crt/SubViewportContainer/SubViewport" unique_id=70546353]
 visible = false

@@ -223,10 +223,12 @@ size_flags_horizontal = 3
 [node name="StretchAspect" type="OptionButton" parent="VBoxContainer/Window" unique_id=632851959]
 layout_mode = 2
 size_flags_horizontal = 3
+disabled = true
 
 [node name="StretchMode" type="OptionButton" parent="VBoxContainer/Window" unique_id=1705661331]
 layout_mode = 2
 size_flags_horizontal = 3
+disabled = true
 
 [node name="ScaleFactor" type="HBoxContainer" parent="VBoxContainer/Window" unique_id=129226745]
 layout_mode = 2

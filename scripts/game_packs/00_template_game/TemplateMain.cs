@@ -15,10 +15,6 @@ public sealed partial class TemplateMain : PackBase
         _menu.Visible = true;
     }
     // *-> Game Methods
-    protected override void Tick()
-    {
-        // Implement per-frame logic here if needed.
-    }
     protected override void GameReset()
     {
         // Reset game state to initial conditions here if needed.

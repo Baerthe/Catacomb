@@ -28,9 +28,9 @@ public class PaddlePlayer : IController
     public Direction GetInputDirection()
     {
         Direction direction = Direction.None;
-        if (Input.IsActionPressed("p1_move_up"))
+        if (Input.IsActionPressed("p1_move_left"))
             direction = Direction.Left;
-        if (Input.IsActionPressed("p1_move_down"))
+        if (Input.IsActionPressed("p1_move_right"))
             direction = Direction.Right;
         return direction;
     }

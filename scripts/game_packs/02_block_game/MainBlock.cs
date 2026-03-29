@@ -53,10 +53,6 @@ public sealed partial class MainBlock : PackBase
             _ball.ToggleEnable();
     }
     // *-> Game Methods
-    protected override void Tick()
-    {
-        // block is pretty simple and does not use per-frame logic.
-    }
     protected override void GameReset()
     {
         _gameTimer.Stop();
@@ -128,7 +124,8 @@ public sealed partial class MainBlock : PackBase
             GameOverReason.LevelCleared => "Level Cleared!",
             _ => "Game Over!"
         };
-        SubmitScore();
+        SubmitScore(1, Score1);
+        SubmitScore(2, Score2);
         ToggleRainbowColorEffect();
         _middleScreenLabel.Text = message;
         _middleScreenLabel.Visible = true;

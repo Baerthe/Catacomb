@@ -26,34 +26,34 @@ public sealed partial class SettingsMenu : MenuBase
     [Export] private OptionButton _stretchModeOptionButton;
     [Export] private HSlider _scaleFactorSlider;
     [Export] private Label _scaleFactorValueLabel;
-    private Vector2[] _baseWindowSizes = {
-            new Vector2(640, 480),      // 4:3
-            new Vector2(800, 600),      // 4:3
-            new Vector2(1024, 768),     // 4:3
-            new Vector2(1280, 960),     // 4:3
-            new Vector2(1280, 720),     // 16:9
-            new Vector2(1366, 768),     // 16:9
-            new Vector2(1600, 900),     // 16:9
-            new Vector2(1920, 1080),    // 16:9
-            new Vector2(2560, 1440),    // 16:9
-            new Vector2(2560, 1080),    // 21:9
-            new Vector2(3440, 1440),    // 21:9
-    };
-    private Dictionary<string, (Variant, bool)> _localAudioSettings = new();
-    private Dictionary<string, (Variant, bool)> _localUserSettings = new();
+    private Vector2[] _baseWindowSizes = [
+            new(640, 480),      // 4:3
+            new(800, 600),      // 4:3
+            new(1024, 768),     // 4:3
+            new(1280, 960),     // 4:3
+            new(1280, 720),     // 16:9
+            new(1366, 768),     // 16:9
+            new(1600, 900),     // 16:9
+            new(1920, 1080),    // 16:9
+            new(2560, 1440),    // 16:9
+            new(2560, 1080),    // 21:9
+            new(3440, 1440),    // 21:9
+    ];
+    private Dictionary<string, (Variant, bool)> _localAudioSettings = [];
+    private Dictionary<string, (Variant, bool)> _localUserSettings = [];
     protected override void ConnectControlEvents()
     {
-        _channel1Vol.ValueChanged += (double value) =>
+        _channel1Vol.ValueChanged += value =>
         {
             if (_channel1Label != null) _channel1Label.Text = value.ToString();
             UpdateSetting(Sectional.Audio, "Channel1", (float)value);
         };
-        _channel2Vol.ValueChanged += (double value) =>
+        _channel2Vol.ValueChanged += value =>
         {
             if (_channel2Label != null) _channel2Label.Text = value.ToString();
             UpdateSetting(Sectional.Audio, "Channel2", (float)value);
         };
-        _channel3Vol.ValueChanged += (double value) =>
+        _channel3Vol.ValueChanged += value =>
         {
             if (_channel3Label != null) _channel3Label.Text = value.ToString();
             UpdateSetting(Sectional.Audio, "ChannelMusic", (float)value);
@@ -137,6 +137,20 @@ public sealed partial class SettingsMenu : MenuBase
                 foreach (var size in _baseWindowSizes)
                     _baseSizeOptionButton.AddItem($"{(int)size.X}x{(int)size.Y}");
             }
+            if (_stretchModeOptionButton != null && _stretchModeOptionButton.ItemCount == 0)
+            {
+                _stretchModeOptionButton.AddItem("Disabled");
+                _stretchModeOptionButton.AddItem("Canvas Items");
+                _stretchModeOptionButton.AddItem("Viewport");
+            }
+            if (_stretchAspectOptionButton != null && _stretchAspectOptionButton.ItemCount == 0)
+            {
+                _stretchAspectOptionButton.AddItem("Ignore");
+                _stretchAspectOptionButton.AddItem("Keep");
+                _stretchAspectOptionButton.AddItem("Keep Width");
+                _stretchAspectOptionButton.AddItem("Keep Height");
+                _stretchAspectOptionButton.AddItem("Expand");
+            }
             if (userDict.TryGetValue("Resolution", out var resolutionData))
             {
                 var index = resolutionData.Item1.AsVector2();
@@ -149,18 +163,18 @@ public sealed partial class SettingsMenu : MenuBase
                         break;
                     }
                 }
-                if (_baseSizeOptionButton != null) _baseSizeOptionButton.Select(selectedIndex);
+                _baseSizeOptionButton?.Select(selectedIndex);
             }
             if (userDict.TryGetValue("StretchMode", out var modeData))
             {
                 var stretchMode = modeData.Item1.AsInt32();
-                if (_stretchModeOptionButton != null) _stretchModeOptionButton.Select(stretchMode);
+                _stretchModeOptionButton?.Select(stretchMode);
                 if (_baseSizeOptionButton != null) _baseSizeOptionButton.Disabled = stretchMode == (int)Window.ContentScaleModeEnum.Disabled;
                 if (_stretchAspectOptionButton != null) _stretchAspectOptionButton.Disabled = stretchMode == (int)Window.ContentScaleModeEnum.Disabled;
             }
             if (userDict.TryGetValue("StretchAspect", out var aspectData))
             {
-                if (_stretchAspectOptionButton != null) _stretchAspectOptionButton.Select(aspectData.Item1.AsInt32());
+                _stretchAspectOptionButton?.Select(aspectData.Item1.AsInt32());
             }
             if (userDict.TryGetValue("ScaleFactor", out var scaleFactorData))
             {
@@ -197,7 +211,7 @@ public sealed partial class SettingsMenu : MenuBase
             return;
         }
         // Use provided enabled state, otherwise fallback to existing state if present, finally default to true
-        bool finalEnabled = enabled ?? (settingsDict.ContainsKey(key) ? settingsDict[key].Item2 : true);
+        bool finalEnabled = enabled ?? (!settingsDict.ContainsKey(key) || settingsDict[key].Item2);
         settingsDict[key] = (value, finalEnabled);
     }
     // *-> Event Handlers

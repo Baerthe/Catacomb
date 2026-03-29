@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="AudioEvent" format=3 uid="uid://nhrrdedcanws"]
+
+[ext_resource type="AudioStream" uid="uid://ck08qh8kxk73e" path="res://assets/sounds/phaseJump3.ogg" id="1_cykc2"]
+[ext_resource type="Script" uid="uid://bv235gb45xngb" path="res://scripts/common/resource/AudioEvent.cs" id="2_mkwcr"]
+
+[resource]
+script = ExtResource("2_mkwcr")
+Clip = ExtResource("1_cykc2")
+metadata/_custom_type_script = "uid://bv235gb45xngb"

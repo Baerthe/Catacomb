@@ -17,11 +17,11 @@ public sealed partial class AppShell : Control
     [Export] private DebugMenu _debugMenu;
     [Export] private Control _gameScreen;
     [Export] private Control _loadingScreen;
-    [Export] private Control _crtOverlay;
+    [Export] private ColorRect _crtOverlay;
     [ExportGroup("Shaders")]
+    [Export] private ShaderMaterial _bootCrtMaterial;
     [Export] private ShaderMaterial _defaultCrtMaterial;
     [Export] private ShaderMaterial _pausedCrtMaterial;
-    [Export] private ShaderMaterial _bootCrtMaterial;
     [ExportGroup("Cursor")]
     [Export] private AtlasTexture _cursorTexture;
     // *-> State Fields
@@ -39,6 +39,7 @@ public sealed partial class AppShell : Control
     // *-> Godot Overrides
     public override void _Ready()
     {
+        // Build Manager
         _gameManagers = this.AddNode<GameManagers>("game_managers");
         _debugWatcher = this.AddNode<DebugWatcher>("debug_watcher");
         _pauseWatcher = this.AddNode<PauseWatcher>("pause_watcher");
@@ -46,14 +47,17 @@ public sealed partial class AppShell : Control
             GD.PrintErr("App: Failed to initialize System Refs Check _EnterTree method for details.");
         else
             GD.Print("App: Successfully initialized AppShell Systems.");
-        _gameManagers.Settings.LoadData();
+        // Configure out systems
+        _gameManagers.Window.AddScreen(_crtOverlay);
+        _gameManagers.Window.AddScreenShaders(_bootCrtMaterial, _defaultCrtMaterial, _pausedCrtMaterial);
+        _gameManagers.Window.SetCustomCursor(_cursorTexture, _gameScreen);
+        _gameManagers.Window.AddWindow(GetWindow());
         _mainMenu = _gameScreen.InstanceScene(_mainMenuScene) as MainMenu;
         _settingsMenu = _gameScreen.InstanceScene(_settingsMenuScene) as SettingsMenu;
         _settingsMenu.Visible = false;
-        _mainMenu.Scale = new Vector2(2f, 2f);
         _mainMenu.Position = _gameScreen.Position;
-        _settingsMenu.Scale = new Vector2(2f, 2f);
         _settingsMenu.Position = _gameScreen.Position;
+        // Setup events
         _mainMenu.OnStartGame += HandleStartGame;
         _mainMenu.OnSettingsToggle += () => _settingsMenu.Visible = !_settingsMenu.Visible;
         _mainMenu.OnRequestScores += HandleRequestScores;
@@ -62,8 +66,9 @@ public sealed partial class AppShell : Control
         _debugWatcher.OnToggleDebug += HandleDebugMenu;
         _gameManagers.Settings.OnSettingsUpdated += HandleSettingsUpdated;
         _pauseWatcher.OnTogglePause += HandleTogglePause;
-        _gameManagers.Window.SetCustomCursor(_cursorTexture, _gameScreen);
+        // Start app
         RequestAppState(AppState.MainMenu);
+        _gameManagers.Settings.LoadData();
     }
     // *-> Private Methods
     /// <summary>
@@ -96,21 +101,22 @@ public sealed partial class AppShell : Control
                 } else
                     GD.Print("App: No existing game scene to free. Proceeding to main menu.");
                 _mainMenu.Visible = true;
+                _gameManagers.Window.SetCRTShaderDefault();
                 _loadingScreen.Visible = false;
                 SetBackgroundColor(Colors.Red);
                 break;
             case AppState.InPack:
                 GD.Print("App: Switching to In-Pack.");
                 _loadingScreen.Visible = false;
+                _gameManagers.Window.SetCRTShaderPaused();
                 _loadedScene.RequestGameState(GameState.Paused);
-                _crtOverlay.Material = _defaultCrtMaterial;
                 SetBackgroundColor(_loadedPack.GameBackgroundColor);
                 break;
             case AppState.Loading:
                 GD.Print("App: Switching to Loading Screen.");
                 _loadingScreen.Visible = true;
                 _mainMenu.Visible = false;
-                _crtOverlay.Material = _defaultCrtMaterial;
+                _gameManagers.Window.SetCRTShaderBoot();
                 SetBackgroundColor(Colors.Blue);
                 break;
             default:
@@ -166,7 +172,6 @@ public sealed partial class AppShell : Control
             return;
         }
         _gameScreen.AddChild(_loadedScene);
-        _loadedScene.Scale = new Vector2(2f, 2f);
         _loadedScene.Position = _gameScreen.Position;
         _loadedScene.OnScoreSubmission += _gameManagers.Score.SubmitScore;
         _loadedScene.OnRequestPackExit += () => RequestAppState(AppState.MainMenu);
@@ -207,10 +212,9 @@ public sealed partial class AppShell : Control
         if (IsInstanceValid(_loadedScene)
         && _loadedScene.GameStarted == true
         && (_loadedScene.CurrentGameState == GameState.Playing || _loadedScene.CurrentGameState == GameState.Paused))
-            _loadedScene.RequestGameState(isPaused ? GameState.Playing : GameState.Paused);
+                _loadedScene.RequestGameState(isPaused ? GameState.Playing : GameState.Paused);
         else
             return;
-        _crtOverlay.Material = isPaused ? _defaultCrtMaterial : _pausedCrtMaterial;
         GD.Print($"App: Game paused state toggled. Current State: {_currentState}");
     }
     // *-> Support Functions
@@ -248,6 +252,8 @@ public sealed partial class AppShell : Control
         if (data.TryGetValue("ChannelMusic", out var channelMusicData))
         {
             audioInstance.SetAudioAllowed(3, channelMusicData.Item2);
+            if (channelMusicData.Item2 == false)
+                audioInstance.StopChannel(3);
             audioInstance.SetChannelVolume(3, (float)channelMusicData.Item1);
             GD.Print($"App: Audio settings updated - Channel Music volume set to {(float)channelMusicData.Item1}, Allowed: {channelMusicData.Item2}");
         }

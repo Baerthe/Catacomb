@@ -20,11 +20,11 @@ region = Rect2(493, 357, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lgwnu"]
 atlas = ExtResource("8_tbmy8")
-region = Rect2(612, 357, 16, 16)
+region = Rect2(576, 336, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_flqon"]
 atlas = ExtResource("8_tbmy8")
-region = Rect2(629, 221, 16, 16)
+region = Rect2(512, 160, 16, 16)
 
 [node name="MainMenu" type="Control" unique_id=571779155 node_paths=PackedStringArray("_packButtonContainer", "_packDesc", "_selectedPackLabel", "_playButton", "_settingsButton", "_quitButton")]
 texture_filter = 1
